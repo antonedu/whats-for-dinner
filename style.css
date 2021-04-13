@@ -1,7 +1,93 @@
-/* Color palette
+/*
+  Color palette
   #e9cb31
   #ddce6e
   #d9d9c2
   #676778
   #272933
+
+  #20a39e
+  #ef5b5b
+
+  #3423a6
+  #2e1760
+
+  Fonts
+  font-family: 'Open Sans', sans-serif;
+  font-family: 'Roboto', sans-serif;
 */
+
+body {
+  background-color: #d9d9c2;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 100vh;
+}
+
+header figure {
+  height: 80%;
+  width: 80vh;
+  margin: 0 auto;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+header figure img {
+  max-width: 100%;
+}
+
+header section {
+  color: #272933;
+}
+
+header section .text-container {
+  height: 40%;
+  margin: auto;
+  position: relative;
+  top: 55%;
+  transform: translateY(-50%);
+}
+
+header section h1 {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 5vh;
+  width: 80%;
+}
+
+header section p {
+  font-family: 'Roboto', sans-serif;
+  font-size: 3vh;
+  margin-top: -2vh;
+}
+
+header section a {
+  font-family: 'Roboto', sans-serif;
+  color: #3423a6;
+}
+
+header section a:visited {
+  color: #2e1760;
+}
+
+footer {
+  margin: 0;
+  padding: 0;
+  height: 10vh;
+  width: 100%;
+  background-color: #272933;
+}
+
+footer p {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  line-height: 10vh;
+  font-family: 'Open Sans', sans-serif;
+  color: #d9d9c2;
+}
