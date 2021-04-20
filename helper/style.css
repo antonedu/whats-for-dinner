@@ -24,3 +24,14 @@ header a figure {
 header a figure img {
   max-width: 100%;
 }
+
+#askForConsent {
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin: 10vh auto;
+}
+
+#askForConsent h1 {
+  font-family: 'Open Sans', sans-serif;
+}

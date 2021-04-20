@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="style.css">
   <title>What's for Dinner | helper</title>
 </head>
+
 <body>
   <header>
     <nav>
@@ -20,6 +21,16 @@
       </a>
     </nav>
   </header>
+  <div id="askForConsent">
+    <h1>Consent to cookies</h1>
+    <p>This site uses cookies to store information about dishes you've
+      added between sessions. This information is stores locally on your
+      device and can't be accessed by anyone else. By pressing "Accept"
+      you agree to the dishes you've added being stored locally on your
+      device.</p>
+    <button onclick="askForCookies(true)">Accept</button>
+    <button onclick="askForCookies(false)">Decline</button>
+  </div>
 </body>
 
 </html>
