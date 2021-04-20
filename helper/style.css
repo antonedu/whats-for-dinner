@@ -26,12 +26,19 @@ header a figure img {
 }
 
 #askForConsent {
-  position: fixed;
-  top: 0;
-  left: 0;
-  margin: 10vh auto;
+  display: block;
+  margin: auto;
+  width: 30vw;
 }
 
 #askForConsent h1 {
   font-family: 'Open Sans', sans-serif;
+}
+
+#askForConsent p {
+  font-family: 'Roboto', sans-serif;
+}
+
+#askForConsent button {
+  font-family: 'Roboto', sans-serif;
 }

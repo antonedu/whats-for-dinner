@@ -23,6 +23,9 @@ function askForCookies(consented) {
   if (consented === true) {
     localStorageActivated = true;
   }
+  else {
+    localStorageActivated = false;
+  }
 }
 
 function addDish(name, weekdays, dates, freq) {
