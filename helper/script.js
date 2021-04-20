@@ -5,5 +5,6 @@ if (localStorage.getItem("dishes") === null) {
   localStorageActivated = false;
 }
 else {
-  localStorageActivated = false;
+  localStorageActivated = true;
+  dishes = localStorage.getItem("dishes");
 }
