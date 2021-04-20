@@ -1,0 +1,26 @@
+body {
+  background-color: #d9d9c2;
+}
+
+header {
+  height: 22vh;
+}
+
+header nav {
+  margin: 1vh;
+  display: grid;
+  grid-template-columns: 1fr 10fr;
+  height: 80%;
+}
+
+header a {
+
+}
+
+header a figure {
+  width: 100%;
+}
+
+header a figure img {
+  max-width: 100%;
+}
