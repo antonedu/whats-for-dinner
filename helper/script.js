@@ -18,7 +18,8 @@ else {
   dishes = JSON.parse(localStorage.getItem("dishes"));
 }
 
-function askForCookies(consented) {
+function consentToCookies(consented) {
+  document.getElementById("askForConsent").classList.add("hide");
   cookieAsked = true;
   if (consented === true) {
     localStorageActivated = true;
@@ -33,5 +34,7 @@ function addDish(name, weekdays, dates, freq) {
   dishes.push(newDish);
   if (localStorageActivated === true) {
     localStorage.setItem("dishes", JSON.stringify(dishes))
+  } else if (cookieAsked === false) {
+    document.getElementById("askForConsent").classList.remove("hide");
   }
 }
