@@ -21,7 +21,12 @@
       </a>
     </nav>
   </header>
-  <div id="askForConsent" class="popup hide">
+  <div id="addDish" class="popup hide">
+    <div class="popup-wrapper">
+
+    </div>
+  </div>
+  <div id="askForConsent" class="popup">
     <div class="popup-wrapper">
       <h1>Consent to cookies</h1>
       <p>This site uses cookies to store information about dishes you've across
@@ -29,8 +34,8 @@
         device and can't be accessed by anyone else. By pressing "Accept"
         you agree to the dishes you've added being stored locally on your
         device.</p>
-      <button onclick="consentToCookies(true)">Accept</button>
-      <button onclick="consentToCookies(false)">Decline</button>
+      <button class="accept" onclick="consentToCookies(true)">Accept</button>
+      <button class="decline" onclick="consentToCookies(false)">Decline</button>
     </div>
   </div>
   <script src="script.js"></script>

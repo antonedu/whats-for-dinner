@@ -41,7 +41,43 @@ header a figure img {
 }
 
 #askForConsent button {
+  font-family: 'Open Sans', sans-serif;
+  color: #fff;
+  font-size: 2.4vh;
+  display: inline-block;
+  border: none;
+  border-radius: 20px;
+  height: 40px;
+  width: 100px;
+}
+
+button:active {
+  transform: translateY(5px);
+  box-shadow: none !important;
+}
+
+button:hover {
+  color: #d9d9c2;
+}
+
+#askForConsent button.accept {
   font-family: 'Roboto', sans-serif;
+  background-color: #20a39e;
+  box-shadow: 0 5px 0 #156D69;
+}
+
+#askForConsent .accept:hover {
+  background-color: #27C6BE;
+}
+
+#askForConsent .decline {
+  font-family: 'Roboto', sans-serif;
+  background-color: #ef5b5b;
+  box-shadow: 0 5px 0 #BA4848;
+}
+
+#askForConsent button.decline:hover {
+  background-color: #ED8080;
 }
 
 .popup {
@@ -60,4 +96,5 @@ header a figure img {
   width: 30vw;
   background-color: white;
   padding: 2vw 5vw 4vw;
+  border-radius: 20px;
 }
