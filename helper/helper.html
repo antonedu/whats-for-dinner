@@ -27,15 +27,21 @@
       <p>What is the name of the dish you want to add.</p>
       <input type="text">
       <p>How frequently on a scale from 1-10 do you want eat this dish?</p>
-      <input type="range" min="0" max="10">
+      <input type="range" min="1" max="10">
       <p>On what days of the week do you want to eat this dish (choose all or none if it does not matter)?</p>
-      <button id="monday">M</button>
-      <button id="tuesday">T</button>
-      <button id="wednesday">W</button>
-      <button id="thursday">T</button>
-      <button id="friday">F</button>
-      <button id="saturday">S</button>
-      <button id="sunday">S</button>
+      <div>
+        <button id="monday">M</button>
+        <button id="tuesday">T</button>
+        <button id="wednesday">W</button>
+        <button id="thursday">T</button>
+        <button id="friday">F</button>
+        <button id="saturday">S</button>
+        <button id="sunday">S</button>
+      </div>
+      <div>
+        <button class="accept" onclick="consentToCookies(true)">Accept</button>
+        <button class="decline" onclick="consentToCookies(false)">Decline</button>
+      </div>
     </div>
   </div>
   <div id="askForConsent" class="popup hide">

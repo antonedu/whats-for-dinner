@@ -121,5 +121,33 @@ button.decline:hover, button.decline:focus {
   width: 40px;
   padding: 0;
   margin-right: 10px;
-  background-color: red;
+  margin-bottom: 20px;
+  background-color: #3423a6;
+  color: #d9d9c2;
+}
+
+#addDish button:hover, #addDish button:focus {
+  background-color: #2e1760;
+}
+
+#addDish input[type='range'] {
+  width: 80%;
+}
+
+#addDish input[type='text'] {
+  width: 80%;
+  padding: 0 20px;
+  border-radius: 20px;
+  height: 40px;
+  border: 2px solid #3423a6;
+}
+
+#addDish input[type='text']:focus {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 2.4vh;
+  width: 80%;
+  border-radius: 20px;
+  height: 40px;
+  border: 2px solid #2e1760;
+  outline: none;
 }
