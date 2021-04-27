@@ -78,7 +78,7 @@ button:focus {
   padding: 0 18px;
 }
 
-button.accept {
+button.accept  {
   font-family: 'Roboto', sans-serif;
   background-color: #20a39e;
   box-shadow: 0 5px 0 #156D69;
@@ -117,7 +117,7 @@ button.decline:hover, button.decline:focus {
   border-radius: 20px;
 }
 
-#addDish button {
+#addDish #weekdays button {
   width: 40px;
   padding: 0;
   margin-right: 10px;
@@ -126,7 +126,7 @@ button.decline:hover, button.decline:focus {
   color: #d9d9c2;
 }
 
-#addDish button:hover, #addDish button:focus {
+#addDish #weekday button:hover, #addDish #weekday button:focus {
   background-color: #2e1760;
 }
 
