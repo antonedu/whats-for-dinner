@@ -13,7 +13,7 @@ header {
 header nav {
   margin: 1vh;
   display: grid;
-  grid-template-columns: 1fr 10fr;
+  grid-template-columns: 1fr 9fr;
   height: 80%;
 }
 
@@ -26,29 +26,33 @@ header a figure {
 }
 
 header a figure img {
-  max-width: 100%;
+  max-height: 100%;
 }
 
 #askForConsent {
 }
 
-#askForConsent h1 {
+h1 {
   font-family: 'Open Sans', sans-serif;
 }
 
-#askForConsent p {
+p {
   font-family: 'Roboto', sans-serif;
 }
 
-#askForConsent button {
-  font-family: 'Open Sans', sans-serif;
+button {
+  font-family: 'Open Sans', sans-serif !important;
+}
+
+button {
   color: #fff;
   font-size: 2.4vh;
   display: inline-block;
   border: none;
   border-radius: 20px;
   height: 40px;
-  width: 100px;
+  width:auto;
+  padding: 0px 20px;
 }
 
 button:active {
@@ -60,23 +64,30 @@ button:hover {
   color: #d9d9c2;
 }
 
-#askForConsent button.accept {
+button:focus {
+  outline: none;
+  border-radius: 20px;
+  border: solid #fff 2px;
+  padding: 0 18px;
+}
+
+button.accept {
   font-family: 'Roboto', sans-serif;
   background-color: #20a39e;
   box-shadow: 0 5px 0 #156D69;
 }
 
-#askForConsent .accept:hover {
+button.accept:hover, button.accept:focus {
   background-color: #27C6BE;
 }
 
-#askForConsent .decline {
+button.decline {
   font-family: 'Roboto', sans-serif;
   background-color: #ef5b5b;
   box-shadow: 0 5px 0 #BA4848;
 }
 
-#askForConsent button.decline:hover {
+button.decline:hover, button.decline:focus {
   background-color: #ED8080;
 }
 
