@@ -126,8 +126,10 @@ button.decline:hover, button.decline:focus {
   color: #d9d9c2;
 }
 
-#addDish #weekday button:hover, #addDish #weekday button:focus {
+#addDish #weekdays button:hover, #addDish #weekdays button:focus {
   background-color: #2e1760;
+  border: none;
+  transform: none;
 }
 
 #addDish input[type='range'] {
