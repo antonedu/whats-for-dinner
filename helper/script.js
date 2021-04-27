@@ -29,6 +29,11 @@ function consentToCookies(consented) {
   }
 }
 
+function updateRangeValue() {
+  let val = document.getElementById("freq").value;
+  document.querySelector("#addDish label").innerHTML = val;
+}
+
 function addDish(name, weekdays, dates, freq) {
   let newDish = new dish(name, weekdays, dates, freq);
   dishes.push(newDish);
