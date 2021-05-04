@@ -20,11 +20,15 @@
         </figure>
       </a>
       <div>
-        <button class="accept">Add new dish</button>
+        <button class="accept" onclick="toggleAddDishPopup()">Add new dish</button>
+        <button class="accept" onclick="generate()">Generate a menu</button>
+        <button class="accept" onclick="toggleMenu()">Show added dishes</button>
       </div>
     </nav>
   </header>
-  <div id="addDish" class="popup">
+  <div id="menu"></div>
+  <div id="dishes"></div>
+  <div id="addDish" class="popup hide">
     <div class="popup-wrapper">
       <h1>New Dish</h1>
       <p>What is the name of the dish you want to add.</p>
@@ -43,9 +47,9 @@
         <button id="sunday" onclick="updateWeekday(6)">S</button>
       </div>
       <div>
-        <button class="accept" onclick="getDishValues(); closeAddDishPopup()">Add</button>
+        <button class="accept" onclick="getDishValues(); toggleAddDishPopup()">Add</button>
         <button class="accept" onclick="getDishValues()">Add another</button>
-        <button class="decline" onclick="closeAddDishPopup()">Cancel</button>
+        <button class="decline" onclick="toggleAddDishPopup()">Cancel</button>
       </div>
     </div>
   </div>

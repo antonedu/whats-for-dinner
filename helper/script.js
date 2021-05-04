@@ -67,6 +67,6 @@ function getDishValues() {
   addDish(name,weekdays,dates,freq);
 }
 
-function closeAddDishPopup() {
-  document.getElementById("addDish").classList.add("hide");
+function toggleAddDishPopup() {
+  document.getElementById("addDish").classList.toggle("hide");
 }

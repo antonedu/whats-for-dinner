@@ -36,11 +36,12 @@ header a figure {
 
 header a figure img {
   max-width: 60%;
+  /* max-height: 22vh; */
   margin: 10% 20%;
 }
 
 header nav button {
-  margin: auto;
+  margin-top: 5vh;
 }
 
 h1 {
@@ -114,10 +115,11 @@ button.decline:hover, button.decline:focus {
 .popup-wrapper {
   position: relative;
   display: block;
-  margin: 10vh 30vw;
-  width: 30vw;
+  margin: 10vh auto;
+  max-width: 30vw;
+  min-width: 430px;
   background-color: white;
-  padding: 2vw 5vw 4vw;
+  padding: 28px 72px 58px;
   border-radius: 20px;
 }
 
@@ -169,4 +171,48 @@ button.decline:hover, button.decline:focus {
   border: 2px solid #2e1760;
   box-shadow: 0px 0px 5px #3423a6;
   outline: none;
+}
+
+@media (max-width: 1024px) {
+  header nav {
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    height: 5vh;
+  }
+
+  header nav figure img {
+    max-width: 15vw;
+    max-height: 15vh;
+    margin: 10px;
+  }
+
+  header nav button {
+    width: 80%;
+    display: block;
+    margin: 10px auto;
+    /* margin: 10px; */
+  }
+}
+
+@media (max-width: 430px) {
+  .popup {
+    width: 100vw;
+    height: 100vh;
+  }
+
+  .popup-wrapper {
+    margin: 0;
+    width: auto;
+    min-height: 100vh;
+    padding: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 20px;
+  }
+
+  .popup-wrapper p {
+    width: 90%;
+  }
 }
