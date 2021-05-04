@@ -19,30 +19,33 @@
           <img src="../assets/logo.png" alt="logo">
         </figure>
       </a>
+      <div>
+        <button class="accept">Add new dish</button>
+      </div>
     </nav>
   </header>
   <div id="addDish" class="popup">
     <div class="popup-wrapper">
       <h1>New Dish</h1>
       <p>What is the name of the dish you want to add.</p>
-      <input type="text">
+      <input type="text" id="name" placeholder="New dish">
       <p>How frequently on a scale from 1-10 do you want eat this dish?</p>
-      <input type="range" min="1" max="10" id="freq" start="5" onchange="updateRangeValue()">
+      <input type="range" min="1" max="10" id="freq" start="5" value="5" onchange="updateRangeValue()">
       <label for="freq">5</label>
       <p>On what days of the week do you want to eat this dish? (choose all or none if it does not matter)</p>
       <div id="weekdays">
-        <button id="monday">M</button>
-        <button id="tuesday">T</button>
-        <button id="wednesday">W</button>
-        <button id="thursday">T</button>
-        <button id="friday">F</button>
-        <button id="saturday">S</button>
-        <button id="sunday">S</button>
+        <button id="monday" onclick="updateWeekday(0)">M</button>
+        <button id="tuesday" onclick="updateWeekday(1)">T</button>
+        <button id="wednesday" onclick="updateWeekday(2)">W</button>
+        <button id="thursday" onclick="updateWeekday(3)">T</button>
+        <button id="friday" onclick="updateWeekday(4)">F</button>
+        <button id="saturday" onclick="updateWeekday(5)">S</button>
+        <button id="sunday" onclick="updateWeekday(6)">S</button>
       </div>
       <div>
-        <button class="accept" onclick="">Add</button>
-        <button class="accept" onclick="">Add another</button>
-        <button class="decline" onclick="">Cancel</button>
+        <button class="accept" onclick="getDishValues(); closeAddDishPopup()">Add</button>
+        <button class="accept" onclick="getDishValues()">Add another</button>
+        <button class="decline" onclick="closeAddDishPopup()">Cancel</button>
       </div>
     </div>
   </div>
@@ -54,8 +57,8 @@
         device and can't be accessed by anyone else. By pressing "Accept"
         you agree to the dishes you've added being stored locally on your
         device.</p>
-      <button class="accept" onclick="consentToCookies(true)">Accept</button>
-      <button class="decline" onclick="consentToCookies(false)">Decline</button>
+      <button class="accept" onclick="consentToCookies(true); getDishValues()">Accept</button>
+      <button class="decline" onclick="consentToCookies(false); getDishValues()">Decline</button>
     </div>
   </div>
   <script src="script.js"></script>

@@ -39,6 +39,10 @@ header a figure img {
   margin: 10% 20%;
 }
 
+header nav button {
+  margin: auto;
+}
+
 h1 {
   font-family: 'Open Sans', sans-serif;
 }
@@ -122,12 +126,22 @@ button.decline:hover, button.decline:focus {
   padding: 0;
   margin-right: 10px;
   margin-bottom: 20px;
+  border: 1px solid #3423a6;
+  color: #2e1760;
+}
+
+#addDish #weekdays .on {
+  width: 40px;
+  padding: 0;
+  margin-right: 10px;
+  margin-bottom: 20px;
   background-color: #3423a6;
   color: #d9d9c2;
 }
 
 #addDish #weekdays button:hover, #addDish #weekdays button:focus {
   background-color: #2e1760;
+  color: #d9d9c2;
   border: none;
   transform: none;
 }
@@ -135,11 +149,6 @@ button.decline:hover, button.decline:focus {
 #addDish input[type='range'] {
   /* -webkit-appearance: none; */
   width: 80%;
-}
-
-#addDish input[type='range']::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  background: #3423a6;
 }
 
 #addDish label[for='freq'] {
