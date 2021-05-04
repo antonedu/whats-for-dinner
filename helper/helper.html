@@ -22,11 +22,11 @@
       <div>
         <button class="accept" onclick="toggleAddDishPopup()">Add new dish</button>
         <button class="accept" onclick="generate()">Generate a menu</button>
-        <button class="accept" onclick="toggleMenu()">Show added dishes</button>
+        <button class="accept" id="toggle-menu" onclick="toggleMenu()">Show added dishes</button>
       </div>
     </nav>
   </header>
-  <div id="menu"></div>
+  <div id="menu" class="hide"></div>
   <div id="dishes"></div>
   <div id="addDish" class="popup hide">
     <div class="popup-wrapper">

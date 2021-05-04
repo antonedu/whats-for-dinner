@@ -70,3 +70,32 @@ function getDishValues() {
 function toggleAddDishPopup() {
   document.getElementById("addDish").classList.toggle("hide");
 }
+
+function generate() {
+
+}
+
+function toggleMenu() {
+  if (document.getElementById("toggle-menu").innerHTML === "Show added dishes") {
+    document.getElementById("toggle-menu").innerHTML = "Show menu";
+  } else {
+    document.getElementById("toggle-menu").innerHTML = "Show added dishes";
+  }
+  document.getElementById("menu").classList.toggle("hide");
+  document.getElementById("dishes").classList.toggle("hide");
+}
+
+function loadDishes() {
+  document.getElementById("dishes").innerHTML = "";
+  for (let i = 0; i < dishes.length; i++) {
+    document.getElementById("dishes").innerHTML += `<h1>${dishes[i].name}</h1><button onclick="removeDish(${i}); loadDishes()" class="decline">remove</button>`;
+  }
+}
+
+function removeDish(index) {
+  dishes.splice(index,1);
+  if (localStorageActivated === true) {
+    dishes.push(newDish);
+    localStorage.setItem("dishes", JSON.stringify(dishes))
+  }
+}
