@@ -65,6 +65,7 @@ function getDishValues() {
     name = "New dish";
   }
   addDish(name,weekdays,dates,freq);
+  loadDishes();
 }
 
 function toggleAddDishPopup() {
@@ -86,9 +87,9 @@ function toggleMenu() {
 }
 
 function loadDishes() {
-  document.getElementById("dishes").innerHTML = "";
+  document.getElementById("dishes").innerHTML = "<h1>Dishes</h1>";
   for (let i = 0; i < dishes.length; i++) {
-    document.getElementById("dishes").innerHTML += `<h1>${dishes[i].name}</h1><button onclick="removeDish(${i}); loadDishes()" class="decline">remove</button>`;
+    document.getElementById("dishes").innerHTML += `<div class="wrapper"><h1>${dishes[i].name}</h1><button onclick="removeDish(${i}); loadDishes()" class="decline">remove</button></div>`;
   }
 }
 

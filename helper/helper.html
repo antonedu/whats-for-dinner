@@ -26,8 +26,8 @@
       </div>
     </nav>
   </header>
-  <div id="menu" class="hide"></div>
-  <div id="dishes"></div>
+  <div id="menu" class="hide output"></div>
+  <div id="dishes" class="output"><h1>Dishes</h1></div>
   <div id="addDish" class="popup hide">
     <div class="popup-wrapper">
       <h1>New Dish</h1>
@@ -47,9 +47,9 @@
         <button id="sunday" onclick="updateWeekday(6)">S</button>
       </div>
       <div>
-        <button class="accept" onclick="getDishValues(); toggleAddDishPopup()">Add</button>
-        <button class="accept" onclick="getDishValues()">Add another</button>
-        <button class="decline" onclick="toggleAddDishPopup()">Cancel</button>
+        <button class="accept" onclick="getDishValues(); toggleAddDishPopup();">Add</button>
+        <button class="accept" onclick="getDishValues();">Add another</button>
+        <button class="decline" onclick="toggleAddDishPopup();">Cancel</button>
       </div>
     </div>
   </div>

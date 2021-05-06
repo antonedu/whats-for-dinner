@@ -101,6 +101,28 @@ button.decline:hover, button.decline:focus {
   background-color: #ED8080;
 }
 
+.output {
+  width: 50%;
+  margin: 0 auto 5vh;
+  padding: 1vh 1vw;
+  background-color: #fff;
+  border-radius: 20px;
+}
+
+.output .wrapper {
+  margin: 10px;
+  display: grid;
+  grid-template-columns: 70% 1fr;
+}
+
+.output .wrapper h1 {
+  font-size: 3vh;
+}
+
+.output .wrapper button {
+  margin: auto;
+}
+
 .popup {
   position: fixed;
   top: 0;
