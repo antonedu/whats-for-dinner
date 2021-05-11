@@ -1,4 +1,5 @@
 var dishes = []
+var randomDishArray = []
 var localStorageActivated;
 var cookieAsked = false;
 var weekdays = [false,false,false,false,false,false,false];
@@ -98,5 +99,23 @@ function removeDish(index) {
   if (localStorageActivated === true) {
     dishes.push(newDish);
     localStorage.setItem("dishes", JSON.stringify(dishes))
+  }
+}
+
+function randomizeDishOrder() {
+  randomDishArray = dishes;
+  var currentIndex = randomDishArray.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = randomDishArray[currentIndex];
+    randomDishArray[currentIndex] = randomDishArray[randomIndex];
+    randomDishArray[randomIndex] = temporaryValue;
   }
 }

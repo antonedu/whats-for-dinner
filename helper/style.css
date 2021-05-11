@@ -103,6 +103,7 @@ button.decline:hover, button.decline:focus {
 
 .output {
   width: 50%;
+  min-width: 430px;
   margin: 0 auto 5vh;
   padding: 1vh 1vw;
   background-color: #fff;
@@ -233,5 +234,28 @@ button.decline:hover, button.decline:focus {
 
   .popup-wrapper p {
     width: 90%;
+  }
+
+  .output {
+    width: 90%;
+    min-width: 90%;
+    padding: 0.6vh 5%;
+    margin-bottom: 0;
+    border-radius: 20px 20px 0 0;
+    min-height: 65vh;
+  }
+
+  .output .wrapper {
+    margin: 10px;
+    display: grid;
+    grid-template-columns: 70% 1fr;
+  }
+
+  .output .wrapper h1 {
+    font-size: 3vh;
+  }
+
+  .output .wrapper button {
+    margin: auto;
   }
 }
