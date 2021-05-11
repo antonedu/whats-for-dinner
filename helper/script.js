@@ -77,7 +77,7 @@ function getDishValues() {
   if (name === "") {
     name = "New dish";
   }
-  addDish(name,weekdays,dates,freq);
+  addDish(name,weekdays.slice(0),dates,freq);
   loadDishes();
 }
 
