@@ -38,7 +38,18 @@ function updateRangeValue() {
 }
 
 function addDish(name, weekdays, dates, freq) {
-  let newDish = new dish(name, weekdays, dates, freq);
+  let newDish;
+  let no_weekday_selected;
+  for (let i = 0; i<7;i++) {
+    if (weekdays[i]) {
+      no_weekday_selected = false;
+    }
+  }
+  if (no_weekday_selected) {
+    newDish = new dish(name, 0, dates, 11-freq);
+  } else {
+    newDish = new dish(name, weekdays, dates, 11-freq);
+  }
   if (localStorageActivated === true) {
     dishes.push(newDish);
     localStorage.setItem("dishes", JSON.stringify(dishes))
@@ -95,6 +106,13 @@ function loadDishes() {
   }
 }
 
+function loadMenu() {
+  document.getElementById("menu").innerHTML = "<h1>Menu</h1>";
+  for (let i = 0; i < menu.length; i++) {
+    document.getElementById("menu").innerHTML += `<div class="wrapper"><h1>${menu[i].name}</h1></div>`;
+  }
+}
+
 function removeDish(index) {
   dishes.splice(index,1);
   if (localStorageActivated === true) {
@@ -137,9 +155,12 @@ function generateMenu(amount) {
     if (index < 0) {
       currentSinceLast = 0;
       while (index < 0 && currentSinceLast <= 10) {
-        index = randomDishArray.findIndex(element => element.sinceLast == currentSinceLast);
+        index = randomDishArray.findIndex(element => element.sinceLast == currentSinceLast && element.weekdays == 0);
         currentSinceLast++;
       }
+    }
+    if (index < 0) {
+      index = 0;
     }
     menu[i] = randomDishArray[index];
     randomDishArray.push(randomDishArray.splice(index,1)[0]);
