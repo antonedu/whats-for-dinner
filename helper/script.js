@@ -46,9 +46,9 @@ function addDish(name, weekdays, dates, freq) {
     }
   }
   if (no_weekday_selected) {
-    newDish = new dish(name, 0, dates, 11-freq);
+    newDish = new dish(name, 0, dates, freq);
   } else {
-    newDish = new dish(name, weekdays, dates, 11-freq);
+    newDish = new dish(name, weekdays, dates, freq);
   }
   if (localStorageActivated === true) {
     dishes.push(newDish);
@@ -83,10 +83,6 @@ function getDishValues() {
 
 function toggleAddDishPopup() {
   document.getElementById("addDish").classList.toggle("hide");
-}
-
-function generate() {
-
 }
 
 function toggleMenu() {
@@ -142,39 +138,51 @@ function randomizeDishOrder() {
     randomDishArray[randomIndex] = temporaryValue;
   }
   for (let i = 0; i<randomDishArray.length;i++) {
-    randomDishArray[i].sinceLast = 11-srandomDishArray[i].freq;
+    randomDishArray[i].sinceLast = 0;
   }
 }
 
 function generateMenu(amount) {
   let index;
-  let currentDay = new Date().getDay();
+  let currentDay = new Date().getDay()-1;
   let startLength = menu.length;
-  currentDay--;
+  let temp;
+  let aocm; // array of current matches
   if (currentDay < 0) {
     currentDay = 6;
   }
-  for (let i = 0; i<amount;i++) {
-    index = randomDishArray.findIndex(element => element.weekdays[currentDay] && element.sinceLast == 0);
-    if (index < 0) {
-      currentSinceLast = 0;
-      while (index < 0 && currentSinceLast <= 10) {
-        index = randomDishArray.findIndex(element => element.sinceLast == currentSinceLast && element.weekdays == 0);
-        currentSinceLast++;
-      }
+  for (let i = 0; i < amount; i++) {
+    index = -1;
+    // Algorythm for getting a new dishes
+    aocm = randomDishArray;
+    temp = aocm.filter(dish => dish.sinceLast/Math.log(dish.freq) > 1.3);
+    if (temp.length != 0) {
+      aocm = temp;
     }
-    if (index < 0) {
+    temp = aocm.filter(dish => dish.weekdays[currentDay] === true);
+    if (temp.length != 0) {
+      aocm = temp;
+    }
+    if (aocm.length != 0) {
+      let i = 0;
+      while (index < 0 && i < randomDishArray.length) {
+        if (randomDishArray[i].name === aocm[0].name) {
+          index = i;
+        }
+        i++;
+      }
+    } else {
       index = 0;
     }
     menu[i] = randomDishArray[index];
-    randomDishArray.push(randomDishArray.splice(index,1)[0]);
-    for (let i = 0;i<randomDishArray.length;i++) {
-      randomDishArray[i].sinceLast--;
-      if (randomDishArray[i].sinceLast < 0) {
-        randomDishArray[i].sinceLast = 0;
-      }
+    for (let i = 0; i < randomDishArray.length;i++) {
+      randomDishArray[i].sinceLast++;
     }
+    randomDishArray[index].sinceLast = 0;
+    randomDishArray.push(randomDishArray.splice(index,1)[0]);
     currentDay++;
-    randomDishArray[randomDishArray.length-1].sinceLast = 11-randomDishArray[randomDishArray.length-1].freq;
+    if (currentDay > 6) {
+      currentDay = 0;
+    }
   }
 }
