@@ -39,7 +39,7 @@ function updateRangeValue() {
 
 function addDish(name, weekdays, dates, freq) {
   let newDish;
-  let no_weekday_selected;
+  let no_weekday_selected = true;
   for (let i = 0; i<7;i++) {
     if (weekdays[i]) {
       no_weekday_selected = false;
@@ -107,9 +107,13 @@ function loadDishes() {
 }
 
 function loadMenu() {
+  let days_of_the_week = ["måndag","tisdag","onsdag","torsdag","fredag","lördag","söndag"];
+  let currentDay = new Date().getDay() - 1;
   document.getElementById("menu").innerHTML = "<h1>Menu</h1>";
   for (let i = 0; i < menu.length; i++) {
-    document.getElementById("menu").innerHTML += `<div class="wrapper"><h1>${menu[i].name}</h1></div>`;
+    if (currentDay > 6) currentDay = 0;
+    document.getElementById("menu").innerHTML += `<div class="wrapper"><h1>${menu[i].name}</h1><p>${days_of_the_week[currentDay]}</p></div>`;
+    currentDay++;
   }
 }
 
@@ -138,7 +142,7 @@ function randomizeDishOrder() {
     randomDishArray[randomIndex] = temporaryValue;
   }
   for (let i = 0; i<randomDishArray.length;i++) {
-    randomDishArray[i].sinceLast = randomDishArray[i].freq;
+    randomDishArray[i].sinceLast = 11-srandomDishArray[i].freq;
   }
 }
 
@@ -170,6 +174,7 @@ function generateMenu(amount) {
         randomDishArray[i].sinceLast = 0;
       }
     }
-    randomDishArray[randomDishArray.length-1].sinceLast = randomDishArray[randomDishArray.length-1].freq;
+    currentDay++;
+    randomDishArray[randomDishArray.length-1].sinceLast = 11-randomDishArray[randomDishArray.length-1].freq;
   }
 }
