@@ -86,13 +86,25 @@ function toggleAddDishPopup() {
 }
 
 function toggleMenu() {
-  if (document.getElementById("toggle-menu").innerHTML === "Show added dishes") {
+  if (document.getElementById("toggle-menu").innerHTML === "Show dishes") {
     document.getElementById("toggle-menu").innerHTML = "Show menu";
   } else {
-    document.getElementById("toggle-menu").innerHTML = "Show added dishes";
+    document.getElementById("toggle-menu").innerHTML = "Show dishes";
   }
   document.getElementById("menu").classList.toggle("hide");
   document.getElementById("dishes").classList.toggle("hide");
+}
+
+function showMenu() {
+  document.getElementById("toggle-menu").innerHTML = "Show dishes";
+  document.getElementById("menu").classList.remove("hide");
+  document.getElementById("dishes").classList.add("hide");
+}
+
+function showDishes() {
+  document.getElementById("toggle-menu").innerHTML = "Show menu";
+  document.getElementById("menu").classList.add("hide");
+  document.getElementById("dishes").classList.remove("hide");
 }
 
 function loadDishes() {
@@ -155,13 +167,18 @@ function generateMenu(amount) {
     index = -1;
     // Algorythm for getting a new dishes
     aocm = randomDishArray;
-    temp = aocm.filter(dish => dish.sinceLast/Math.log(dish.freq) > 1.3);
+    temp = aocm.filter(dish => Math.log(dish.freq)*dishes.length/dish.sinceLast/3 < 0.2);
     if (temp.length != 0) {
       aocm = temp;
-    }
-    temp = aocm.filter(dish => dish.weekdays[currentDay] === true);
-    if (temp.length != 0) {
-      aocm = temp;
+    } else {
+      temp = aocm.filter(dish => Math.log(dish.freq)*dishes.length/dish.sinceLast/3 < 1.3);
+      if (temp.length != 0) {
+        aocm = temp;
+      }
+      temp = aocm.filter(dish => dish.weekdays[currentDay] === true);
+      if (temp.length != 0) {
+        aocm = temp;
+      }
     }
     if (aocm.length != 0) {
       let i = 0;
