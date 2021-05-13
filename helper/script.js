@@ -85,16 +85,6 @@ function toggleAddDishPopup() {
   document.getElementById("addDish").classList.toggle("hide");
 }
 
-function toggleMenu() {
-  if (document.getElementById("toggle-menu").innerHTML === "Show dishes") {
-    document.getElementById("toggle-menu").innerHTML = "Show menu";
-  } else {
-    document.getElementById("toggle-menu").innerHTML = "Show dishes";
-  }
-  document.getElementById("menu").classList.toggle("hide");
-  document.getElementById("dishes").classList.toggle("hide");
-}
-
 function showMenu() {
   document.getElementById("toggle-menu").innerHTML = "Show dishes";
   document.getElementById("menu").classList.remove("hide");
@@ -105,6 +95,14 @@ function showDishes() {
   document.getElementById("toggle-menu").innerHTML = "Show menu";
   document.getElementById("menu").classList.add("hide");
   document.getElementById("dishes").classList.remove("hide");
+}
+
+function toggleMenu() {
+  if (document.getElementById("toggle-menu").innerHTML === "Show dishes") {
+    showDishes()
+  } else {
+    showMenu()
+  }
 }
 
 function loadDishes() {
@@ -167,17 +165,55 @@ function generateMenu(amount) {
     index = -1;
     // Algorythm for getting a new dishes
     aocm = randomDishArray;
-    temp = aocm.filter(dish => Math.log(dish.freq)*dishes.length/dish.sinceLast/3 < 0.2);
+    // matchar de som inte varit på länge
+    temp = aocm.filter(dish => Math.log(dish.freq*2+1)*dish.sinceLast/10 > 3*Math.log(dishes.length));
     if (temp.length != 0) {
       aocm = temp;
-    } else {
-      temp = aocm.filter(dish => Math.log(dish.freq)*dishes.length/dish.sinceLast/3 < 1.3);
-      if (temp.length != 0) {
-        aocm = temp;
-      }
       temp = aocm.filter(dish => dish.weekdays[currentDay] === true);
       if (temp.length != 0) {
+        // matchar de som inte varit på länge och som matchar veckodagen
         aocm = temp;
+        console.log("case 1")
+      } else {
+        temp = aocm.filter(dish => Arry.isArray(dish.weekdays) === false);
+        if (temp.length != 0) {
+          // matchar de som inte varit på länge och som inte har bestämd veckodag
+          aocm = temp;
+          console.log("case 2")
+        }
+      }
+    } else {
+      // matchar de som inte varit på kortare tid
+      temp = aocm.filter(dish => Math.log(dish.freq*2+1)*dish.sinceLast/10 > 1.3*Math.log(dishes.length));
+      if (temp.length != 0) {
+        aocm = temp;
+        temp = aocm.filter(dish => dish.weekdays[currentDay] === true);
+        if (temp.length != 0) {
+          // matchar de som inte varit på kortare tid och som matchar veckodagen
+          aocm = temp;
+          console.log("case 3")
+        } else {
+          temp = aocm.filter(dish => dish.weekdays == 0);
+          if (temp.length != 0) {
+            // matchar de som inte varit på en kortare tid och som inte har en veckodag
+            aocm = temp;
+            console.log("case 4")
+          }
+        }
+      } else {
+        temp = aocm.filter(dish => dish.weekdays[currentDay] === true);
+        if (temp.length != 0) {
+          // matchar som har matchande veckodagar
+          aocm = temp;
+          console.log("case 5")
+        } else {
+          temp = aocm.filter(dish => dish.weekdays === 0);
+          if (temp.length != 0) {
+            // matchar som inte har någon veckodag
+            aocm = temp;
+            console.log("case 6")
+          }
+        }
       }
     }
     if (aocm.length != 0) {
@@ -189,7 +225,9 @@ function generateMenu(amount) {
         i++;
       }
     } else {
+      // matchar den första i arrayen om det inte finns andra matcher
       index = 0;
+      console.log("case 7")
     }
     menu[i] = randomDishArray[index];
     for (let i = 0; i < randomDishArray.length;i++) {
