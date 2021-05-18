@@ -194,6 +194,18 @@ button.decline:hover, button.decline:focus {
   outline: none;
 }
 
+footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+  width: 100%;
+}
+
+footer p {
+  text-align: center;
+}
+
 @media (max-width: 1024px) {
   header nav {
     margin: 0;
