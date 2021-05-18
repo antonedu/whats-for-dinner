@@ -15,7 +15,7 @@
 <body onload="loadDishes()">
   <header>
     <nav>
-      <a href="../home.html">
+      <a href="../index.html">
         <figure>
           <img src="../assets/logo.png" alt="logo">
         </figure>
@@ -67,7 +67,7 @@
     </div>
   </div>
   <footer>
-    <p>&copy; <script>document.write(new Date().getFullYear())</script> Anton Nilsson | <button class="decline" onclick="localStorage.clear()">Delete my data</button></p>
+    <p>&copy; <script>document.write(new Date().getFullYear())</script> Anton Nilsson <button class="decline" onclick="localStorage.clear(); localStorageActivated = false">Delete my data</button></p>
   </footer>
   <script src="script.js"></script>
 </body>

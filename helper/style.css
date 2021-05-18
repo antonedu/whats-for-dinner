@@ -170,7 +170,6 @@ button.decline:hover, button.decline:focus {
 }
 
 #addDish input[type='range'] {
-  /* -webkit-appearance: none; */
   width: 80%;
 }
 
@@ -200,10 +199,25 @@ footer {
   left: 0;
   text-align: center;
   width: 100%;
+  background-color: #272933;
+  color: #d9d9c2;
 }
 
 footer p {
   text-align: center;
+}
+
+footer .decline {
+  background-color: #272933;
+  box-shadow: none;
+}
+
+footer .decline:hover, footer .decline:focus {
+  background-color: #676778;
+}
+
+footer button:active {
+  transform: translateY(5px);
 }
 
 @media (max-width: 1024px) {
