@@ -158,19 +158,21 @@ function generateMenu(amount) {
   let startLength = menu.length;
   let awwv = []; // Array with weighted values
   let weekmatchvalue;
+  let no_day_specified_amount = randomDishArray.filter(dish => dish.weekdays === 0).length;
   if (currentDay < 0) {
     currentDay = 6;
   }
   for (let i = 0; i < amount; i++) {
     index = 0;
     // Algorythm for getting a new dishes
+    let number_of_matching_days = randomDishArray.filter(dish => dish.weekdays[currentDay] === true).length;
     for (let j = 0; j < randomDishArray.length; j++) {
       if (randomDishArray[j].weekdays === 0) {
-        weekdaymatchvalue = 2;
+        weekdaymatchvalue = 2/Math.log(no_day_specified_amount+j*no_day_specified_amount);
       } else if (randomDishArray[j].weekdays[currentDay] === true) {
-        weekdaymatchvalue = 4;
+        weekdaymatchvalue = 3/Math.log(number_of_matching_days+j*number_of_matching_days);
       } else {
-        weekdaymatchvalue = 1;
+        weekdaymatchvalue = 0;
       }
       awwv[j] = {
         index: j,
