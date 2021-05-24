@@ -36,16 +36,18 @@ header {
 }
 
 header figure {
-  height: 80%;
-  width: 80vh;
+  height: 100%;
+  width: 100%;
   margin: 0 auto;
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
 }
 
 header figure img {
-  max-width: 100%;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  max-width: 80%;
+  max-height: 80%;
 }
 
 header section {
@@ -105,4 +107,46 @@ footer p {
   line-height: 10vh;
   font-family: 'Open Sans', sans-serif;
   color: #d9d9c2;
+}
+
+@media (max-width: 1024px) {
+  header {
+    grid-template-columns: 1fr;
+    grid-template-rows: 50vh;
+  }
+
+  header section .text-container {
+    text-align: center;
+    top: 20%;
+  }
+
+  header section h1 {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (max-width: 767px) {
+  header {
+    grid-template-columns: 1fr;
+    grid-template-rows: 50vh;
+  }
+
+  header section .text-container {
+    text-align: center;
+    top: 20%;
+  }
+
+  header section h1 {
+    font-size: 3vh;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  header section p {
+    margin-top: 2vh;
+    font-size: 2.4vh;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
