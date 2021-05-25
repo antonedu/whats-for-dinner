@@ -85,7 +85,7 @@ function getDishValues() {
 
 function toggleAddDishPopup() {
   document.getElementById("addDish").classList.toggle("hide");
-  document.getElementsByTagName("footer")[0].classList.toggle("hide");
+  // document.getElementsByTagName("footer")[0].classList.toggle("hide");
 }
 
 function showMenu() {
