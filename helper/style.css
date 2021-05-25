@@ -58,6 +58,7 @@ p {
 
 button {
   font-family: 'Open Sans', sans-serif !important;
+  user-select: none;
 }
 
 button {
