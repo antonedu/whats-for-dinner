@@ -52,13 +52,24 @@ function addDish(name, weekdays, dates, freq) {
   }
   if (localStorageActivated === true) {
     dishes.push(newDish);
+    for (let i = 0; i < 2;i++) {
+      document.getElementsByClassName('alert')[i].innerHTML = `${name} has been added to dishes`
+    }
     localStorage.setItem("dishes", JSON.stringify(dishes))
   } else if (cookieAsked === false) {
     document.getElementById("askForConsent").classList.remove("hide");
   }
   else {
+    for (let i = 0; i < 2;i++) {
+      document.getElementsByClassName('alert')[i].innerHTML = `${name} has been added to dishes`
+    }
     dishes.push(newDish);
   }
+}
+
+function showAlert(index) {
+  document.getElementsByClassName('alert')[index].style.animation="";
+  document.getElementsByClassName('alert')[index].style.animation="flash 2s";
 }
 
 function updateWeekday(num) {
@@ -78,14 +89,16 @@ function getDishValues() {
     name = "New dish";
   }
   addDish(name,weekdays.slice(0),dates,freq);
-  document.getElementById("name").innerHTML = "";
+  //document.getElementById("name").innerHTML = "";
   document.getElementById("name").value = "";
   loadDishes();
 }
 
 function toggleAddDishPopup() {
   document.getElementById("addDish").classList.toggle("hide");
-  // document.getElementsByTagName("footer")[0].classList.toggle("hide");
+  for (let i = 0; i < 2;i++) {
+    document.getElementsByClassName('alert')[i].innerHTML = ""
+  }
 }
 
 function showMenu() {

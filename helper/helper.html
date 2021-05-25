@@ -48,10 +48,11 @@
         <button id="sunday" onclick="updateWeekday(6)">S</button>
       </div>
       <div>
-        <button class="accept" onclick="getDishValues(); toggleAddDishPopup();">Add</button>
-        <button class="accept" onclick="getDishValues();">Add another</button>
+        <button class="accept" onclick="getDishValues(); toggleAddDishPopup(); showAlert(1)">Add</button>
+        <button class="accept" onclick="getDishValues(); showAlert(0)">Add another</button>
         <button class="decline" onclick="toggleAddDishPopup();">Cancel</button>
       </div>
+      <p class="alert">test</p>
     </div>
   </div>
   <div id="askForConsent" class="popup hide">
@@ -66,6 +67,7 @@
       <button class="decline" onclick="consentToCookies(false); getDishValues()">Decline</button>
     </div>
   </div>
+  <p class="alert">test</p>
   <footer>
     <p>&copy; <script>document.write(new Date().getFullYear())</script> Anton Nilsson <button class="decline" onclick="localStorage.clear(); localStorageActivated = false">Delete my data</button></p>
   </footer>
