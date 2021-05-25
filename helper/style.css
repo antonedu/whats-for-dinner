@@ -104,7 +104,7 @@ button.decline:hover, button.decline:focus {
 .output {
   width: 50%;
   min-width: 430px;
-  margin: 0 auto 5vh;
+  margin: 0 auto 12vh;
   padding: 1vh 1vw;
   background-color: #fff;
   border-radius: 20px;
@@ -194,7 +194,7 @@ button.decline:hover, button.decline:focus {
 }
 
 footer {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
   text-align: center;
