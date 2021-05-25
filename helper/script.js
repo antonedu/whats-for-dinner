@@ -78,11 +78,14 @@ function getDishValues() {
     name = "New dish";
   }
   addDish(name,weekdays.slice(0),dates,freq);
+  document.getElementById("name").innerHTML = "";
+  document.getElementById("name").value = "";
   loadDishes();
 }
 
 function toggleAddDishPopup() {
   document.getElementById("addDish").classList.toggle("hide");
+  document.getElementsByTagName("footer")[0].classList.toggle("hide");
 }
 
 function showMenu() {
