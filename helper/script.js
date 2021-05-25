@@ -129,7 +129,7 @@ function loadDishes() {
 }
 
 function loadMenu() {
-  let days_of_the_week = ["måndag","tisdag","onsdag","torsdag","fredag","lördag","söndag"];
+  let days_of_the_week = ["monday","tuesday","wednesday","thursday","friday","saturday","sunday"];
   let currentDay = new Date().getDay() - 1;
   document.getElementById("menu").innerHTML = "<h1>Menu</h1>";
   for (let i = 0; i < menu.length; i++) {

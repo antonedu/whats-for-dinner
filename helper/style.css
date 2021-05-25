@@ -203,7 +203,7 @@ button.decline:hover, button.decline:focus {
 .alert {
   position: fixed;
   left: 0;
-  top: 80vh;
+  top: 80fvh;
   z-index: 5;
   opacity: 0;
   text-indent: 3vh;
