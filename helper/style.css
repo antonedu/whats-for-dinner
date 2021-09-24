@@ -57,6 +57,7 @@ header .header-button-wrapper button {
   box-shadow: 0 5px 0 #156D69;
   border: none;
   border-radius: 10%;
+  color: #fff;
   font-size: 3.4vh;
   width: 80%;
   height: 80%;
@@ -69,4 +70,44 @@ header .header-button-wrapper button {
 header .header-button-wrapper button:active {
   box-shadow: none;
   transform: translate(-50%,calc(-50% + 5px))
+}
+
+#main {
+
+}
+
+#main .output-wrapper {
+
+}
+
+#main .output-wrapper .output-header {
+
+}
+
+#main .output-wrapper .output-head h1 {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 2.8em;
+  text-align: center;
+  margin: 0 0 0.4em;
+}
+
+#main .output-wrapper .output-items {
+  /* display: flex;
+  flex-direction: column; */
+}
+
+#main .output-wrapper .output-items .output-item {
+  min-height: 50px;
+  max-height: 50px;
+  background-color: #fff;
+  margin-bottom: 5px;
+  font-size: 1.8em;
+  overflow:hidden;
+  transition: max-height 1s ease-out;
+}
+
+#main .output-wrapper .output-items .output-item:hover {
+  /* min-height: 50px; */
+  max-height: 1000px;
+  transition: max-height 1s ease-in;
 }
