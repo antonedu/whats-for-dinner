@@ -53,6 +53,10 @@ header .header-button-wrapper {
 }
 
 header .header-button-wrapper button {
+  background-color: #20a39e;
+  box-shadow: 0 5px 0 #156D69;
+  border: none;
+  border-radius: 10%;
   font-size: 3.4vh;
   width: 80%;
   height: 80%;
@@ -60,4 +64,9 @@ header .header-button-wrapper button {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+
+header .header-button-wrapper button:active {
+  box-shadow: none;
+  transform: translate(-50%,calc(-50% + 5px))
 }
