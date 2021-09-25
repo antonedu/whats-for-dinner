@@ -54,7 +54,7 @@ header .header-button-wrapper {
 
 header .header-button-wrapper button {
   background-color: #20a39e;
-  box-shadow: 0 5px 0 #156D69, 0 7px 14px rgba(0,0,0,0.25), 0 5px 5px rgba(0,0,0,0.22);
+  box-shadow: -5px 5px 0 #156D69,-3px 3px 0 #156D69, -1px 1px 0 #156D69,  0 10px 19px rgba(0,0,0,0.30), 0 7px 6px rgba(0,0,0,0.22);
   border: none;
   border-radius: 10%;
   color: #fff;
@@ -65,6 +65,7 @@ header .header-button-wrapper button {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+  /* box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22); */
 }
 
 header .header-button-wrapper button:active {
