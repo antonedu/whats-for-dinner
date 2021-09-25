@@ -20,20 +20,31 @@ figure {
 }
 
 .green {
+  --color: #fff;
   --bg-color: #20a39e;
   --s-color: #156D69;
 }
 
+.red {
+  --color: #fff;
+  --bg-color: #ef5b5b;
+  --s-color: #BA4848;
+}
+
 .threed-button {
+  border: none;
+  color: var(--color);
+  font-family: 'Roboto';
+  font-size: 1em;
   background-color: var(--bg-color);
-  box-shadow: -5px 5px 0 var(--s-color),-3px 3px 0 var(--s-color), -1px 1px 0 var(--s-color),  0 10px 19px rgba(0,0,0,0.30), 0 7px 6px rgba(0,0,0,0.22);
+  box-shadow: 0 5px 0 var(--s-color), 0 10px 19px rgba(0,0,0,0.30), 0 7px 6px rgba(0,0,0,0.22);
   transform: translate(var(--offset), var(--offset));
 }
 
 .threed-button:active {
   background-color: var(--bg-color);
   box-shadow: none;
-  transform: translate(calc(var(--offset) + -5px),calc(var(--offset) + 5px));
+  transform: translate(var(--offset),calc(var(--offset) + 5px));
 }
 
 header {
@@ -72,19 +83,13 @@ header .header-button-wrapper {
 
 header .header-button-wrapper button {
   --offset: -50%;
-  border: none;
-  border-radius: 10%;
-  color: #fff;
+  border-radius: 7px;
   font-size: 3.4vh;
   width: 80%;
   height: 80%;
   position: absolute;
   left: 50%;
   top: 50%;
-}
-
-header .header-button-wrapper button:active {
-  box-shadow: none;
 }
 
 #main {
@@ -157,4 +162,18 @@ header .header-button-wrapper button:active {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+#main .output-wrapper .output-items .output-item .output-button-wrapper {
+  grid-column: 1/3;
+}
+
+#main .output-wrapper .output-items .output-item .output-button-wrapper button {
+  --offset: 0px;
+  float: right;
+  border-radius: 1em;
+  height: 2em;
+  line-height: 1em;
+  padding: 0.6em;
+  margin: 0.2em 1em 1em;
 }
