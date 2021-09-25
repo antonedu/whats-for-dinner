@@ -54,7 +54,7 @@ header .header-button-wrapper {
 
 header .header-button-wrapper button {
   background-color: #20a39e;
-  box-shadow: 0 5px 0 #156D69;
+  box-shadow: 0 5px 0 #156D69, 0 7px 14px rgba(0,0,0,0.25), 0 5px 5px rgba(0,0,0,0.22);
   border: none;
   border-radius: 10%;
   color: #fff;
@@ -98,6 +98,7 @@ header .header-button-wrapper button:active {
 }
 
 #main .output-wrapper .output-items .output-item {
+  box-shadow: 0 3px 7px rgba(0,0,0,0.25), 0 3px 3px rgba(0,0,0,0.22);
   display: grid;
   grid-template-columns: 85% 1fr;
   min-height: 2.4em;
