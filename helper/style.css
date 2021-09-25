@@ -126,7 +126,6 @@ header .header-button-wrapper button:active {
   text-overflow: ellipsis;
   overflow-wrap: break-word;
   overflow: hidden;
-  transition-delay: 1s;
 }
 
 #main .output-wrapper .output-items .output-item:hover p {
