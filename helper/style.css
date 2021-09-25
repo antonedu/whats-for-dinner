@@ -110,9 +110,6 @@ header .header-button-wrapper button:active {
   border-radius: 10px;
   margin: 0 5px 10px;
   font-size: 1.2em;
-  text-overflow: ellipsis;
-  overflow-wrap: break-word;
-  overflow: hidden;
   transition: max-height 1s ease-out;
 }
 
@@ -124,7 +121,19 @@ header .header-button-wrapper button:active {
 
 #main .output-wrapper .output-items .output-item p {
   margin: 0.35em 0.6em;
-  width: 80%;
+  width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-wrap: break-word;
+  overflow: hidden;
+  transition-delay: 1s;
+}
+
+#main .output-wrapper .output-items .output-item:hover p {
+  margin: 0.35em 0.6em;
+  width: 100%;
+  white-space: normal;
+  overflow: visible;
 }
 
 #main .output-wrapper .output-items .output-item figure {
