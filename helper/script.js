@@ -53,11 +53,11 @@ function addDish(name, weekdays, dates, freq) {
   if (localStorageActivated === true) {
     dishes.push(newDish);
     for (let i = 0; i < 2;i++) {
-      document.getElementsByClassName('alert')[i].innerHTML = `${name} has been added to dishes`
+      // document.getElementsByClassName('alert')[i].innerHTML = `${name} has been added to dishes`
     }
     localStorage.setItem("dishes", JSON.stringify(dishes))
   } else if (cookieAsked === false) {
-    document.getElementById("askForConsent").classList.remove("hide");
+    //document.getElementById("askForConsent").classList.remove("hide");
   }
   else {
     for (let i = 0; i < 2;i++) {
@@ -122,9 +122,39 @@ function toggleMenu() {
 }
 
 function loadDishes() {
-  document.getElementById("dishes").innerHTML = "<h1>Dishes</h1>";
+  // document.getElementById("output-items").innerHTML = "<h1>Dishes</h1>";
   for (let i = 0; i < dishes.length; i++) {
-    document.getElementById("dishes").innerHTML += `<div class="wrapper"><h1>${dishes[i].name}</h1><button onclick="removeDish(${i}); loadDishes()" class="decline">remove</button></div>`;
+    document.getElementById("output-items").innerHTML += `
+    <div class="output-item">
+      <p>${dishes[i].name}</p>
+      <figure><i class="fas fa-chevron-down"></i></figure>
+      <div class="output-info">
+        <p>Weekdays: ${(() => {
+          if (dishes[i].weekdays == 0) {
+            return "all";
+          } else {
+            let str = "";
+            let weekdays = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
+            for (let j = 0; j < dishes[i].weekdays.length; j++) {
+              if (dishes[i].weekdays[j] == true) {
+                if (str.length == 0) {
+                  str += weekdays[j];
+                } else {
+                  str += ", " + weekdays[j];
+                }
+              }
+            }
+            return str;
+          }
+        })()}</p>
+      </div>
+      <div class="output-button-wrapper">
+        <button class="red threed-button">
+          Remove
+        </button>
+      </div>
+    </div>
+    `;
   }
 }
 
