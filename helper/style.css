@@ -132,12 +132,12 @@ header .header-button-wrapper button {
 
 #main .output-wrapper #output-items .collapsed {
   max-height: 2.4em;
-  transition: max-height 1s ease-out;
+  transition: max-height 0.6s ease-out;
 }
 
 #main .output-wrapper #output-items .not-collapsed {
   max-height: 10000px;
-  transition: max-height 1s ease-in;
+  transition: max-height 0.6s ease-in;
 }
 
 #main .output-wrapper #output-items .output-item p {
@@ -158,19 +158,21 @@ header .header-button-wrapper button {
 #main .output-wrapper #output-items .output-item figure i {
   position: absolute;
   top: 50%;
-  left: 50%;
+  right: 1em;
   transform: translate(-50%, -50%);
 }
 
 #main .output-wrapper #output-items .output-item .output-info {
+  margin-top: 1.3em;
   grid-column: 1/4;
 }
 
 #main .output-wrapper #output-items .output-item .output-info p {
   font-family: 'Roboto';
   font-size: 0.6em;
-  margin-left: 1.2em;
-  margin-top: 2.2em;
+  /* margin-left: 1.2em; */
+  margin: -1.4em 1.2em;
+  padding: 0;
 }
 
 #main .output-wrapper #output-items .output-item .output-button-wrapper {
@@ -184,5 +186,5 @@ header .header-button-wrapper button {
   height: 2em;
   line-height: 100%;
   padding: 0.6em;
-  margin: 0.2em 1em 1em;
+  margin: 0.2em 0.8em 1em;
 }
