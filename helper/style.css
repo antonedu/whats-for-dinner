@@ -100,11 +100,11 @@ header .header-button-wrapper button {
 
 }
 
-#main .output-wrapper .output-header {
+#main .output-wrapper #output-head {
 
 }
 
-#main .output-wrapper .output-head h1 {
+#main .output-wrapper #output-head h1 {
   font-family: 'Open Sans', sans-serif;
   font-size: 2.8em;
   text-align: center;
@@ -122,17 +122,20 @@ header .header-button-wrapper button {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   min-height: 2.4em;
-  max-height: 2.4em;
   line-height: 1.7em;
   background-color: #fff;
   border-radius: 10px;
   margin: 0 5px 10px;
   font-size: 1.2em;
   overflow: hidden;
+}
+
+#main .output-wrapper #output-items .collapsed {
+  max-height: 2.4em;
   transition: max-height 1s ease-out;
 }
 
-#main .output-wrapper #output-items .output-item:hover {
+#main .output-wrapper #output-items .not-collapsed {
   max-height: 10000px;
   transition: max-height 1s ease-in;
 }
@@ -144,15 +147,9 @@ header .header-button-wrapper button {
   overflow-wrap: break-word;
 }
 
-#main .output-wrapper #output-items .output-item:hover p {
-  margin: 0.35em 0.6em;
-  width: 100%;
-  overflow: visible;
-}
-
 #main .output-wrapper #output-items .output-item figure {
   position: relative;
-  margin: 0;
+  margin: 0 0.6em;
   padding: 0;
   width: 100%;
   height: 2.4em;
