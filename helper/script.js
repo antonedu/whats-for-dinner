@@ -125,11 +125,13 @@ function loadDishes() {
   // document.getElementById("output-items").innerHTML = "<h1>Dishes</h1>";
   for (let i = 0; i < dishes.length; i++) {
     document.getElementById("output-items").innerHTML += `
-    <div class="output-item">
+    <div class="output-item collapsed">
       <p>${dishes[i].name}</p>
       <figure><i class="fas fa-chevron-down"></i></figure>
       <div class="output-info">
         <p>Weekdays: ${(() => {
+          /* If weekdays set all or none display "all" else show selected 
+          weekdays */
           if (dishes[i].weekdays == 0) {
             return "all";
           } else {
