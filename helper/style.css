@@ -137,7 +137,7 @@ header .header-button-wrapper button {
 
 #main .output-wrapper #output-items .not-collapsed {
   max-height: 10000px;
-  transition: max-height 0.6s ease-in;
+  transition: max-height 0.6s ease-in 0.8s;
 }
 
 #main .output-wrapper #output-items .output-item p {
