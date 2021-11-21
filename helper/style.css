@@ -142,21 +142,25 @@ header .header-button-wrapper button {
 
 #main .output-wrapper #output-items .output-item p {
   grid-column: 1/5;
-  margin: 0.35em 0.6em;
-  width: 100%;
+  margin: 0.35em 0 0.35em 4%;
+  width: 96%;
   overflow-wrap: break-word;
 }
 
-#main .output-wrapper #output-items .output-item figure {
+#main .output-wrapper #output-items .output-item .collapse {
   position: relative;
-  margin: 0 0.6em;
+  margin: 0 0 0 40%;
   padding: 0;
-  width: 100%;
-  height: 2.4em;
+  border: none;
+  background-color: transparent;
+  text-align: center;
+  width: 80%;
+  height: 3.8em;
 }
 
-#main .output-wrapper #output-items .output-item figure i {
+#main .output-wrapper #output-items .output-item .collapse i {
   position: absolute;
+  font-size: 1.6em;
   top: 50%;
   right: 1em;
   transform: translate(-50%, -50%);
