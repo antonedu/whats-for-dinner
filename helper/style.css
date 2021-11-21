@@ -152,6 +152,7 @@ header .header-button-wrapper button {
   margin: 0 0 0 40%;
   padding: 0;
   border: none;
+  outline: none;
   background-color: transparent;
   text-align: center;
   width: 80%;
