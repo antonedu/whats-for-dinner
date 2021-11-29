@@ -1,17 +1,3 @@
-function openAndCollapse(element) {
-  element.classList.toggle("collapsed")
-  element.classList.toggle("not-collapsed")
-}
-
-class Dish {
-  constructor(name, weekdays, dates, freq) {
-    this.name = name;
-    this.weekdays = weekdays;
-    this.dates = dates;
-    this.freq = freq;
-  }
-}
-
 const outputItemTemplate = `
 <div id="output-items">
   <div class="output-item collapsed">
@@ -28,4 +14,35 @@ const outputItemTemplate = `
     </div>
   </div>
 </div>
-`
+`;
+
+class Dish {
+  constructor(name, weekdays, dates, freq) {
+    this.name = name;
+    this.weekdays = weekdays;
+    this.dates = dates;
+    this.freq = freq;
+  };
+
+  get weekdaysStr() {
+    let weekdaysStr = "";
+    let weekdaysArray = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
+    if (this.weekdays == 0) {
+      return "all"
+    };
+    for (let i = 0; i++; i < 7) {
+      if (this.weekdays[i] == true) {
+        if (weekdaysStr.length == 0) {
+          weekdaysStr += weekdaysArray[i];
+        } else {
+          weekdaysStr += ", " + weekdaysArray[i];
+        };
+      };
+    };
+  };
+};
+
+function openAndCollapse(element) {
+  element.classList.toggle("collapsed");
+  element.classList.toggle("not-collapsed");
+};
