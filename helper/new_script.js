@@ -2,6 +2,7 @@
 
 // Variables
 var dishes = new Array();
+// var dishes = [];
 
 class Dish {
   // Dish class
@@ -32,6 +33,8 @@ class Dish {
   };
 };
 
+dishes.push(new Dish("a", 0, null, 4, 1));
+
 function openAndCollapse(element) {
   // Collapses element
   element.classList.toggle("collapsed");
@@ -41,11 +44,11 @@ function openAndCollapse(element) {
 function loadDish(dish) {
   // Adds dish element to the end of #output-items
   name = dish.name;
+  console.log(dish.name)
   id = dish.id;
   freq = dish.freq;
   weekdays = dish.weekdaysStr;
   document.getElementById("output-items").innerHTML += `
-  <div id="output-items">
     <div class="output-item collapsed">
       <p>${name}</p>
       <button class="collapse" onclick="openAndCollapse(document.querySelectorAll('#output-items .output-item')[${id}])"><i class="fas fa-chevron-down"></i></button>
@@ -59,12 +62,13 @@ function loadDish(dish) {
         </button>
       </div>
     </div>
-  </div>
   `;
 };
 
 function loadDishes() {
-  for (let dish in dishes) {
+  for (let dish of dishes) {
+    console.log(dish)
     loadDish(dish);
   };
+  console.log("done!")
 };
