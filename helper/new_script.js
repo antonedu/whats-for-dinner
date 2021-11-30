@@ -2,13 +2,12 @@
 
 // Variables
 var dishes = new Array();
-// var dishes = [];
 
 class Dish {
   // Dish class
   constructor(name, weekdays, dates, freq, id) {
     this.name = name;
-    this.weekdays = weekdays;
+    this.weekdays = this.replaceWeekdays(weekdays);
     this.dates = dates;
     this.freq = freq;
     this.id = id;
@@ -31,9 +30,23 @@ class Dish {
       };
     };
   };
-};
 
-dishes.push(new Dish("a", 0, null, 4, 1));
+  replaceWeekdays(weekdays) {
+    let noWeekdaySelected = true;
+    let numberOfDays = 0;
+    for (let i = 0; i < 7; i++) {
+      if (weekdays[i]) {
+        noWeekdaySelected = false;
+        numberOfDays++;
+      };
+    };
+    if (noWeekdaySelected || numberOfDays == 7) {
+      return 0
+    } else {
+      return weekdays
+    };
+  };
+};
 
 function openAndCollapse(element) {
   // Collapses element
@@ -72,3 +85,11 @@ function loadDishes() {
   };
   console.log("done!")
 };
+
+function addDish(name, weekdays, dates, freq, id) {
+  // Addes dish to dishes array
+  dishes.push(new Dish(name, weekdays.slice(0), dates, freq, id));
+  // TODO: add dishes array to cookies if activated
+};
+
+// addDish("a", [false, false, false, false, false, false, false], null, 4, 1);
