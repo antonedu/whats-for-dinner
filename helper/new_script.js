@@ -62,6 +62,7 @@ function loadDish(dish) {
   freq = dish.freq;
   weekdays = dish.weekdaysStr;
   // FIXME: Should use appendChild() instead
+  // FIXME: Should be edit button instead of remove, from edit it should be possible to remove
   document.getElementById("output-items").innerHTML += `
     <div class="output-item collapsed">
       <p>${name}</p>
@@ -95,4 +96,7 @@ function addDish(name, weekdays, dates, freq, id) {
 
 addDish("a", [false, false, false, false, false, false, false], null, 4, 1);
 
-// loadDishes()
+// TODO: Ask about cookies.
+// TODO: Save dishes over sessions.
+// TODO: Edit dish function.
+// TODO: Generate menu function which should be entirely based on dishes and their data in menu Array. So that data from it can be shared between devices.
