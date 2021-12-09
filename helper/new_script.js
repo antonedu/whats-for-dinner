@@ -61,6 +61,7 @@ function loadDish(dish) {
   id = dish.id;
   freq = dish.freq;
   weekdays = dish.weekdaysStr;
+  // FIXME: Should use appendChild() instead
   document.getElementById("output-items").innerHTML += `
     <div class="output-item collapsed">
       <p>${name}</p>
@@ -92,4 +93,6 @@ function addDish(name, weekdays, dates, freq, id) {
   // TODO: add dishes array to cookies if activated
 };
 
-// addDish("a", [false, false, false, false, false, false, false], null, 4, 1);
+addDish("a", [false, false, false, false, false, false, false], null, 4, 1);
+
+// loadDishes()

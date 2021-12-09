@@ -132,12 +132,12 @@ header .header-button-wrapper button {
 
 #main .output-wrapper #output-items .collapsed {
   max-height: 2.4em;
-  transition: max-height 0.6s ease-out;
+  transition: max-height 1.2s ease-out;
 }
 
 #main .output-wrapper #output-items .not-collapsed {
   max-height: 10000px;
-  transition: max-height 0.6s ease-in 0.8s;
+  transition: max-height 1.2s ease-in;
 }
 
 #main .output-wrapper #output-items .output-item p {
