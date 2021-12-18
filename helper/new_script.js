@@ -32,20 +32,16 @@ class Dish {
   };
 
   replaceWeekdays(weekdays) {
-    let noWeekdaySelected = true;
-    let numberOfDays = 0;
-    for (let i = 0; i < 7; i++) {
-      if (weekdays[i]) {
-        noWeekdaySelected = false;
-        numberOfDays++;
-      };
+    // Replaces a weekdays array with sure if all 7 indexes have the same value
+    let equalsFirst = (day, index, arr) => {
+      return day == arr[0];
     };
-    if (noWeekdaySelected || numberOfDays == 7) {
+    if (weekdays === 0 || weekdays.every(equalsFirst)) {
       return 0
     } else {
       return weekdays
     };
-  };
+  }
 };
 
 function openAndCollapse(element) {
@@ -89,14 +85,21 @@ function loadDishes() {
 };
 
 function addDish(name, weekdays, dates, freq, id) {
-  // Addes dish to dishes array
+  // Adds dish to dishes array
   dishes.push(new Dish(name, weekdays.slice(0), dates, freq, id));
   // TODO: add dishes array to cookies if activated
 };
 
+function dishFromObject(obj) {
+  addDish
+};
+
 addDish("a", [false, false, false, false, false, false, false], null, 4, 1);
+addDish("b", [true, true, true, true, true, true, true], null, 4, 2);
 
 // TODO: Ask about cookies.
 // TODO: Save dishes over sessions.
+// TODO: Convert normal dish-like object to dish.
 // TODO: Edit dish function.
-// TODO: Generate menu function which should be entirely based on dishes and their data in menu Array. So that data from it can be shared between devices.
+/* TODO: Generate menu function which should be entirely based on dishes and
+their data in menu Array. So that data from it can be shared between devices. */
