@@ -72,59 +72,47 @@ function openAndCollapse(element) {
 function loadDish(dish) {
   // Adds dish element to the end of #output-items
   // Creates output-item element
-  outputItem = document.createElement("output-item", "collapsed");
+  let outputItem = document.createElement("div");
+  outputItem.classList.add("output-item", "collapsed")
   // Appends name paragraph
-  pName = document.createElement("p");
-  name = document.createTextNode(dish.name);
+  let pName = document.createElement("p");
+  let name = document.createTextNode(dish.name);
+  // TODO: classList add has to be new line (after create element)
   pName.appendChild(name)
   outputItem.appendChild(pName);
   // Append collapse button
-  collapseButton = document.createElement("button").classList.add("collapse");
-  collapseButton.addEventListener("click", openAndCollapse(document.querySelectorAll('#output-items .output-item')[id]));
-  collapseIcon = document.createElement("i").classList.add("fas", "fa-chevron-down");
-  collapseButton.appendChild(collapseButton);
+  let collapseButton = document.createElement("button");
+  collapseButton.classList.add("collapse");
+  collapseButton.setAttribute("onclick", `openAndCollapse(document.querySelectorAll('#output-items .output-item')[${dish.id}])`);
+  let collapseIcon = document.createElement("i");
+  collapseIcon.classList.add("fas", "fa-chevron-down");
+  collapseButton.appendChild(collapseIcon);
   outputItem.appendChild(collapseButton);
   // Appends output info
-  outputInfo = document.createElement("div").classList.add("output-info");
-  pFreq = document.createElement("p");
-  pWeekdays = document.createElement("p");
-  freq = document.createTextNode(`Frequency: ${dish.freq}`);
-  weekdays = document.createTextNode(`Weekdays: ${dish.weekdaysStr}`);
+  let outputInfo = document.createElement("div");
+  outputInfo.classList.add("output-info");
+  let pFreq = document.createElement("p");
+  let pWeekdays = document.createElement("p");
+  let freq = document.createTextNode(`Frequency: ${dish.freq}`);
+  let weekdays = document.createTextNode(`Weekdays: ${dish.weekdaysStr}`);
   pFreq.appendChild(freq);
   pWeekdays.appendChild(weekdays);
   outputInfo.appendChild(pFreq);
   outputInfo.appendChild(pWeekdays);
   outputItem.appendChild(outputInfo);
   // Appends remove button and wrapper
-  editButtonWrapper = document.createElement("div").classList.add("output-button-wrapper");
-  editButton = document.createElement("button").classList.add("red", "threed-button");
-  // TODO: Add event listener with edit function when done
-  editButtonText = document.createTextNode("Remove");
+  let editButtonWrapper = document.createElement("div");
+  editButtonWrapper.classList.add("output-button-wrapper");
+  let editButton = document.createElement("button");
+  editButton.classList.add("red", "threed-button");
+  // TODO: see other button (setAttribute) when it's time
+  // NOTE: remove should be an option after edit has been initialized
+  let editButtonText = document.createTextNode("Remove");
   editButton.appendChild(editButtonText);
   editButtonWrapper.appendChild(editButton);
   outputItem.appendChild(editButtonWrapper);
   // Appends output-item to output-items
   document.getElementById("output-items").appendChild(outputItem);
-  // FIXME: Should use appendChild() instead
-  // FIXME: Should be edit button instead of remove, from edit it should be possible to remove
-  // TODO: Button element should have a function
-  // Create paragraph element from dish data
-  // Create output-info div
-  // .innerHTML += `
-  //   <div class="output-item collapsed">
-  //     <p>${name}</p>
-  //     <button class="collapse" onclick="openAndCollapse(document.querySelectorAll('#output-items .output-item')[${id}])"><i class="fas fa-chevron-down"></i></button>
-  //     <div class="output-info">
-  //       <p>Frequency: ${freq}</p>
-  //       <p>Weekdays: ${weekdays}</p>
-  //     </div>
-  //     <div class="output-button-wrapper">
-  //       <button class="red threed-button">
-  //         Remove
-  //       </button>
-  //     </div>
-  //   </div>
-  // `;
 };
 
 function loadDishes() {
