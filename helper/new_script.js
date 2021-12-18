@@ -59,6 +59,7 @@ function consentToCookies(consented) {
 };
 
 function updateLocalStorage() {
+  // Updates locale storage to include current version of dishes
   localStorage.setItem("dishes", JSON.stringify(dishes));
 };
 
@@ -70,30 +71,64 @@ function openAndCollapse(element) {
 
 function loadDish(dish) {
   // Adds dish element to the end of #output-items
-  name = dish.name;
-  id = dish.id;
-  freq = dish.freq;
-  weekdays = dish.weekdaysStr;
+  // Creates output-item element
+  outputItem = document.createElement("output-item", "collapsed");
+  // Appends name paragraph
+  pName = document.createElement("p");
+  name = document.createTextNode(dish.name);
+  pName.appendChild(name)
+  outputItem.appendChild(pName);
+  // Append collapse button
+  collapseButton = document.createElement("button").classList.add("collapse");
+  collapseButton.addEventListener("click", openAndCollapse(document.querySelectorAll('#output-items .output-item')[id]));
+  collapseIcon = document.createElement("i").classList.add("fas", "fa-chevron-down");
+  collapseButton.appendChild(collapseButton);
+  outputItem.appendChild(collapseButton);
+  // Appends output info
+  outputInfo = document.createElement("div").classList.add("output-info");
+  pFreq = document.createElement("p");
+  pWeekdays = document.createElement("p");
+  freq = document.createTextNode(`Frequency: ${dish.freq}`);
+  weekdays = document.createTextNode(`Weekdays: ${dish.weekdaysStr}`);
+  pFreq.appendChild(freq);
+  pWeekdays.appendChild(weekdays);
+  outputInfo.appendChild(pFreq);
+  outputInfo.appendChild(pWeekdays);
+  outputItem.appendChild(outputInfo);
+  // Appends remove button and wrapper
+  editButtonWrapper = document.createElement("div").classList.add("output-button-wrapper");
+  editButton = document.createElement("button").classList.add("red", "threed-button");
+  // TODO: Add event listener with edit function when done
+  editButtonText = document.createTextNode("Remove");
+  editButton.appendChild(editButtonText);
+  editButtonWrapper.appendChild(editButton);
+  outputItem.appendChild(editButtonWrapper);
+  // Appends output-item to output-items
+  document.getElementById("output-items").appendChild(outputItem);
   // FIXME: Should use appendChild() instead
   // FIXME: Should be edit button instead of remove, from edit it should be possible to remove
-  document.getElementById("output-items").innerHTML += `
-    <div class="output-item collapsed">
-      <p>${name}</p>
-      <button class="collapse" onclick="openAndCollapse(document.querySelectorAll('#output-items .output-item')[${id}])"><i class="fas fa-chevron-down"></i></button>
-      <div class="output-info">
-        <p>Frequency: ${freq}</p>
-        <p>Weekdays: ${weekdays}</p>
-      </div>
-      <div class="output-button-wrapper">
-        <button class="red threed-button">
-          Remove
-        </button>
-      </div>
-    </div>
-  `;
+  // TODO: Button element should have a function
+  // Create paragraph element from dish data
+  // Create output-info div
+  // .innerHTML += `
+  //   <div class="output-item collapsed">
+  //     <p>${name}</p>
+  //     <button class="collapse" onclick="openAndCollapse(document.querySelectorAll('#output-items .output-item')[${id}])"><i class="fas fa-chevron-down"></i></button>
+  //     <div class="output-info">
+  //       <p>Frequency: ${freq}</p>
+  //       <p>Weekdays: ${weekdays}</p>
+  //     </div>
+  //     <div class="output-button-wrapper">
+  //       <button class="red threed-button">
+  //         Remove
+  //       </button>
+  //     </div>
+  //   </div>
+  // `;
 };
 
 function loadDishes() {
+  // Loads all dishes to html
   for (let dish of dishes) {
     loadDish(dish);
   };
