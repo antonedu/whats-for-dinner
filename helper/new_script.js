@@ -83,6 +83,7 @@ function loadDishes() {
 };
 
 function createDish(name, weekdays, dates, freq, id) {
+  // Creates a new Dish object and saves it to cookies if enabled
   dish = new Dish(name, weekdays.slice(0), dates, freq, id);
   addDish(dish);
   // TODO: add dishes array to cookies if activated
@@ -95,6 +96,7 @@ function addDish(dish) {
 
 function dishFromObject(obj) {
   // Converts a dish-like object into a dish
+  // Used when loading dishes from local storage
   try {
     addDish(new Dish(obj.name, obj.weekdays, obj.dates, obj.freq, obj.id));
   } catch (err) {
@@ -108,6 +110,7 @@ createDish("c", [true, false, true, true, true, true, true], null, 4, 3);
 
 // TODO: Ask about cookies.
 // TODO: Save dishes over sessions.
+// TODO: Load dishes saved in local storage on load
 // TODO: Edit dish function.
 /* NOTE: Generate menu function which should be entirely based on dishes and
 their data in menu Array. So that data from it can be shared between devices. */
