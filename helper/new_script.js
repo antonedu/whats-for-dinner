@@ -126,7 +126,6 @@ createDish("b", [true, true, true, true, true, true, true], null, 8, 2);
 createDish("c", [true, false, true, true, true, true, true], null, 4, 3);
 
 // TODO: Ask about cookies.
-// TODO: Save dishes over sessions.
 // TODO: Load dishes saved in local storage on load
 // TODO: Edit dish function.
 /* NOTE: Generate menu function which should be entirely based on dishes and
