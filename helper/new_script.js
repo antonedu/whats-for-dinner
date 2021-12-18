@@ -54,7 +54,6 @@ function openAndCollapse(element) {
 function loadDish(dish) {
   // Adds dish element to the end of #output-items
   name = dish.name;
-  console.log(dish.name)
   id = dish.id;
   freq = dish.freq;
   weekdays = dish.weekdaysStr;
@@ -79,27 +78,36 @@ function loadDish(dish) {
 
 function loadDishes() {
   for (let dish of dishes) {
-    console.log(dish)
     loadDish(dish);
   };
 };
 
-function addDish(name, weekdays, dates, freq, id) {
-  // Adds dish to dishes array
-  dishes.push(new Dish(name, weekdays.slice(0), dates, freq, id));
+function createDish(name, weekdays, dates, freq, id) {
+  dish = new Dish(name, weekdays.slice(0), dates, freq, id);
+  addDish(dish);
   // TODO: add dishes array to cookies if activated
 };
 
-function dishFromObject(obj) {
-  addDish
+function addDish(dish) {
+  // Adds dish to dishes array
+  dishes.push(dish);
 };
 
-addDish("a", [false, false, false, false, false, false, false], null, 4, 1);
-addDish("b", [true, true, true, true, true, true, true], null, 4, 2);
+function dishFromObject(obj) {
+  // Converts a dish-like object into a dish
+  try {
+    addDish(new Dish(obj.name, obj.weekdays, obj.dates, obj.freq, obj.id));
+  } catch (err) {
+    console.log(err);
+  };
+};
+
+createDish("a", [false, false, false, false, false, false, false], null, 4, 1);
+createDish("b", [true, true, true, true, true, true, true], null, 8, 2);
+createDish("c", [true, false, true, true, true, true, true], null, 4, 3);
 
 // TODO: Ask about cookies.
 // TODO: Save dishes over sessions.
-// TODO: Convert normal dish-like object to dish.
 // TODO: Edit dish function.
-/* TODO: Generate menu function which should be entirely based on dishes and
+/* NOTE: Generate menu function which should be entirely based on dishes and
 their data in menu Array. So that data from it can be shared between devices. */
