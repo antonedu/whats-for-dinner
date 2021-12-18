@@ -2,6 +2,7 @@
 
 // Variables
 var dishes = new Array();
+var activatedCookies = false;
 
 class Dish {
   // Dish class
@@ -43,6 +44,22 @@ class Dish {
       return weekdays
     };
   }
+};
+
+function consentToCookies(consented) {
+  // Updates local storage if consent changes
+  let activated = localStorage.getItem("activatedCookies")
+  if (consented === true && activated != true) {
+    updateLocalStorage();
+    localStorage.setItem("activatedCookies", "true");
+  } else if (consented === false && activated != false) {
+    localStorage.removeItem("dishes");
+    localStorage.setItem("activatedCookies", "false");
+  };
+};
+
+function updateLocalStorage() {
+  localStorage.setItem("dishes", JSON.stringify(dishes));
 };
 
 function openAndCollapse(element) {
