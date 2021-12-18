@@ -20,7 +20,7 @@ class Dish {
     if (this.weekdays == 0) {
       return "all"
     };
-    for (let i = 0; i++; i < 7) {
+    for (let i = 0; i < 7; i++) {
       if (this.weekdays[i] == true) {
         if (weekdaysStr.length == 0) {
           weekdaysStr += weekdaysArray[i];
@@ -29,6 +29,7 @@ class Dish {
         };
       };
     };
+    return weekdaysStr
   };
 
   replaceWeekdays(weekdays) {
@@ -81,7 +82,6 @@ function loadDishes() {
     console.log(dish)
     loadDish(dish);
   };
-  console.log("done!")
 };
 
 function addDish(name, weekdays, dates, freq, id) {
