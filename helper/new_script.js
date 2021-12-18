@@ -48,7 +48,7 @@ class Dish {
 
 function consentToCookies(consented) {
   // Updates local storage if consent changes
-  let activated = localStorage.getItem("activatedCookies")
+  let activated = JSON.parse(localStorage.getItem("activatedCookies"));
   if (consented === true && activated != true) {
     updateLocalStorage();
     localStorage.setItem("activatedCookies", "true");
@@ -60,7 +60,9 @@ function consentToCookies(consented) {
 
 function updateLocalStorage() {
   // Updates locale storage to include current version of dishes
-  localStorage.setItem("dishes", JSON.stringify(dishes));
+  if (JSON.parse(localStorage.getItem("activatedCookies")) === true) {
+    localStorage.setItem("dishes", JSON.stringify(dishes));
+  };
 };
 
 function openAndCollapse(element) {
@@ -77,7 +79,6 @@ function loadDish(dish) {
   // Appends name paragraph
   let pName = document.createElement("p");
   let name = document.createTextNode(dish.name);
-  // TODO: classList add has to be new line (after create element)
   pName.appendChild(name)
   outputItem.appendChild(pName);
   // Append collapse button
@@ -126,7 +127,7 @@ function createDish(name, weekdays, dates, freq, id) {
   // Creates a new Dish object and saves it to cookies if enabled
   dish = new Dish(name, weekdays.slice(0), dates, freq, id);
   addDish(dish);
-  // TODO: add dishes array to cookies if activated
+  updateLocalStorage();
 };
 
 function addDish(dish) {
@@ -151,5 +152,6 @@ createDish("c", [true, false, true, true, true, true, true], null, 4, 3);
 // TODO: Ask about cookies.
 // TODO: Load dishes saved in local storage on load
 // TODO: Edit dish function.
-/* NOTE: Generate menu function which should be entirely based on dishes and
+// TODO: Generate menu function
+/* NOTE: Generate menu function should be entirely based on dishes and
 their data in menu Array. So that data from it can be shared between devices. */
