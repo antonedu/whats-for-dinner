@@ -70,7 +70,7 @@ class OutputDish extends React.Component {
           <p>{'Weekdays: ' + (this.props.weekdaysStr)}</p>
         </div>
         <div className="output-button-wrapper">
-          <button className="red threed-button">Remove</button>
+          <button className="red threed-button" onClick={() => console.log("removed")}>Remove</button>
         </div>
       </div>
     )
@@ -107,7 +107,7 @@ function consentToCookies(consented) {
 function updateLocalStorage() {
   // Updates locale storage to include current version of dishes
   if (JSON.parse(localStorage.getItem("activatedCookies")) === true) {
-    localStorage.setItem("dishes", JSON.stringify(dishes));
+    localStorage.setItem("dishes", JSON.stringify(dishArray));
   };
 };
 
@@ -138,12 +138,22 @@ function dishFromObject(obj) {
   };
 };
 
-createDish("a", [false, false, false, false, false, false, false], null, 4, 1);
-createDish("b", [true, true, true, true, true, true, true], null, 8, 2);
-createDish("c", [true, false, true, true, true, true, true], null, 4, 3);
+function loadStoredDishes() {
+  let storedObjs = null;
+  if (JSON.parse(localStorage.getItem('activatedCookies'))) {
+    storedObjs = JSON.parse(localStorage.getItem('dishes'));
+  }
+  if (storedObjs) {
+    for (let obj of storedObjs) {
+      dishFromObject(obj)
+    }
+  }
+}
+
+loadStoredDishes();
+loadDishes();
 
 // TODO: Ask about cookies.
-// TODO: Load dishes saved in local storage on load
 // TODO: Edit dish function.
 // TODO: Generate menu function
 /* NOTE: Generate menu function should be entirely based on dishes and
