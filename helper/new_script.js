@@ -1,8 +1,7 @@
-
 // Constants
 
 // Variables
-var dishes = new Array();
+var dishArray = new Array();
 var activatedCookies = false;
 
 class Dish {
@@ -60,8 +59,8 @@ class OutputDish extends React.Component {
     return (
       <div className={'output-item ' + (this.state.collapsed ? 'collapsed' : 'not-collapsed')}>
         <p>{this.props.name}</p>
-        <button className="collapse" onClick={() => setState({collapsed: !this.state.collapsed})}>
-          <i className="fas fa-chevron-down"></i>
+        <button className="collapse" onClick={() => this.setState({collapsed: !this.state.collapsed})}>
+          <i className={'fas fa-chevron-' + (this.state.collapsed ? 'down' : 'up')}></i>
         </button>
         <div className="output-info">
           <p>{'Frequency: ' + (this.props.freq)}</p>
@@ -149,11 +148,30 @@ function loadDish(dish) {
   ReactDOM.render(<OutputDish key={dish.id} name={dish.name} freq={dish.freq} weekdaysStr={dish.weekdaysStr} id={dish.id} />, document.getElementById("output-items"))
 }
 
+// function loadDishes() {
+//   // Loads all dishes to html
+//   for (let dish of dishes) {
+//     loadDish(dish);
+//   };
+// };
+
+function Dishes(props) {
+  const dishes = dishArray.map((dish) => {
+    return (<OutputDish
+      key={dish.id}
+      name={dish.name}
+      freq={dish.freq}
+      weekdaysStr={dish.weekdaysStr}
+      id={dish.id}
+    />)});
+    return (
+      <ul>{dishes}</ul>
+    )
+}
+
 function loadDishes() {
   // Loads all dishes to html
-  for (let dish of dishes) {
-    loadDish(dish);
-  };
+  ReactDOM.render(<Dishes />, document.getElementById("output-items"))
 };
 
 function createDish(name, weekdays, dates, freq, id) {
@@ -165,7 +183,7 @@ function createDish(name, weekdays, dates, freq, id) {
 
 function addDish(dish) {
   // Adds dish to dishes array
-  dishes.push(dish);
+  dishArray.push(dish);
 };
 
 function dishFromObject(obj) {

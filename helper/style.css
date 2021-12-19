@@ -10,6 +10,12 @@ body {
   padding: 0;
 }
 
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
 .hide {
   display: none;
 }
@@ -132,12 +138,12 @@ header .header-button-wrapper button {
 
 #main .output-wrapper #output-items .collapsed {
   max-height: 2.4em;
-  transition: max-height 1.2s ease-out;
+  /* transition: max-height 0.2s; */
 }
 
 #main .output-wrapper #output-items .not-collapsed {
   max-height: 10000px;
-  transition: max-height 1.2s ease-in;
+  /* transition: max-height 0.2s; */
 }
 
 #main .output-wrapper #output-items .output-item p {
