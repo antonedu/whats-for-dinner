@@ -8,6 +8,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&family=Roboto&display=swap" rel="stylesheet">
   <script src="https://kit.fontawesome.com/07c0f666e4.js" crossorigin="anonymous"></script>
+  <!-- React library import -->
+  <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script>
+  <!-- Babel for testing with precompiling -->
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js" crossorigin></script>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/png" href="../assets/logo.png">
   <title>What's for Dinner | helper</title>
@@ -41,26 +46,10 @@
       <div id="output-head">
         <h1>Dishes</h1>
       </div>
-      <!-- TODO: Add dish module -->
-      <!-- Testing output -->
-      <div id="output-items">
-        <div class="output-item collapsed">
-          <p>jaCNBvhbaibjhIDBVrishbvpRISBVIsrbvpiUJEIOQhvpouarhbiuhanivubIOLVRBUwehpviuBRVOILADBHRPIOBVHTHBNSIOL</p>
-          <button class="collapse" onclick="openAndCollapse(document.querySelectorAll('#output-items .output-item')[0])"><i class="fas fa-chevron-down"></i></button>
-          <div class="output-info">
-            <p>Frequency: 7</p>
-            <p>Weekdays: mon, tue, wed, thu, fri, sat</p>
-          </div>
-          <div class="output-button-wrapper">
-            <button class="red threed-button">
-              Remove
-            </button>
-          </div>
-        </div>
-      </div>
+      <div id="output-items"></div>
     </div>
   </section>
-  <script src="new_script.js"></script>
+  <script type="text/babel" src="new_script.js" crossorigin></script>
 </body>
 
 </html>

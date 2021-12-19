@@ -1,3 +1,4 @@
+
 // Constants
 
 // Variables
@@ -46,6 +47,34 @@ class Dish {
   }
 };
 
+// output-item react component
+class OutputDish extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      collapsed: true,
+    }
+  }
+
+  render() {
+    return (
+      <div className={'output-item ' + (this.state.collapsed ? 'collapsed' : 'not-collapsed')}>
+        <p>{this.props.name}</p>
+        <button className="collapse" onClick={() => setState({collapsed: !this.state.collapsed})}>
+          <i className="fas fa-chevron-down"></i>
+        </button>
+        <div className="output-info">
+          <p>{'Frequency: ' + (this.props.freq)}</p>
+          <p>{'Weekdays: ' + (this.props.weekdaysStr)}</p>
+        </div>
+        <div className="output-button-wrapper">
+          <button className="red threed-button">Remove</button>
+        </div>
+      </div>
+    )
+  }
+}
+
 function consentToCookies(consented) {
   // Updates local storage if consent changes
   let activated = JSON.parse(localStorage.getItem("activatedCookies"));
@@ -71,50 +100,54 @@ function openAndCollapse(element) {
   element.classList.toggle("not-collapsed");
 };
 
+// function loadDish(dish) {
+//   // Adds dish element to the end of #output-items
+//   // Creates output-item element
+//   let outputItem = document.createElement("div");
+//   outputItem.classList.add("output-item", "collapsed")
+//   // Appends name paragraph
+//   let pName = document.createElement("p");
+//   let name = document.createTextNode(dish.name);
+//   pName.appendChild(name);
+//   outputItem.appendChild(pName);
+//   // Append collapse button
+//   let collapseButton = document.createElement("button");
+//   collapseButton.classList.add("collapse");
+//   collapseButton.setAttribute("onclick", `openAndCollapse(document.querySelectorAll('#output-items .output-item')[${dish.id}])`);
+//   let collapseIcon = document.createElement("i");
+//   collapseIcon.classList.add("fas", "fa-chevron-down");
+//   collapseButton.appendChild(collapseIcon);
+//   outputItem.appendChild(collapseButton);
+//   // Appends output info
+//   let outputInfo = document.createElement("div");
+//   outputInfo.classList.add("output-info");
+//   let pFreq = document.createElement("p");
+//   let pWeekdays = document.createElement("p");
+//   let freq = document.createTextNode(`Frequency: ${dish.freq}`);
+//   let weekdays = document.createTextNode(`Weekdays: ${dish.weekdaysStr}`);
+//   pFreq.appendChild(freq);
+//   pWeekdays.appendChild(weekdays);
+//   outputInfo.appendChild(pFreq);
+//   outputInfo.appendChild(pWeekdays);
+//   outputItem.appendChild(outputInfo);
+//   // Appends remove button and wrapper
+//   let editButtonWrapper = document.createElement("div");
+//   editButtonWrapper.classList.add("output-button-wrapper");
+//   let editButton = document.createElement("button");
+//   editButton.classList.add("red", "threed-button");
+//   // TODO: see other button (setAttribute) when it's time
+//   // NOTE: remove should be an option after edit has been initialized
+//   let editButtonText = document.createTextNode("Remove");
+//   editButton.appendChild(editButtonText);
+//   editButtonWrapper.appendChild(editButton);
+//   outputItem.appendChild(editButtonWrapper);
+//   // Appends output-item to output-items
+//   document.getElementById("output-items").appendChild(outputItem);
+// };
+
 function loadDish(dish) {
-  // Adds dish element to the end of #output-items
-  // Creates output-item element
-  let outputItem = document.createElement("div");
-  outputItem.classList.add("output-item", "collapsed")
-  // Appends name paragraph
-  let pName = document.createElement("p");
-  let name = document.createTextNode(dish.name);
-  pName.appendChild(name)
-  outputItem.appendChild(pName);
-  // Append collapse button
-  let collapseButton = document.createElement("button");
-  collapseButton.classList.add("collapse");
-  collapseButton.setAttribute("onclick", `openAndCollapse(document.querySelectorAll('#output-items .output-item')[${dish.id}])`);
-  let collapseIcon = document.createElement("i");
-  collapseIcon.classList.add("fas", "fa-chevron-down");
-  collapseButton.appendChild(collapseIcon);
-  outputItem.appendChild(collapseButton);
-  // Appends output info
-  let outputInfo = document.createElement("div");
-  outputInfo.classList.add("output-info");
-  let pFreq = document.createElement("p");
-  let pWeekdays = document.createElement("p");
-  let freq = document.createTextNode(`Frequency: ${dish.freq}`);
-  let weekdays = document.createTextNode(`Weekdays: ${dish.weekdaysStr}`);
-  pFreq.appendChild(freq);
-  pWeekdays.appendChild(weekdays);
-  outputInfo.appendChild(pFreq);
-  outputInfo.appendChild(pWeekdays);
-  outputItem.appendChild(outputInfo);
-  // Appends remove button and wrapper
-  let editButtonWrapper = document.createElement("div");
-  editButtonWrapper.classList.add("output-button-wrapper");
-  let editButton = document.createElement("button");
-  editButton.classList.add("red", "threed-button");
-  // TODO: see other button (setAttribute) when it's time
-  // NOTE: remove should be an option after edit has been initialized
-  let editButtonText = document.createTextNode("Remove");
-  editButton.appendChild(editButtonText);
-  editButtonWrapper.appendChild(editButton);
-  outputItem.appendChild(editButtonWrapper);
-  // Appends output-item to output-items
-  document.getElementById("output-items").appendChild(outputItem);
-};
+  ReactDOM.render(<OutputDish key={dish.id} name={dish.name} freq={dish.freq} weekdaysStr={dish.weekdaysStr} id={dish.id} />, document.getElementById("output-items"))
+}
 
 function loadDishes() {
   // Loads all dishes to html
@@ -125,7 +158,7 @@ function loadDishes() {
 
 function createDish(name, weekdays, dates, freq, id) {
   // Creates a new Dish object and saves it to cookies if enabled
-  dish = new Dish(name, weekdays.slice(0), dates, freq, id);
+  let dish = new Dish(name, weekdays.slice(0), dates, freq, id);
   addDish(dish);
   updateLocalStorage();
 };
@@ -155,3 +188,4 @@ createDish("c", [true, false, true, true, true, true, true], null, 4, 3);
 // TODO: Generate menu function
 /* NOTE: Generate menu function should be entirely based on dishes and
 their data in menu Array. So that data from it can be shared between devices. */
+// TODO: Rewrite loadDish to use React
