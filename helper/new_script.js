@@ -54,10 +54,6 @@ class App extends React.Component {
     };
   };
 
-  handleRemove() {
-    this.setState({listOfDishes: this.state.listOfDishes.concat(dishFromObject({name: 'b', weekdays: 0, dates: null, freq: 8, id: 2}))})
-  }
-
   updateLocalStorage() {
     // Updates locale storage to include current version of dishes
     if (JSON.parse(localStorage.getItem("activatedCookies")) === true) {
@@ -83,11 +79,20 @@ class App extends React.Component {
     this.updateLocalStorage();
   };
 
+  async removeDish(id) {
+    let newDishesObj = Object.assign({}, this.state.listOfDishes);
+    if (newDishesObj.hasOwnProperty(id)) {
+      delete newDishesObj[id];
+    }
+    await this.setState({listOfDishes: newDishesObj});
+    this.updateLocalStorage();
+  }
+
   render() {
     return (
       <div>
-      <DishesList onRemove={() => this.handleRemove()} dishes={this.state.listOfDishes} />
-      <button onClick={() => {this.addDish("test", [false, false, false, false, false, false, false], null, 7)}}>Click me!</button>
+        <DishesList onRemove={id => this.removeDish(id)} dishes={this.state.listOfDishes} />
+        <button onClick={() => {this.addDish("test", [false, false, false, false, false, false, false], null, 7)}}>Click me!</button>
       </div>
     )
   }
@@ -113,7 +118,7 @@ class OutputDish extends React.Component {
           <p>{'Weekdays: ' + (this.props.weekdaysStr)}</p>
         </div>
         <div className="output-button-wrapper">
-          <button className="red threed-button" onClick={() => this.props.onRemove()}>Remove</button>
+          <button className="red threed-button" onClick={() => this.props.onRemove(this.props.id)}>Remove</button>
         </div>
       </div>
     )
@@ -127,7 +132,7 @@ class DishesList extends React.Component {
     let currentDish = null;
     for (let key in this.props.dishes) {
       currentDish = this.props.dishes[key]
-      console.log(key)
+      // console.log(key)
       dishes.push(
         <OutputDish
           name={currentDish.name}
@@ -135,7 +140,7 @@ class DishesList extends React.Component {
           weekdaysStr={currentDish.weekdaysStr}
           id={currentDish.id}
           key={key}
-          onRemove={() => this.props.onRemove()}
+          onRemove={id => this.props.onRemove(id)}
         />
       )
     }
