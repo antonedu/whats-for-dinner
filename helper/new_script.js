@@ -65,9 +65,30 @@ class App extends React.Component {
     };
   };
 
+  async addDish(name, weekdays, dates, freq) {
+    // Creates a new Dish object with a unique ID (and saves it to cookies if enabled)
+    let id;
+    let notUnique = true;
+    let newDishesObj = Object.assign({}, this.state.listOfDishes);
+
+    do {
+      id = generateID(4);
+      if (!newDishesObj.hasOwnProperty(id)) {
+        notUnique = false;
+      };
+    } while (notUnique);
+
+    newDishesObj[id] = new Dish(id, weekdays.slice(0), dates, freq, id);
+    await this.setState({listOfDishes: newDishesObj});
+    this.updateLocalStorage();
+  };
+
   render() {
     return (
+      <div>
       <DishesList onRemove={() => this.handleRemove()} dishes={this.state.listOfDishes} />
+      <button onClick={() => {this.addDish("test", [false, false, false, false, false, false, false], null, 7)}}>Click me!</button>
+      </div>
     )
   }
 };
@@ -102,18 +123,25 @@ class OutputDish extends React.Component {
 class DishesList extends React.Component {
   // Unordered list of all dishes used when loadDishes is called
   render() {
-    const dishes = this.props.dishes.map((dish) => {
-      return (<OutputDish
-        // key={dish.id}
-        name={dish.name}
-        freq={dish.freq}
-        weekdaysStr={dish.weekdaysStr}
-        id={dish.id}
-        onRemove={() => this.props.onRemove()}
-      />)});
-      return (
-        <ul>{dishes}</ul>
+    const dishes = Array();
+    let currentDish = null;
+    for (let key in this.props.dishes) {
+      currentDish = this.props.dishes[key]
+      console.log(key)
+      dishes.push(
+        <OutputDish
+          name={currentDish.name}
+          freq={currentDish.freq}
+          weekdaysStr={currentDish.weekdaysStr}
+          id={currentDish.id}
+          key={key}
+          onRemove={() => this.props.onRemove()}
+        />
       )
+    }
+    return (
+      <ul>{dishes}</ul>
+    )
   }
 }
 
@@ -133,12 +161,6 @@ function consentToCookies(consented) {
   };
 };
 
-function createDish(name, weekdays, dates, freq, id) {
-  // Creates a new Dish object and saves it to cookies if enabled
-  let dish = new Dish(name, weekdays.slice(0), dates, freq, id);
-  updateLocalStorage();
-};
-
 function loadStoredDishes() {
   let storedDishes = null;
   let loadedDishes = Object();
@@ -147,7 +169,7 @@ function loadStoredDishes() {
   };
   if (storedDishes) {
     for (let key in storedDishes) {
-      loadedDishes[key] = dishFromObject
+      loadedDishes[key] = dishFromObject(storedDishes[key])
     };
   };
   return loadedDishes;
@@ -159,10 +181,18 @@ function dishFromObject(obj) {
   return new Dish(obj.name, obj.weekdays, obj.dates, obj.freq, obj.id);
 }
 
+function generateID(length) {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+  var charactersLength = characters.length;
+  for ( var i = 0; i < length; i++ ) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}
+
 // TODO: Ask about cookies.
 // TODO: Edit dish function.
 // TODO: Generate menu function
-// TODO: Figure out a way to have unique id's for dishes
-// TODO: Rewrite dishes represenation to be a object with random 6> letter string in base62 for search speed in
 /* NOTE: Generate menu function should be entirely based on dishes and
 their data in menu Array. So that data from it can be shared between devices. */
