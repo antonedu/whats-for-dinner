@@ -161,10 +161,10 @@ class OutputDish extends React.Component {
 
   render() {
     return (
-      <div className={'output-item ' + (this.state.collapsed ? 'collapsed' : 'not-collapsed')}>
+      <div className={'output-item ' + (this.props.collapsed ? 'collapsed' : 'not-collapsed')}>
         <p>{this.props.name}</p>
-        <button className="collapse" onClick={() => this.setState({collapsed: !this.state.collapsed})}>
-          <i className={'fas fa-chevron-' + (this.state.collapsed ? 'down' : 'up')}></i>
+        <button className="collapse" onClick={() => this.props.onCollapse(this.props.id)}>
+          <i className={'fas fa-chevron-' + (this.props.collapsed ? 'down' : 'up')}></i>
         </button>
         <div className="output-info">
           <p>{'Frequency: ' + (this.props.freq)}</p>
@@ -183,15 +183,15 @@ class DishesList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      collapsedID = null,
+      collapsedID: null,
     }
   }
 
   handleCollapse(id) {
     if (this.state.collapsedID == id) {
-      this.setState({collapsedID: null})
+      this.setState({collapsedID: null});
     } else {
-      this.setState({collapsedID: id})
+      this.setState({collapsedID: id});
     }
   }
 
@@ -209,6 +209,8 @@ class DishesList extends React.Component {
           id={currentDish.id}
           key={key}
           onRemove={id => this.props.onRemove(id)}
+          collapsed={!(this.state.collapsedID == currentDish.id)}
+          onCollapse={id => this.handleCollapse(id)}
         />
       )
     }
