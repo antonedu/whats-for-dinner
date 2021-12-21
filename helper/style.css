@@ -134,6 +134,8 @@ header .header-button-wrapper button {
   overflow: hidden;
 }
 
+/* TODO: Rewrite .dish-output-item to use flex(-box) instead of grid */
+
 #main #output-wrapper #output-items .dish-output-item {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
