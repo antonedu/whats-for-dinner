@@ -102,28 +102,24 @@ header .header-button-wrapper button {
 
 }
 
-#main .output-wrapper {
+#main #output-wrapper {
 
 }
 
-#main .output-wrapper #output-head {
-
-}
-
-#main .output-wrapper #output-head h1 {
+#main #output-wrapper #output-head {
   font-family: 'Open Sans', sans-serif;
   font-size: 2.8em;
   text-align: center;
   margin: 0 0 0.4em;
 }
 
-#main .output-wrapper #output-items {
+#main #output-wrapper #output-items {
   display: flex;
   font-family: 'Open Sans';
   flex-direction: column;
 }
 
-#main .output-wrapper #output-items .output-item {
+#main #output-wrapper #output-items .output-item {
   box-shadow: 0 3px 7px rgba(0,0,0,0.25), 0 3px 3px rgba(0,0,0,0.22);
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -136,24 +132,24 @@ header .header-button-wrapper button {
   overflow: hidden;
 }
 
-#main .output-wrapper #output-items .collapsed {
+#main #output-wrapper #output-items .collapsed {
   max-height: 2.4em;
   /* transition: max-height 0.2s; */
 }
 
-#main .output-wrapper #output-items .not-collapsed {
+#main #output-wrapper #output-items .not-collapsed {
   max-height: 10000px;
   /* transition: max-height 0.2s; */
 }
 
-#main .output-wrapper #output-items .output-item p {
+#main #output-wrapper #output-items .output-item p {
   grid-column: 1/5;
   margin: 0.35em 0 0.35em 4%;
   width: 96%;
   overflow-wrap: break-word;
 }
 
-#main .output-wrapper #output-items .output-item .collapse {
+#main #output-wrapper #output-items .output-item .collapse {
   position: relative;
   margin: 0 0 0 40%;
   padding: 0;
@@ -165,7 +161,7 @@ header .header-button-wrapper button {
   height: 3.8em;
 }
 
-#main .output-wrapper #output-items .output-item .collapse i {
+#main #output-wrapper #output-items .output-item .collapse i {
   position: absolute;
   font-size: 1.6em;
   top: 50%;
@@ -173,12 +169,12 @@ header .header-button-wrapper button {
   transform: translate(-50%, -50%);
 }
 
-#main .output-wrapper #output-items .output-item .output-info {
+#main #output-wrapper #output-items .output-item .output-info {
   margin-top: 1.3em;
   grid-column: 1/4;
 }
 
-#main .output-wrapper #output-items .output-item .output-info p {
+#main #output-wrapper #output-items .output-item .output-info p {
   font-family: 'Roboto';
   font-size: 0.6em;
   /* margin-left: 1.2em; */
@@ -186,11 +182,11 @@ header .header-button-wrapper button {
   padding: 0;
 }
 
-#main .output-wrapper #output-items .output-item .output-button-wrapper {
+#main #output-wrapper #output-items .output-item .output-button-wrapper {
   grid-column: 4/6;
 }
 
-#main .output-wrapper #output-items .output-item .output-button-wrapper button {
+#main #output-wrapper #output-items .output-item .output-button-wrapper button {
   --offset: 0px;
   float: right;
   border-radius: 1em;

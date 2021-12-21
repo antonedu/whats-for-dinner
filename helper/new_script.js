@@ -90,13 +90,24 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
-        <DishesList onRemove={id => this.removeDish(id)} dishes={this.state.listOfDishes} />
+      <div id="output-wrapper">
+        <OutputHead text={"Dishes"} />
+        <div id="output-items">
+          <DishesList onRemove={id => this.removeDish(id)} dishes={this.state.listOfDishes} />
+        </div>
         <button onClick={() => {this.addDish("test", [false, false, false, false, false, false, false], null, 7)}}>Click me!</button>
       </div>
     )
   }
 };
+
+// function Header
+
+function OutputHead(props) {
+  return (
+    <h1 id="output-head">{props.text}</h1>
+  )
+}
 
 class OutputDish extends React.Component {
   // output-item react component
@@ -150,7 +161,7 @@ class DishesList extends React.Component {
   }
 }
 
-ReactDOM.render(<App />, document.getElementById("output-items"))
+ReactDOM.render(<App />, document.getElementById("main"))
 
 // End of React components
 
