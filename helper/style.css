@@ -78,8 +78,8 @@ header #logo figure {
 }
 
 header #logo figure img {
-  max-height: 90%;
-  max-width: 90%;
+  max-height: 70%;
+  max-width: 70%;
   margin: auto;
   position: absolute;
   left: 50%;
