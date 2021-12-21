@@ -152,7 +152,7 @@ function OutputHead(props) {
 }
 
 class OutputDish extends React.Component {
-  // output-item react component
+  // dish-output-item react component
   // TODO: see other button (setAttribute) when it's time
   // NOTE: remove should be an option after edit has been initialized
   state = {
@@ -161,7 +161,7 @@ class OutputDish extends React.Component {
 
   render() {
     return (
-      <div className={'output-item ' + (this.props.collapsed ? 'collapsed' : 'not-collapsed')}>
+      <div className={'output-item dish-output-item ' + (this.props.collapsed ? 'collapsed' : 'not-collapsed')}>
         <p>{this.props.name}</p>
         <button className="collapse" onClick={() => this.props.onCollapse(this.props.dishID)}>
           <i className={'fas fa-chevron-' + (this.props.collapsed ? 'down' : 'up')}></i>

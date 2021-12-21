@@ -124,20 +124,20 @@ header .header-button-wrapper button {
   flex-direction: column;
 }
 
-/* TODO: Change output-item to be default styling for all blocks in output field */
-/* TODO: Redo (to be) .dish-output-item to use flexbox instead of grid */
-
 #main #output-wrapper #output-items .output-item {
   box-shadow: 0 3px 7px rgba(0,0,0,0.25), 0 3px 3px rgba(0,0,0,0.22);
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  min-height: 2.4em;
   line-height: 1.7em;
   background-color: #fff;
   border-radius: 10px;
   margin: 0 5px 10px;
   font-size: 1.2em;
   overflow: hidden;
+}
+
+#main #output-wrapper #output-items .dish-output-item {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  min-height: 2.4em;
 }
 
 #main #output-wrapper #output-items .collapsed {
@@ -150,14 +150,14 @@ header .header-button-wrapper button {
   /* transition: max-height 0.2s; */
 }
 
-#main #output-wrapper #output-items .output-item p {
+#main #output-wrapper #output-items .dish-output-item p {
   grid-column: 1/5;
   margin: 0.35em 0 0.35em 4%;
   width: 96%;
   overflow-wrap: break-word;
 }
 
-#main #output-wrapper #output-items .output-item .collapse {
+#main #output-wrapper #output-items .dish-output-item .collapse {
   position: relative;
   margin: 0 0 0 40%;
   padding: 0;
@@ -169,7 +169,7 @@ header .header-button-wrapper button {
   height: 3.8em;
 }
 
-#main #output-wrapper #output-items .output-item .collapse i {
+#main #output-wrapper #output-items .dish-output-item .collapse i {
   position: absolute;
   font-size: 1.6em;
   top: 50%;
@@ -177,12 +177,12 @@ header .header-button-wrapper button {
   transform: translate(-50%, -50%);
 }
 
-#main #output-wrapper #output-items .output-item .output-info {
+#main #output-wrapper #output-items .dish-output-item .output-info {
   margin-top: 1.3em;
   grid-column: 1/4;
 }
 
-#main #output-wrapper #output-items .output-item .output-info p {
+#main #output-wrapper #output-items .dish-output-item .output-info p {
   font-family: 'Roboto';
   font-size: 0.6em;
   /* margin-left: 1.2em; */
@@ -190,11 +190,11 @@ header .header-button-wrapper button {
   padding: 0;
 }
 
-#main #output-wrapper #output-items .output-item .output-button-wrapper {
+#main #output-wrapper #output-items .dish-output-item .output-button-wrapper {
   grid-column: 4/6;
 }
 
-#main #output-wrapper #output-items .output-item .output-button-wrapper button {
+#main #output-wrapper #output-items .dish-output-item .output-button-wrapper button {
   --offset: 0px;
   float: right;
   border-radius: 1em;
