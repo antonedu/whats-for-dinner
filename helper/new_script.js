@@ -5,12 +5,12 @@ var activatedCookies = false;
 
 class Dish {
   // Dish class
-  constructor(name, weekdays, dates, freq, id) {
+  constructor(name, weekdays, dates, freq, dishID) {
     this.name = name;
     this.weekdays = this.replaceWeekdays(weekdays);
     this.dates = dates;
     this.freq = freq;
-    this.id = id;
+    this.dishID = dishID;
   };
 
   get weekdaysStr() {
@@ -163,7 +163,7 @@ class OutputDish extends React.Component {
     return (
       <div className={'output-item ' + (this.props.collapsed ? 'collapsed' : 'not-collapsed')}>
         <p>{this.props.name}</p>
-        <button className="collapse" onClick={() => this.props.onCollapse(this.props.id)}>
+        <button className="collapse" onClick={() => this.props.onCollapse(this.props.dishID)}>
           <i className={'fas fa-chevron-' + (this.props.collapsed ? 'down' : 'up')}></i>
         </button>
         <div className="output-info">
@@ -171,7 +171,7 @@ class OutputDish extends React.Component {
           <p>{'Weekdays: ' + (this.props.weekdaysStr)}</p>
         </div>
         <div className="output-button-wrapper">
-          <button className="red threed-button" onClick={() => this.props.onRemove(this.props.id)}>Remove</button>
+          <button className="red threed-button" onClick={() => this.props.onRemove(this.props.dishID)}>Remove</button>
         </div>
       </div>
     )
@@ -206,10 +206,10 @@ class DishesList extends React.Component {
           name={currentDish.name}
           freq={currentDish.freq}
           weekdaysStr={currentDish.weekdaysStr}
-          id={currentDish.id}
+          dishID={currentDish.dishID}
           key={key}
           onRemove={id => this.props.onRemove(id)}
-          collapsed={!(this.state.collapsedID == currentDish.id)}
+          collapsed={!(this.state.collapsedID == currentDish.dishID)}
           onCollapse={id => this.handleCollapse(id)}
         />
       )
@@ -253,7 +253,7 @@ function loadStoredDishes() {
 function dishFromObject(obj) {
   // Converts a dish-like object into a dish
   // Used when loading dishes from local storage
-  return new Dish(obj.name, obj.weekdays, obj.dates, obj.freq, obj.id);
+  return new Dish(obj.name, obj.weekdays, obj.dates, obj.freq, obj.dishID);
 }
 
 function generateID(length) {
