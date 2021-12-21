@@ -5,12 +5,12 @@ var activatedCookies = false;
 
 class Dish {
   // Dish class
-  constructor(name, weekdays, dates, freq, dishID) {
+  constructor(name, weekdays, dates, freq, id) {
     this.name = name;
     this.weekdays = this.replaceWeekdays(weekdays);
     this.dates = dates;
     this.freq = freq;
-    this.dishID = dishID;
+    this.id = id;
   };
 
   get weekdaysStr() {
@@ -206,10 +206,10 @@ class DishesList extends React.Component {
           name={currentDish.name}
           freq={currentDish.freq}
           weekdaysStr={currentDish.weekdaysStr}
-          dishID={currentDish.dishID}
+          dishID={currentDish.id}
           key={key}
           onRemove={id => this.props.onRemove(id)}
-          collapsed={!(this.state.collapsedID == currentDish.dishID)}
+          collapsed={!(this.state.collapsedID == currentDish.id)}
           onCollapse={id => this.handleCollapse(id)}
         />
       )
@@ -253,7 +253,7 @@ function loadStoredDishes() {
 function dishFromObject(obj) {
   // Converts a dish-like object into a dish
   // Used when loading dishes from local storage
-  return new Dish(obj.name, obj.weekdays, obj.dates, obj.freq, obj.dishID);
+  return new Dish(obj.name, obj.weekdays, obj.dates, obj.freq, obj.id);
 }
 
 function generateID(length) {
