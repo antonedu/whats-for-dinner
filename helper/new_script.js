@@ -90,18 +90,60 @@ class App extends React.Component {
 
   render() {
     return (
-      <div id="output-wrapper">
-        <OutputHead text={"Dishes"} />
-        <div id="output-items">
-          <DishesList onRemove={id => this.removeDish(id)} dishes={this.state.listOfDishes} />
+      <div id="wrapper">
+      <Header />
+      <section id="main">
+        <div id="output-wrapper">
+          <OutputHead text={"Dishes"} />
+          <div id="output-items">
+            <DishesList onRemove={id => this.removeDish(id)} dishes={this.state.listOfDishes} />
+          </div>
+          <button onClick={() => {this.addDish("test", [false, false, false, false, false, false, false], null, 7)}}>Click me!</button>
         </div>
-        <button onClick={() => {this.addDish("test", [false, false, false, false, false, false, false], null, 7)}}>Click me!</button>
+      </section>
       </div>
     )
   }
 };
 
-// function Header
+class Header extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeButtons: ["add", "change", "settings"],
+    };
+  };
+
+  render() {
+    const buttons = this.state.activeButtons.map((button) => {
+        <HeaderButton onClick={() => console.log("temp")} />
+      }
+    );
+
+    return (
+      <header>
+        <a href="../index.html" id="logo">
+          <figure>
+            <img src="../assets/logo.png" alt="logo" />
+          </figure>
+        </a>
+        <HeaderButton icon="plus" onClick={() => console.log("createDish")} />
+        <HeaderButton icon="redo-alt" onClick={() => console.log("regenerateMenu")} />
+        <HeaderButton icon="utensils" onClick={() => console.log("changeToMenuView")} />
+      </header>
+    );
+  };
+}
+
+function HeaderButton(props) {
+  return (
+    <div className="header-button-wrapper">
+      <button className="green threed-button" onClick={() => props.onClick()}>
+        <figure><i className={'fas fa-' + props.icon}></i></figure>
+      </button>
+    </div>
+  );
+}
 
 function OutputHead(props) {
   return (
@@ -138,6 +180,21 @@ class OutputDish extends React.Component {
 
 class DishesList extends React.Component {
   // Unordered list of all dishes used when loadDishes is called
+  constructor(props) {
+    super(props);
+    this.state = {
+      collapsedID = null,
+    }
+  }
+
+  handleCollapse(id) {
+    if (this.state.collapsedID == id) {
+      this.setState({collapsedID: null})
+    } else {
+      this.setState({collapsedID: id})
+    }
+  }
+
   render() {
     const dishes = Array();
     let currentDish = null;
@@ -161,7 +218,7 @@ class DishesList extends React.Component {
   }
 }
 
-ReactDOM.render(<App />, document.getElementById("main"))
+ReactDOM.render(<App />, document.getElementById("root"))
 
 // End of React components
 
