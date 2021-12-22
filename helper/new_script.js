@@ -90,6 +90,7 @@ class App extends React.Component {
 
   render() {
     return (
+      <React.StrictMode>
       <div id="wrapper">
       <Header />
       <section id="main">
@@ -102,6 +103,7 @@ class App extends React.Component {
         </div>
       </section>
       </div>
+      </React.StrictMode>
     )
   }
 };
@@ -162,16 +164,24 @@ class OutputDish extends React.Component {
   render() {
     return (
       <div className={'output-item dish-output-item ' + (this.props.collapsed ? 'collapsed' : 'not-collapsed')}>
-        <p>{this.props.name}</p>
-        <button className="collapse" onClick={() => this.props.onCollapse(this.props.dishID)}>
-          <i className={'fas fa-chevron-' + (this.props.collapsed ? 'down' : 'up')}></i>
-        </button>
-        <div className="output-info">
-          <p>{'Frequency: ' + (this.props.freq)}</p>
-          <p>{'Weekdays: ' + (this.props.weekdaysStr)}</p>
+        <div className="preview">
+          <div className="title">
+            <p>{this.props.name}</p>
+          </div>
+          <div className="collapse-button-wrapper">
+            <button className="collapse" onClick={() => this.props.onCollapse(this.props.dishID)}>
+              <i className={'fas fa-chevron-' + (this.props.collapsed ? 'down' : 'up')}></i>
+            </button>
+          </div>
         </div>
-        <div className="output-button-wrapper">
-          <button className="red threed-button" onClick={() => this.props.onRemove(this.props.dishID)}>Remove</button>
+        <div className="output-footer">
+          <div className="output-info">
+            <p>{'Frequency: ' + (this.props.freq)}</p>
+            <p>{'Weekdays: ' + (this.props.weekdaysStr)}</p>
+          </div>
+          <div className="output-button-wrapper">
+            <button className="red threed-button" onClick={() => this.props.onRemove(this.props.dishID)}>Remove</button>
+          </div>
         </div>
       </div>
     )
