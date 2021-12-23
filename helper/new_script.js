@@ -130,8 +130,8 @@ class Header extends React.Component {
           </figure>
         </a>
         <HeaderButton icon="plus" onClick={() => console.log("createDish")} />
-        <HeaderButton icon="redo-alt" onClick={() => console.log("regenerateMenu")} />
-        <HeaderButton icon="utensils" onClick={() => console.log("changeToMenuView")} />
+        <HeaderButton icon="drumstick-bite" onClick={() => console.log("regenerateMenu")} />
+        <HeaderButton icon="cog" onClick={() => console.log("changeToMenuView")} />
       </header>
     );
   };
