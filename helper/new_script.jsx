@@ -53,16 +53,19 @@ class App extends React.Component {
       listOfDishes: loadStoredDishes(),
       headerButtons: {
         first: {
+          title: "Add dish",
           icon: "plus",
           onClick: () => console.log("plus"),
           visable: true
         },
         second: {
+          title: "Switch to menu",
           icon: "utensils",
           onClick: () => this.updateHeaderButtons("Menu"),
           visable: true
         },
         third: {
+          title: "Settings",
           icon: "cog",
           onClick: () => this.updateHeaderButtons("Settings"),
           visable: true
@@ -80,6 +83,7 @@ class App extends React.Component {
   };
 
   updateHeaderButtons(content) {
+    const back = this.state.content == "Dishes" ? "Dishes" : "Menu";
     const headerButtons = {
       Dishes: {
         first: {
@@ -117,18 +121,18 @@ class App extends React.Component {
       },
       Settings: {
         first: {
-          icon: "plus",
-          onClick: () => {return null},
+          icon: "drumstick-bite",
+          onClick: () => this.updateHeaderButtons("Dishes"),
           visable: false
         },
         second: {
-          icon: "drumstick-bite",
-          onClick: () => this.updateHeaderButtons("Dishes"),
+          icon: "chevron-left",
+          onClick: () => this.updateHeaderButtons(back),
           visable: true
         },
         third: {
-          icon: "utensils",
-          onClick: () => this.updateHeaderButtons("Menu"),
+          icon: "save",
+          onClick: () => console.log("saved"),
           visable: true
         }
       }
@@ -171,16 +175,16 @@ class App extends React.Component {
     return (
       <React.StrictMode>
       <div id="wrapper">
-      <Header first={this.state.headerButtons.first} second={this.state.headerButtons.second} third={this.state.headerButtons.third} />
-      <section id="main">
-        <div id="output-wrapper">
-          <OutputHead text={this.state.content} />
-          <div id="output-items">
-            <DishesList onRemove={id => this.removeDish(id)} dishes={this.state.listOfDishes} />
+        <Header first={this.state.headerButtons.first} second={this.state.headerButtons.second} third={this.state.headerButtons.third} />
+        <section id="main">
+          <div id="output-wrapper">
+            <OutputHead text={this.state.content} />
+            <div id="output-items">
+              <DishesList onRemove={id => this.removeDish(id)} dishes={this.state.listOfDishes} />
+            </div>
+            <button onClick={() => {this.addDish("test", [false, false, false, false, false, false, false], null, 7)}}>Click me!</button>
           </div>
-          <button onClick={() => {this.addDish("test", [false, false, false, false, false, false, false], null, 7)}}>Click me!</button>
-        </div>
-      </section>
+        </section>
       </div>
       </React.StrictMode>
     )
@@ -203,9 +207,9 @@ class Header extends React.Component {
             <img src="../assets/logo.png" alt="logo" />
           </figure>
         </a>
-        <HeaderButton icon={this.props.first.icon} onClick={() => this.props.first.onClick()} visable={this.props.first.visable} />
-        <HeaderButton icon={this.props.second.icon} onClick={() => this.props.second.onClick()} visable={this.props.second.visable} />
-        <HeaderButton icon={this.props.third.icon} onClick={() => this.props.third.onClick()} visable={this.props.third.visable} />
+        <HeaderButton icon={this.props.first.icon} title={this.props.first.title} onClick={() => this.props.first.onClick()} visable={this.props.first.visable} />
+        <HeaderButton icon={this.props.second.icon} title={this.props.second.title} onClick={() => this.props.second.onClick()} visable={this.props.second.visable} />
+        <HeaderButton icon={this.props.third.icon} title={this.props.third.title} onClick={() => this.props.third.onClick()} visable={this.props.third.visable} />
       </header>
     );
   };
@@ -221,7 +225,7 @@ function HeaderButton(props) {
 
   return (
     <div className="header-button-wrapper">
-      <button className={styling} onClick={() => props.onClick()}>
+      <button title={props.title} alt={props.title} className={styling} onClick={() => props.onClick()}>
         <figure><i className={'fas fa-' + props.icon}></i></figure>
       </button>
     </div>
@@ -234,7 +238,7 @@ function OutputHead(props) {
   )
 }
 
-class OutputDish extends React.Component {
+class DishItem extends React.Component {
   // dish-output-item react component
   // TODO: see other button (setAttribute) when it's time
   // NOTE: remove should be an option after edit has been initialized
@@ -293,7 +297,7 @@ class DishesList extends React.Component {
       currentDish = this.props.dishes[key]
       // console.log(key)
       dishes.push(
-        <OutputDish
+        <DishItem
           name={currentDish.name}
           freq={currentDish.freq}
           weekdaysStr={currentDish.weekdaysStr}
@@ -306,9 +310,25 @@ class DishesList extends React.Component {
       )
     }
     return (
-      <ul>{dishes}</ul>
+      <ul>{dishes.reverse()}</ul>
     )
   }
+}
+
+function MenuItem(props) {
+  return (
+    <div className={'output-item menu-output-item'}>
+      <div className="preview">
+        <div className="title">
+          <p>{props.name}</p>
+        </div>
+        <div className="menu-day">
+          <p className="weekday">{props.weekday}</p>
+          <p className="date">{`${props.day} ${props.month}`}</p>
+        </div>
+      </div>
+    </div>
+  )
 }
 
 ReactDOM.render(<App />, document.getElementById("root"))
