@@ -74,7 +74,7 @@ class App extends React.Component {
       };
     } while (notUnique);
 
-    newDishesObj[id] = new Dish(id, weekdays.slice(0), dates, freq, id);
+    newDishesObj[id] = new Dish(generateID(128), weekdays.slice(0), dates, freq, id);
     await this.setState({listOfDishes: newDishesObj});
     this.updateLocalStorage();
   };
