@@ -51,6 +51,24 @@ class App extends React.Component {
     super(props);
     this.state = {
       listOfDishes: loadStoredDishes(),
+      headerButtons: {
+        first: {
+          icon: "plus",
+          onClick: () => console.log("plus"),
+          visable: true
+        },
+        second: {
+          icon: "utensils",
+          onClick: () => this.updateHeaderButtons("Menu"),
+          visable: true
+        },
+        third: {
+          icon: "cog",
+          onClick: () => this.updateHeaderButtons("Settings"),
+          visable: true
+        }
+      },
+      content: "Dishes"
     };
   };
 
@@ -60,6 +78,67 @@ class App extends React.Component {
       localStorage.setItem("dishes", JSON.stringify(this.state.listOfDishes));
     };
   };
+
+  updateHeaderButtons(content) {
+    const headerButtons = {
+      Dishes: {
+        first: {
+          icon: "plus",
+          onClick: () => console.log("plus"),
+          visable: true
+        },
+        second: {
+          icon: "utensils",
+          onClick: () => this.updateHeaderButtons("Menu"),
+          visable: true
+        },
+        third: {
+          icon: "cog",
+          onClick: () => this.updateHeaderButtons("Settings"),
+          visable: true
+        }
+      },
+      Menu: {
+        first: {
+          icon: "redo-alt",
+          onClick: () => console.log("re-generate"),
+          visable: true
+        },
+        second: {
+          icon: "drumstick-bite",
+          onClick: () => this.updateHeaderButtons("Dishes"),
+          visable: true
+        },
+        third: {
+          icon: "cog",
+          onClick: () => this.updateHeaderButtons("Settings"),
+          visable: true
+        }
+      },
+      Settings: {
+        first: {
+          icon: "plus",
+          onClick: () => {return null},
+          visable: false
+        },
+        second: {
+          icon: "drumstick-bite",
+          onClick: () => this.updateHeaderButtons("Dishes"),
+          visable: true
+        },
+        third: {
+          icon: "utensils",
+          onClick: () => this.updateHeaderButtons("Menu"),
+          visable: true
+        }
+      }
+    }
+
+    this.setState({
+      content: content,
+      headerButtons: headerButtons[content]
+    })
+  }
 
   async addDish(name, weekdays, dates, freq) {
     // Creates a new Dish object with a unique ID (and saves it to cookies if enabled)
@@ -92,10 +171,10 @@ class App extends React.Component {
     return (
       <React.StrictMode>
       <div id="wrapper">
-      <Header />
+      <Header first={this.state.headerButtons.first} second={this.state.headerButtons.second} third={this.state.headerButtons.third} />
       <section id="main">
         <div id="output-wrapper">
-          <OutputHead text={"Dishes"} />
+          <OutputHead text={this.state.content} />
           <div id="output-items">
             <DishesList onRemove={id => this.removeDish(id)} dishes={this.state.listOfDishes} />
           </div>
@@ -117,11 +196,6 @@ class Header extends React.Component {
   };
 
   render() {
-    const buttons = this.state.activeButtons.map((button) => {
-        <HeaderButton onClick={() => console.log("temp")} />
-      }
-    );
-
     return (
       <header>
         <a href="../index.html" id="logo">
@@ -129,18 +203,25 @@ class Header extends React.Component {
             <img src="../assets/logo.png" alt="logo" />
           </figure>
         </a>
-        <HeaderButton icon="plus" onClick={() => console.log("createDish")} />
-        <HeaderButton icon="drumstick-bite" onClick={() => console.log("regenerateMenu")} />
-        <HeaderButton icon="cog" onClick={() => console.log("changeToMenuView")} />
+        <HeaderButton icon={this.props.first.icon} onClick={() => this.props.first.onClick()} visable={this.props.first.visable} />
+        <HeaderButton icon={this.props.second.icon} onClick={() => this.props.second.onClick()} visable={this.props.second.visable} />
+        <HeaderButton icon={this.props.third.icon} onClick={() => this.props.third.onClick()} visable={this.props.third.visable} />
       </header>
     );
   };
 }
 
 function HeaderButton(props) {
+  let styling;
+  if (props.visable) {
+    styling = "green threed-button";
+  } else {
+    styling = "green threed-button no-show"
+  }
+
   return (
     <div className="header-button-wrapper">
-      <button className="green threed-button" onClick={() => props.onClick()}>
+      <button className={styling} onClick={() => props.onClick()}>
         <figure><i className={'fas fa-' + props.icon}></i></figure>
       </button>
     </div>

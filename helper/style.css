@@ -91,6 +91,10 @@ header .header-button-wrapper {
   position: relative;
 }
 
+header .no-show {
+  visibility: hidden;
+}
+
 header .header-button-wrapper button {
   --offset: -50%;
   border-radius: 7px;
