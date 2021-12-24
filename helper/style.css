@@ -155,8 +155,8 @@ header .header-button-wrapper button {
 
 #output-items .output-item.dish-output-item .preview .title {
   flex: 1 1 0;
-  flex-grow: 1;
-  flex-shrink: 1;
+  /* flex-grow: 1;
+  flex-shrink: 1; */
 }
 
 #output-items .output-item.dish-output-item .preview .collapse-button-wrapper {
@@ -237,6 +237,59 @@ header .header-button-wrapper button {
   margin: 0.1em 0.7em 0.7em;
 }
 
-#main #output-wrapper #output-items .output-item .menu-output-item {
+#main #output-wrapper #output-items .output-item.menu-output-item {
+  height: 3.2em;
+}
 
+#output-items .output-item.menu-output-item .preview {
+  display: flex;
+  flex-flow: row wrap;
+  height: 3.2em;
+}
+
+#output-items .output-item.menu-output-item .preview .title {
+  flex: 1 1 0;
+  padding: 0;
+  min-width: 0;
+}
+
+#output-items .output-item.menu-output-item .preview .title p {
+  margin: 0.4em 0;
+  padding: 0 0.7em;
+  border-right: 2px solid #000;
+  line-height: 2.4em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+#output-items .output-item.menu-output-item .preview .menu-day {
+  flex: 0 0 2.6em;
+  margin: 0.3em 0.7em;
+  height: 2.6em;
+  padding: 0;
+}
+
+#output-items .output-item.menu-output-item .preview .menu-day .weekday {
+  padding: 0;
+}
+
+#output-items .output-item.menu-output-item .preview .menu-day .weekday p {
+  margin: -0.3em 0 0;
+  /* padding: 0 0.7em; */
+  margin: 0;
+  line-height: 1.56em;
+}
+
+#output-items .output-item.menu-output-item .preview .menu-day .date {
+  padding: 0;
+}
+
+#output-items .output-item.menu-output-item .preview .menu-day .date p {
+  /* margin: 30em 0; */
+  margin: -0.1em 0 0;
+  font-size: 0.7em;
+  /* padding: 0 0.7em; */
+  /* border-right: 2px solid #000; */
+  line-height: 1.04em;
 }

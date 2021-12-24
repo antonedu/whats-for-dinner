@@ -180,7 +180,7 @@ class App extends React.Component {
           <div id="output-wrapper">
             <OutputHead text={this.state.content} />
             <div id="output-items">
-              <MenuItem name="test" weekday="monday" day="24" month="Dec" />
+              <MenuItem name="sABKfjebvjhl<bsdvjhb<hsbvehilvbilzdfbhoutnajbarjiebvila<bijshueripgvbiarb" weekday="mon" day="24" month="may" />
               <DishesList onRemove={id => this.removeDish(id)} dishes={this.state.listOfDishes} />
             </div>
             <button onClick={() => {this.addDish("test", [false, false, false, false, false, false, false], null, 7)}}>Click me!</button>
@@ -324,8 +324,12 @@ function MenuItem(props) {
           <p>{props.name}</p>
         </div>
         <div className="menu-day">
-          <p className="weekday">{props.weekday}</p>
-          <p className="date">{`${props.day} ${props.month}`}</p>
+          <div className="weekday">
+            <p>{props.weekday}</p>
+          </div>
+          <div className="date">
+            <p>{`${props.day} ${props.month}`}</p>
+          </div>
         </div>
       </div>
     </div>
