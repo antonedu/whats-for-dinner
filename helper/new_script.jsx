@@ -178,8 +178,11 @@ class App extends React.Component {
         <Header first={this.state.headerButtons.first} second={this.state.headerButtons.second} third={this.state.headerButtons.third} />
         <section id="main">
           <div id="output-wrapper">
-            <OutputHead text={this.state.content} />
+            <OutputHeader text={this.state.content} />
             <div id="output-items">
+              <MenuItem name="def" weekday="mon" day="22" month="may" />
+              <MenuItem name="abc" weekday="mon" day="23" month="may" />
+              <OutputDivider text={"Week 44"} date={"24 may"} />
               <MenuItem name="sABKfjebvjhl<bsdvjhb<hsbvehilvbilzdfbhoutnajbarjiebvila<bijshueripgvbiarb" weekday="mon" day="24" month="may" />
               <DishesList onRemove={id => this.removeDish(id)} dishes={this.state.listOfDishes} />
             </div>
@@ -233,9 +236,18 @@ function HeaderButton(props) {
   );
 }
 
-function OutputHead(props) {
+function OutputHeader(props) {
   return (
     <h1 id="output-head">{props.text}</h1>
+  )
+}
+
+function OutputDivider(props) {
+  return (
+    <div className="output-divider">
+      <p>{props.text}</p>
+      <div className="line"></div>
+    </div>
   )
 }
 
