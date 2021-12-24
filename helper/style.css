@@ -133,32 +133,33 @@ header .header-button-wrapper button {
   background-color: #fff;
   border-radius: 10px;
   margin: 0 5px 10px;
+  display: flex;
+  flex-direction: column;
   /* padding: 0.35em 0.7em; */
   font-size: 1.2em;
   overflow: hidden;
+  min-height: 2.4em;
 }
 
 /* TODO: Rewrite .dish-output-item to use flex(-box) instead of grid */
 
-#main #output-wrapper #output-items .dish-output-item {
-  display: flex;
-  flex-direction: column;
-  min-height: 2.4em;
+#main #output-wrapper #output-items .output-item.dish-output-item {
+
 }
 
-#main #output-wrapper #output-items .dish-output-item .preview {
+#output-items .output-item.dish-output-item .preview {
   display: flex;
   flex-flow: row wrap;
   min-height: 2.4em;
 }
 
-#main #output-wrapper #output-items .dish-output-item .preview .title {
+#output-items .output-item.dish-output-item .preview .title {
   flex: 1 1 0;
   flex-grow: 1;
   flex-shrink: 1;
 }
 
-#main #output-wrapper #output-items .dish-output-item .preview .collapse-button-wrapper {
+#output-items .output-item.dish-output-item .preview .collapse-button-wrapper {
   flex: 0 0 2.4em;
   height: 2.4em;
   /* width: 100%; */
@@ -175,7 +176,7 @@ header .header-button-wrapper button {
   /* transition: max-height 0.2s; */
 }
 
-#main #output-wrapper #output-items .dish-output-item .preview p {
+#output-items .output-item.dish-output-item .preview p {
   margin: 0.35em 0 0.35em 0.7em;
   /* width: 100%; */
   overflow-wrap: break-word;
@@ -183,7 +184,7 @@ header .header-button-wrapper button {
   line-height: 1.7em;
 }
 
-#main #output-wrapper #output-items .dish-output-item .collapse {
+#output-items .output-item.dish-output-item .collapse {
   position: absolute;
   margin: 0;
   border: none;
@@ -196,7 +197,7 @@ header .header-button-wrapper button {
   padding: 0;
 }
 
-#main #output-wrapper #output-items .dish-output-item .collapse i {
+#output-items .output-item.dish-output-item .collapse i {
   position: absolute;
   font-size: 1.8em;
   top: 50%;
@@ -204,29 +205,29 @@ header .header-button-wrapper button {
   transform: translate(-50%, -50%);
 }
 
-#main #output-wrapper #output-items .dish-output-item .output-footer {
+#output-items .output-item.dish-output-item .output-footer {
   display: flex;
 }
 
 /* TODO: fixa bort grid artifakter */
 
-#main #output-wrapper #output-items .dish-output-item .output-info {
+#output-items .output-item.dish-output-item .output-info {
   /* margin-top: 1.3em; */
   flex-grow: 4;
 }
 
-#main #output-wrapper #output-items .dish-output-item .output-info p {
+#output-items .output-item.dish-output-item .output-info p {
   font-family: 'Roboto';
   font-size: 0.6em;
   margin: 0.2em 1.4em -1.6em;
   padding: 0;
 }
 
-#main #output-wrapper #output-items .dish-output-item .output-button-wrapper {
+#output-items .output-item.dish-output-item .output-button-wrapper {
   flex-grow: 2;
 }
 
-#main #output-wrapper #output-items .dish-output-item .output-button-wrapper button {
+#output-items .output-item.dish-output-item .output-button-wrapper button {
   --offset: 0px;
   float: right;
   border-radius: 1em;
@@ -234,4 +235,8 @@ header .header-button-wrapper button {
   line-height: 100%;
   padding: 0.6em;
   margin: 0.1em 0.7em 0.7em;
+}
+
+#main #output-wrapper #output-items .output-item .menu-output-item {
+
 }
