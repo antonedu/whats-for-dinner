@@ -82,6 +82,18 @@ class App extends React.Component {
     };
   };
 
+  consentToCookies(consented) {
+    // Updates local storage if consent changes
+    let activated = JSON.parse(localStorage.getItem("activatedCookies"));
+    if (consented === true && hasActivatedCookies()) {
+      this.updateLocalStorage();
+      setCookies(consented);
+    } else if (consented === false && !localStorage.setItem("activatedCookies", consented)) {
+      localStorage.removeItem("dishes");
+      setCookies(consented);
+    };
+  };
+
   updateHeaderButtons(content) {
     const back = this.state.content == "Dishes" ? "Dishes" : "Menu";
     const headerButtons = {
@@ -330,7 +342,7 @@ class DishesList extends React.Component {
 
 function MenuItem(props) {
   return (
-    <div className="output-item menu-output-item">
+    <div className="output-item menu-output-item" title={props.name}>
       <div className="preview">
         <div className="title">
           <p>{props.name}</p>
@@ -348,21 +360,37 @@ function MenuItem(props) {
   )
 }
 
+class DishCreateWindow extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+}
+
+class CookiesWindow extends React.Component {
+
+}
+
 ReactDOM.render(<App />, document.getElementById("root"))
 
 // End of React components
 
-function consentToCookies(consented) {
-  // Updates local storage if consent changes
+function setCookies(consented) {
+  if (typeof consented == "boolean") {
+    localStorage.setItem("activatedCookies", consented.toString());
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function hasActivatedCookies() {
   let activated = JSON.parse(localStorage.getItem("activatedCookies"));
-  if (consented === true && activated != true) {
-    updateLocalStorage();
-    localStorage.setItem("activatedCookies", "true");
-  } else if (consented === false && activated != false) {
-    localStorage.removeItem("dishes");
-    localStorage.setItem("activatedCookies", "false");
-  };
-};
+  if (activated) {
+    return true;
+  } else {
+    return false;
+  }
+}
 
 function loadStoredDishes() {
   let storedDishes = null;
@@ -406,3 +434,5 @@ their data in menu Array. So that data from it can be shared between devices. */
   - Only use dishes with specified weekdays on their specified days (true/false)
   - Always show whole weeks (true/false)
  */
+
+ // QUESTION: Rewrite to use hooks instead of classes
