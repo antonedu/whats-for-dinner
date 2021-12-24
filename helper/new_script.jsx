@@ -180,6 +180,7 @@ class App extends React.Component {
           <div id="output-wrapper">
             <OutputHead text={this.state.content} />
             <div id="output-items">
+              <MenuItem name="test" weekday="monday" day="24" month="Dec" />
               <DishesList onRemove={id => this.removeDish(id)} dishes={this.state.listOfDishes} />
             </div>
             <button onClick={() => {this.addDish("test", [false, false, false, false, false, false, false], null, 7)}}>Click me!</button>
@@ -317,7 +318,7 @@ class DishesList extends React.Component {
 
 function MenuItem(props) {
   return (
-    <div className={'output-item menu-output-item'}>
+    <div className="output-item menu-output-item">
       <div className="preview">
         <div className="title">
           <p>{props.name}</p>
@@ -382,3 +383,10 @@ function generateID(length) {
 // TODO: Generate menu function
 /* NOTE: Generate menu function should be entirely based on dishes and
 their data in menu Array. So that data from it can be shared between devices. */
+/* NOTE: What should be in settings?
+  - Theme (light/dark)
+  - Start of week (monday/sunday)
+  - Numbers of meals in a day (1, 2, 3...)
+  - Only use dishes with specified weekdays on their specified days (true/false)
+  - Always show whole weeks (true/false)
+ */
