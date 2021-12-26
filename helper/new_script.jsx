@@ -192,6 +192,7 @@ class App extends React.Component {
           <div id="output-wrapper">
             <OutputHeader text={this.state.content} />
             <div id="output-items">
+              <DishCreateWindow />
               <MenuItem name="def" weekday="mon" day="22" month="may" />
               <MenuItem name="abc" weekday="mon" day="23" month="may" />
               <OutputDivider text={"Week 44"} date={"24 may"} />
@@ -364,6 +365,54 @@ class DishCreateWindow extends React.Component {
   constructor(props) {
     super(props);
   }
+
+  render() {
+    return (
+      <div className="output-item">
+        <div>
+          <input type="text" placeholder="Dish name" defaultValue="" />
+        </div>
+        <div>
+          <p>How frequently do you want this dish to appear</p>
+          <RangeInput min={1} max={10}  />
+        </div>
+        <div>
+          <p>On what weekdays do you want this dish to appear</p>
+        </div>
+      </div>
+    )
+  }
+}
+
+class RangeInput extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: Math.ceil((props.max - props.min)/2),
+      fraction: (Math.ceil((props.max - props.min)/2) - this.props.min)/(this.props.max - this.props.min),
+    }
+  }
+
+  onChange() {
+    this.setState({value: event.target.value})
+  }
+
+  onInput() {
+    this.setState({fraction: (event.target.value - this.props.min)/(this.props.max - this.props.min)})
+  }
+
+  render() {
+    return (
+      <input
+        type="range"
+        min={this.props.min}
+        value={this.state.value}
+        style={{background: "linear-gradient(to right, #20a39e calc(" + this.state.fraction + "*(100% - 5px) + 5px), #156D69 calc(" + this.state.fraction + "*(100% - 5px) + 5px))"}}
+        max={this.props.max} value={this.state.value}
+        onChange={() => this.onChange()}
+        onInput={() => this.onInput()} />
+    )
+  }
 }
 
 class CookiesWindow extends React.Component {
@@ -425,6 +474,7 @@ function generateID(length) {
 // TODO: Ask about cookies.
 // TODO: Edit dish function.
 // TODO: Generate menu function
+// TODO: Create functions for date/week handeling
 /* NOTE: Generate menu function should be entirely based on dishes and
 their data in menu Array. So that data from it can be shared between devices. */
 /* NOTE: What should be in settings?
@@ -433,6 +483,8 @@ their data in menu Array. So that data from it can be shared between devices. */
   - Numbers of meals in a day (1, 2, 3...)
   - Only use dishes with specified weekdays on their specified days (true/false)
   - Always show whole weeks (true/false)
+  - Round down dish date on months with fewer days (true/false)
  */
 
- // QUESTION: Rewrite to use hooks instead of classes
+ // QUESTION: Rewrite to use hooks instead of classes?
+ // QUESTION: Firefox support?

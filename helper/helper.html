@@ -20,7 +20,36 @@
 <body>
 
   <div id="root"></div>
-  <input type="range" min="0" max="360" value="5" style="background-color: #0f0; -webkit-appearance: none;">
+  <input type="range" min="2" max="10" value="5" oninput="event.target.style.background = `linear-gradient(to right, #20a39e calc(${(event.target.value - event.target.min)/(event.target.max - event.target.min)}*(100% - 10px) + 5px), #156D69 calc(${(event.target.value - event.target.min)/(event.target.max - event.target.min)}*(100% - 10px) + 5px))`">
+  <input type="text" id="test" class="output-item" placeholder="New dish name">
+  <input type="checkbox">
+  <style>
+
+  /* input[type='text'] {
+      display: block;
+      width: 100%;
+    } */
+
+  input[type='range'] {
+      width: 300px;
+      height: 20px;
+      -webkit-appearance: none;
+      background: linear-gradient(to right, #20a39e 50%, #156D69 50%);
+      border-radius: 10px;
+    }
+
+    input[type='range']::-webkit-slider-runnable-track {
+    }
+
+    input[type='range']::-webkit-slider-thumb {
+      width: 20px;
+      -webkit-appearance: none;
+      height: 20px;
+      cursor: ew-resize;
+      border-radius: 10px;
+      background: #20a39e;
+    }
+  </style>
 
 </body>
 <script type="text/babel" src="new_script.jsx"></script>
