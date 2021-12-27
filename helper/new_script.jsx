@@ -430,8 +430,12 @@ class WeekdayCheckbox extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: false,
+      checked: false,
     }
+  }
+
+  onChange() {
+    this.setState({checked: event.target.checked})
   }
 
   render() {
@@ -439,8 +443,9 @@ class WeekdayCheckbox extends React.Component {
       <div className="checkbox-container">
         <input
           type="checkbox"
-          value={this.state.value}
+          checked={this.state.checked}
           data-letter={this.props.weekday[0].toUpperCase()}
+          onChange={() => this.onChange()}
         />
       </div>
     )

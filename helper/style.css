@@ -68,7 +68,6 @@ figure {
 header {
   margin: 0;
   padding: 0;
-  /* display: grid; */
   display: flex;
   flex-flow: row wrap;
   grid-template-columns: 1fr 78px 78px 78px;
@@ -145,7 +144,6 @@ header .header-button-wrapper button {
   flex: 1 1 auto;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25), 0 1px 1px rgba(0, 0, 0, 0.22);
   border-bottom: 2px solid #000;
-  /* width: 100%; */
   height: 0.0001px;
   margin: 0.8em 0.35em 0 0.2em;
 }
@@ -164,7 +162,6 @@ header .header-button-wrapper button {
   margin: 0 5px 10px;
   display: flex;
   flex-direction: column;
-  /* padding: 0.35em 0.7em; */
   font-size: 1.2em;
   overflow: hidden;
   min-height: 2.4em;
@@ -176,8 +173,6 @@ header .header-button-wrapper button {
   -webkit-appearance: none;
   outline: none;
   border: none;
-  /* border: 1px solid #000; */
-  /* border-bottom: 1px solid #000; */
   font-size: 1.2em;
   font-family: 'Open Sans';
   width: calc(100% - 1.4em);
@@ -225,7 +220,6 @@ header .header-button-wrapper button {
   position: relative;
   flex: 1 1 0;
   margin: 0 0.1em;
-  /* width: 2.2em; */
   height: 2em;
   padding: 0;
   display: inline-block;
@@ -246,7 +240,7 @@ header .header-button-wrapper button {
   user-select: none;
 }
 
-#output-items .output-item.create-output-iteminput[type='checkbox']:checked {
+#output-items .output-item.create-output-item input[type='checkbox']:checked {
   background-color: #20a39e;
   box-shadow: none;
   transform: translateY(5px);
@@ -273,6 +267,8 @@ header .header-button-wrapper button {
   margin: 0.7em;
 }
 
+/* TODO: dish-output-item should have title with ellipsis if it reaches end and is collapsed like in menu-item */
+
 #main #output-wrapper #output-items .output-item.dish-output-item {}
 
 #output-items .output-item.dish-output-item .preview {
@@ -283,30 +279,24 @@ header .header-button-wrapper button {
 
 #output-items .output-item.dish-output-item .preview .title {
   flex: 1 1 0;
-  /* flex-grow: 1;
-  flex-shrink: 1; */
 }
 
 #output-items .output-item.dish-output-item .preview .collapse-button-wrapper {
   flex: 0 0 2.4em;
   height: 2.4em;
-  /* width: 100%; */
   position: relative;
 }
 
 #main #output-wrapper #output-items .collapsed {
   max-height: 1.7em;
-  /* transition: max-height 0.2s; */
 }
 
 #main #output-wrapper #output-items .not-collapsed {
   max-height: 10000px;
-  /* transition: max-height 0.2s; */
 }
 
 #output-items .output-item.dish-output-item .preview p {
   margin: 0.35em 0 0.35em 0.7em;
-  /* width: 100%; */
   overflow-wrap: break-word;
   word-break: break-all;
   line-height: 1.7em;
@@ -339,7 +329,6 @@ header .header-button-wrapper button {
 
 /* TODO: fixa bort grid artifakter */
 #output-items .output-item.dish-output-item .output-info {
-  /* margin-top: 1.3em; */
   flex-grow: 4;
 }
 
@@ -403,7 +392,6 @@ header .header-button-wrapper button {
 
 #output-items .output-item.menu-output-item .preview .menu-day .weekday p {
   margin: -0.3em 0 0;
-  /* padding: 0 0.7em; */
   margin: 0;
   font-family: 'Roboto';
   line-height: 1.56em;
@@ -414,10 +402,7 @@ header .header-button-wrapper button {
 }
 
 #output-items .output-item.menu-output-item .preview .menu-day .date p {
-  /* margin: 30em 0; */
   margin: -0.1em 0 0;
   font-size: 0.7em;
-  /* padding: 0 0.7em; */
-  /* border-right: 2px solid #000; */
   line-height: 1.04em;
 }
