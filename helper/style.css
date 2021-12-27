@@ -163,7 +163,9 @@ header .header-button-wrapper button {
   min-height: 2.4em;
 }
 
-/* TODO: Rewrite .dish-output-item to use flex(-box) instead of grid */
+#main #output-wrapper #output-items .output-item.menu-output-item {
+
+}
 
 #main #output-wrapper #output-items .output-item.dish-output-item {
 

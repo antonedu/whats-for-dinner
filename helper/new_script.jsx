@@ -368,16 +368,25 @@ class DishCreateWindow extends React.Component {
 
   render() {
     return (
-      <div className="output-item">
+      <div className="output-item create-output-item">
         <div>
           <input type="text" placeholder="Dish name" defaultValue="" />
         </div>
         <div>
-          <p>How frequently do you want this dish to appear</p>
+          <p className="description">How frequently do you want this dish to appear?</p>
           <RangeInput min={1} max={10}  />
         </div>
         <div>
-          <p>On what weekdays do you want this dish to appear</p>
+          <p className="description">On what weekdays do you want this dish to appear?</p>
+          <div className="weekday-selectors">
+            <WeekdayCheckbox weekday="monday" />
+            <WeekdayCheckbox weekday="tuesday" />
+            <WeekdayCheckbox weekday="wednesday" />
+            <WeekdayCheckbox weekday="thursday" />
+            <WeekdayCheckbox weekday="friday" />
+            <WeekdayCheckbox weekday="saturday" />
+            <WeekdayCheckbox weekday="sunday" />
+          </div>
         </div>
       </div>
     )
@@ -407,10 +416,32 @@ class RangeInput extends React.Component {
         type="range"
         min={this.props.min}
         value={this.state.value}
-        style={{background: "linear-gradient(to right, #20a39e calc(" + this.state.fraction + "*(100% - 5px) + 5px), #156D69 calc(" + this.state.fraction + "*(100% - 5px) + 5px))"}}
+        style={{background: "linear-gradient(to right, #20a39e calc(" + this.state.fraction + "*(100% - 10px) + 5px), #156D69 calc(" + this.state.fraction + "*(100% - 10px) + 5px))"}}
         max={this.props.max} value={this.state.value}
         onChange={() => this.onChange()}
-        onInput={() => this.onInput()} />
+        onInput={() => this.onInput()}
+      />
+    )
+  }
+}
+
+class WeekdayCheckbox extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: false,
+    }
+  }
+
+  render() {
+    return (
+      <div className="checkbox-container">
+        <input
+          type="checkbox"
+          value={this.state.value}
+          data-letter={this.props.weekday[0].toUpperCase()}
+        />
+      </div>
     )
   }
 }
@@ -477,6 +508,7 @@ function generateID(length) {
 // TODO: Create functions for date/week handeling
 /* NOTE: Generate menu function should be entirely based on dishes and
 their data in menu Array. So that data from it can be shared between devices. */
+
 /* NOTE: What should be in settings?
   - Theme (light/dark)
   - Start of week (monday/sunday)
