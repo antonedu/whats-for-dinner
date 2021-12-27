@@ -317,7 +317,7 @@ class DishesList extends React.Component {
   }
 
   render() {
-    const dishes = Array();
+    let dishes = Array();
     let currentDish = null;
     for (let key in this.props.dishes) {
       currentDish = this.props.dishes[key]
@@ -394,6 +394,7 @@ class DishCreateWindow extends React.Component {
 }
 
 class RangeInput extends React.Component {
+  // TODO: Needs save/delete actions
   constructor(props) {
     super(props);
     this.state = {
@@ -444,6 +445,26 @@ class WeekdayCheckbox extends React.Component {
       </div>
     )
   }
+}
+
+function Popup(props) {
+  let actions = Array();
+  for (action in props.actions) {
+    actions.push(
+      // TEMP: actions button syntax
+    )
+  }
+
+  return (
+    <div className="output-item">
+      <h1>{props.title}<i className={props.icon ? "fa fas-" + props.icon : ""}></i></h1>
+      <button><i className="fa fas-times"></i></button>
+      <p>{props.info}</p>
+      <div className="actions">
+        {actions}
+      </div>
+    </div>
+  )
 }
 
 class CookiesWindow extends React.Component {
