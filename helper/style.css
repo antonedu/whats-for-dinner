@@ -49,6 +49,12 @@ figure {
   --s-color: #BA4848;
 }
 
+.yellow {
+  --color: #fff;
+  --bg-color: #D1B330;
+  --s-color: #A89225;
+}
+
 .threed-button {
   border: none;
   color: var(--color);
@@ -266,7 +272,7 @@ header #logo figure img {
 #output-items .output-item.create-output-item .actions {
   display: flex;
   flex-flow: row nowrap;
-  padding: 0 0.6em 1em;
+  padding: 0 0.58em 1em;
 }
 
 #output-items .output-item.create-output-item .actions .divider {

@@ -51,11 +51,12 @@ class App extends React.Component {
     super(props);
     this.state = {
       listOfDishes: loadStoredDishes(),
+      currentlyAddingDish: false,
       headerButtons: {
         first: {
           title: "Add dish",
           icon: "plus",
-          onClick: () => console.log("plus"),
+          onClick: () => this.setState({currentlyAddingDish: true}),
           visable: true
         },
         second: {
@@ -100,7 +101,7 @@ class App extends React.Component {
       Dishes: {
         first: {
           icon: "plus",
-          onClick: () => console.log("plus"),
+          onClick: () => this.setState({currentlyAddingDish: true}),
           visable: true
         },
         second: {
@@ -156,20 +157,21 @@ class App extends React.Component {
     })
   }
 
-  async addDish(name, weekdays, dates, freq) {
+  async addDish(name, weekdays, dates, freq, id = null) {
     // Creates a new Dish object with a unique ID (and saves it to cookies if enabled)
-    let id;
     let notUnique = true;
     let newDishesObj = Object.assign({}, this.state.listOfDishes);
 
-    do {
-      id = generateID(4);
-      if (!newDishesObj.hasOwnProperty(id)) {
-        notUnique = false;
-      };
-    } while (notUnique);
+    if (id === null) {
+      do {
+        id = generateID(4);
+        if (!newDishesObj.hasOwnProperty(id)) {
+          notUnique = false;
+        };
+      } while (notUnique);
+    }
 
-    newDishesObj[id] = new Dish(id, weekdays.slice(0), dates, freq, id);
+    newDishesObj[id] = new Dish(name, weekdays.slice(0), dates, freq, id);
     await this.setState({listOfDishes: newDishesObj});
     this.updateLocalStorage();
   };
@@ -184,6 +186,19 @@ class App extends React.Component {
   }
 
   render() {
+    let creatingDish = false;
+
+    if (this.state.currentlyAddingDish) {
+      creatingDish = (
+        <DishCreateWindow
+          editing={false}
+          onClose={() => this.setState({currentlyAddingDish: false})}
+          onDelete={() => console.log("deleted")}
+          onSave={(name, weekdays, freq) => this.addDish(name, weekdays, null, freq)}
+        />
+      )
+    }
+
     return (
       <React.StrictMode>
       <div id="wrapper">
@@ -192,7 +207,7 @@ class App extends React.Component {
           <div id="output-wrapper">
             <OutputHeader text={this.state.content} />
             <div id="output-items">
-              <DishCreateWindow />
+              {creatingDish}
               <MenuItem name="def" weekday="mon" day="22" month="may" />
               <MenuItem name="abc" weekday="mon" day="23" month="may" />
               <OutputDivider text={"Week 44"} date={"24 may"} />
@@ -364,38 +379,64 @@ function MenuItem(props) {
 class DishCreateWindow extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      name: "",
+      freq: 5,
+      weekdays: [false, false, false, false, false, false, false]
+    }
+  }
+
+  handleNameChange(name) {
+    this.setState({name: name});
+  }
+
+  handleWeekdayChange(weekday) {
+    let newWeekdays = this.state.weekdays.slice()
+    newWeekdays[weekday] = !newWeekdays[weekday]
+    this.setState({weekdays: newWeekdays})
+  }
+
+  handleFreqChange(freq) {
+    this.setState({freq: freq});
   }
 
   render() {
     return (
       <div className="output-item create-output-item">
         <div>
-          <input type="text" placeholder="Dish name" defaultValue="" />
+          <DishNameInput value={this.state.name} onChange={name => this.handleNameChange(name)} />
         </div>
         <div>
           <p className="description">How frequently do you want this dish to appear?</p>
-          <RangeInput min={1} max={10}  />
+          <RangeInput min={1} max={10} value={this.state.freq} onChange={freq => this.handleFreqChange(freq)} />
         </div>
         <div>
           <p className="description">On what weekdays do you want this dish to appear?</p>
           <div className="weekday-selectors">
-            <WeekdayCheckbox weekday="monday" />
-            <WeekdayCheckbox weekday="tuesday" />
-            <WeekdayCheckbox weekday="wednesday" />
-            <WeekdayCheckbox weekday="thursday" />
-            <WeekdayCheckbox weekday="friday" />
-            <WeekdayCheckbox weekday="saturday" />
-            <WeekdayCheckbox weekday="sunday" />
+            <WeekdayCheckbox weekday="monday" checked={this.state.weekdays[0]} onChange={() => this.handleWeekdayChange(0)} />
+            <WeekdayCheckbox weekday="tuesday" checked={this.state.weekdays[1]} onChange={() => this.handleWeekdayChange(1)} />
+            <WeekdayCheckbox weekday="wednesday" checked={this.state.weekdays[2]} onChange={() => this.handleWeekdayChange(2)} />
+            <WeekdayCheckbox weekday="thursday" checked={this.state.weekdays[3]} onChange={() => this.handleWeekdayChange(3)} />
+            <WeekdayCheckbox weekday="friday" checked={this.state.weekdays[4]} onChange={() => this.handleWeekdayChange(4)} />
+            <WeekdayCheckbox weekday="saturday" checked={this.state.weekdays[5]} onChange={() => this.handleWeekdayChange(5)} />
+            <WeekdayCheckbox weekday="sunday" checked={this.state.weekdays[6]} onChange={() => this.handleWeekdayChange(6)} />
           </div>
         </div>
         <div className="actions">
+          <SquareButton color="yellow" icon="times" title="Cancel" onClick={() => this.props.onClose()} visable={true} />
           <div className="divider"></div>
-          <SquareButton color="red" icon="trash-alt" title="Remove" onClick={() => console.log("Removed")} visable={true} />
-          <SquareButton color="green" icon="save" title="Save" onClick={() => console.log("Saved")} visable={true} />
+          <SquareButton color="red" icon="trash-alt" title="Remove" onClick={() => this.props.onDelete()} visable={this.props.editing} />
+          <SquareButton color="green" icon="save" title="Save" onClick={() => this.props.onSave(this.state.name, this.state.weekdays, this.state.freq)} visable={true} />
         </div>
       </div>
     )
   }
+}
+
+function DishNameInput(props) {
+  return (
+    <input type="text" placeholder="Dish name" value={props.value} onChange={() => props.onChange(event.target.value)} />
+  )
 }
 
 class RangeInput extends React.Component {
@@ -403,13 +444,8 @@ class RangeInput extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: Math.ceil((props.max - props.min)/2),
-      fraction: (Math.ceil((props.max - props.min)/2) - this.props.min)/(this.props.max - this.props.min),
+      fraction: (this.props.value - this.props.min)/(this.props.max - this.props.min),
     }
-  }
-
-  onChange() {
-    this.setState({value: event.target.value})
   }
 
   onInput() {
@@ -421,10 +457,10 @@ class RangeInput extends React.Component {
       <input
         type="range"
         min={this.props.min}
-        value={this.state.value}
+        value={this.props.value}
         style={{background: "linear-gradient(to right, #20a39e calc(" + this.state.fraction + "*(100% - 10px) + 5px), #156D69 calc(" + this.state.fraction + "*(100% - 10px) + 5px))"}}
-        max={this.props.max} value={this.state.value}
-        onChange={() => this.onChange()}
+        max={this.props.max}
+        onChange={() => this.props.onChange(event.target.value)}
         onInput={() => this.onInput()}
       />
     )
@@ -434,9 +470,6 @@ class RangeInput extends React.Component {
 class WeekdayCheckbox extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      checked: false,
-    }
   }
 
   onChange() {
@@ -449,9 +482,9 @@ class WeekdayCheckbox extends React.Component {
         <input
           type="checkbox"
           title={this.props.weekday}
-          checked={this.state.checked}
+          checked={this.props.checked}
           data-letter={this.props.weekday[0].toUpperCase()}
-          onChange={() => this.onChange()}
+          onChange={() => this.props.onChange()}
         />
       </div>
     )
