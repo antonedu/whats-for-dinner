@@ -224,24 +224,24 @@ class Header extends React.Component {
             <img src="../assets/logo.png" alt="logo" />
           </figure>
         </a>
-        <HeaderButton icon={this.props.first.icon} title={this.props.first.title} onClick={() => this.props.first.onClick()} visable={this.props.first.visable} />
-        <HeaderButton icon={this.props.second.icon} title={this.props.second.title} onClick={() => this.props.second.onClick()} visable={this.props.second.visable} />
-        <HeaderButton icon={this.props.third.icon} title={this.props.third.title} onClick={() => this.props.third.onClick()} visable={this.props.third.visable} />
+        <SquareButton color="green" icon={this.props.first.icon} title={this.props.first.title} onClick={() => this.props.first.onClick()} visable={this.props.first.visable} />
+        <SquareButton color="green" icon={this.props.second.icon} title={this.props.second.title} onClick={() => this.props.second.onClick()} visable={this.props.second.visable} />
+        <SquareButton color="green" icon={this.props.third.icon} title={this.props.third.title} onClick={() => this.props.third.onClick()} visable={this.props.third.visable} />
       </header>
     );
   };
 }
 
-function HeaderButton(props) {
-  let styling;
+function SquareButton(props) {
+  let styling = props.color;
   if (props.visable) {
-    styling = "green threed-button";
+    styling += " threed-button";
   } else {
-    styling = "green threed-button no-show"
+    styling += " threed-button no-show"
   }
 
   return (
-    <div className="header-button-wrapper">
+    <div className="big-button-wrapper">
       <button title={props.title} alt={props.title} className={styling} onClick={() => props.onClick()}>
         <figure><i className={'fas fa-' + props.icon}></i></figure>
       </button>
@@ -388,6 +388,11 @@ class DishCreateWindow extends React.Component {
             <WeekdayCheckbox weekday="sunday" />
           </div>
         </div>
+        <div className="actions">
+          <div className="divider"></div>
+          <SquareButton color="red" icon="trash-alt" title="Remove" onClick={() => console.log("Removed")} visable={true} />
+          <SquareButton color="green" icon="save" title="Save" onClick={() => console.log("Saved")} visable={true} />
+        </div>
       </div>
     )
   }
@@ -443,6 +448,7 @@ class WeekdayCheckbox extends React.Component {
       <div className="checkbox-container">
         <input
           type="checkbox"
+          title={this.props.weekday}
           checked={this.state.checked}
           data-letter={this.props.weekday[0].toUpperCase()}
           onChange={() => this.onChange()}
