@@ -7,7 +7,7 @@ class Dish {
   // Dish class
   constructor(name, weekdays, dates, freq, id) {
     this.name = name;
-    this.weekdays = this.replaceWeekdays(weekdays);
+    this.weekdays = weekdays;
     this.dates = dates;
     this.freq = freq;
     this.id = id;
@@ -17,8 +17,13 @@ class Dish {
     // Returns str with active weekdays
     let weekdaysStr = "";
     let weekdaysArray = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
-    if (this.weekdays == 0) {
-      return "all"
+    // return "all"
+    if (this.allWeekdays()) {
+      if (this.weekdays[0] === true) {
+        return "all";
+      } else {
+        return "any";
+      }
     };
     for (let i = 0; i < 7; i++) {
       if (this.weekdays[i] == true) {
@@ -32,15 +37,14 @@ class Dish {
     return weekdaysStr
   };
 
-  replaceWeekdays(weekdays) {
-    // Replaces a weekdays array with sure if all 7 indexes have the same value
-    let equalsFirst = (day, index, arr) => {
+  allWeekdays() {
+    // If all days are true/all days are false return true else false
+    if (this.weekdays.every((day, index, arr) => {
       return day == arr[0];
-    };
-    if (weekdays === 0 || weekdays.every(equalsFirst)) {
-      return 0
+    })) {
+      return true;
     } else {
-      return weekdays
+      return false;
     };
   }
 };
@@ -192,8 +196,11 @@ class App extends React.Component {
       creatingDish = (
         <DishCreateWindow
           editing={false}
+          name={""}
+          freq={5}
+          weekdays={Array(7).fill(false)}
           onClose={() => this.setState({currentlyAddingDish: false})}
-          onDelete={() => console.log("deleted")}
+          onDelete={() => null}
           onSave={(name, weekdays, freq) => this.addDish(name, weekdays, null, freq)}
         />
       )
@@ -209,10 +216,14 @@ class App extends React.Component {
             <div id="output-items">
               {creatingDish}
               <MenuItem name="def" weekday="mon" day="22" month="may" />
-              <MenuItem name="abc" weekday="mon" day="23" month="may" />
+              <MenuItem name="abc" weekday="tue" day="23" month="may" />
               <OutputDivider text={"Week 44"} date={"24 may"} />
-              <MenuItem name="sABKfjebvjhl<bsdvjhb<hsbvehilvbilzdfbhoutnajbarjiebvila<bijshueripgvbiarb" weekday="mon" day="24" month="may" />
-              <DishesList onRemove={id => this.removeDish(id)} dishes={this.state.listOfDishes} />
+              <MenuItem name="sABKfjebvjhl<bsdvjhb<hsbvehilvbilzdfbhoutnajbarjiebvila<bijshueripgvbiarb" weekday="wed" day="24" month="may" />
+              <DishesList
+                dishes={this.state.listOfDishes}
+                onDelete={id => this.removeDish(id)}
+                onSave={(name, weekdays, freq, id) => this.addDish(name, weekdays, null, freq, id)}
+              />
             </div>
             <button onClick={() => {this.addDish("test", [false, false, false, false, false, false, false], null, 7)}}>Click me!</button>
           </div>
@@ -306,7 +317,7 @@ class DishItem extends React.Component {
             <p>{'Weekdays: ' + (this.props.weekdaysStr)}</p>
           </div>
           <div className="output-button-wrapper">
-            <button className="red threed-button" onClick={() => this.props.onRemove(this.props.dishID)}>Remove</button>
+            <button className="yellow threed-button" onClick={() => this.props.onEdit(this.props.dishID)}>Edit</button>
           </div>
         </div>
       </div>
@@ -319,16 +330,26 @@ class DishesList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      collapsedID: null,
+      uncollapsedID: null,
+      editingID: null
     }
   }
 
   handleCollapse(id) {
-    if (this.state.collapsedID == id) {
-      this.setState({collapsedID: null});
+    if (this.state.uncollapsedID == id) {
+      this.setState({uncollapsedID: null});
     } else {
-      this.setState({collapsedID: id});
+      this.setState({uncollapsedID: id});
     }
+  }
+
+  handleEdit(id) {
+    this.setState({editingID: id});
+  }
+
+  handleClose() {
+    this.setState({editingID: null});
+    this.setState({uncollapsedID: null});
   }
 
   render() {
@@ -336,19 +357,33 @@ class DishesList extends React.Component {
     let currentDish = null;
     for (let key in this.props.dishes) {
       currentDish = this.props.dishes[key]
-      // console.log(key)
-      dishes.push(
-        <DishItem
-          name={currentDish.name}
-          freq={currentDish.freq}
-          weekdaysStr={currentDish.weekdaysStr}
-          dishID={currentDish.id}
-          key={key}
-          onRemove={id => this.props.onRemove(id)}
-          collapsed={!(this.state.collapsedID == currentDish.id)}
-          onCollapse={id => this.handleCollapse(id)}
-        />
-      )
+      if (currentDish.id == this.state.editingID) {
+        dishes.push(
+          <DishCreateWindow
+            editing={true}
+            name={currentDish.name}
+            freq={currentDish.freq}
+            weekdays={currentDish.weekdays}
+            key={currentDish.id}
+            onClose={() => {this.handleClose();}}
+            onDelete={() => {this.props.onDelete(currentDish.id); this.handleClose()}}
+            onSave={(name, weekdays, freq) => {this.props.onSave(name, weekdays, freq, this.state.editingID); this.handleClose()}}
+          />
+        )
+      } else {
+        dishes.push(
+          <DishItem
+            name={currentDish.name}
+            freq={currentDish.freq}
+            weekdaysStr={currentDish.weekdaysStr}
+            dishID={currentDish.id}
+            key={key}
+            onEdit={id => this.handleEdit(id)}
+            collapsed={!(this.state.uncollapsedID == currentDish.id)}
+            onCollapse={id => this.handleCollapse(id)}
+          />
+        )
+      }
     }
     return (
       <ul>{dishes.reverse()}</ul>
@@ -380,9 +415,9 @@ class DishCreateWindow extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
-      freq: 5,
-      weekdays: [false, false, false, false, false, false, false]
+      name: this.props.name,
+      freq: this.props.freq,
+      weekdays: this.props.weekdays,
     }
   }
 
@@ -568,7 +603,6 @@ function generateID(length) {
 }
 
 // TODO: Ask about cookies.
-// TODO: Edit dish function.
 // TODO: Generate menu function
 // TODO: Create functions for date/week handeling
 /* NOTE: Generate menu function should be entirely based on dishes and

@@ -133,7 +133,7 @@ header #logo figure img {
   margin: 0 0 0.4em;
 }
 
-#main #output-wrapper .output-divider {
+#output-wrapper .output-divider {
   display: flex;
   margin: 0 5px 10px;
 }
@@ -160,7 +160,7 @@ header #logo figure img {
   flex-direction: column;
 }
 
-#main #output-wrapper #output-items .output-item {
+#output-items .output-item {
   box-shadow: 0 3px 7px rgba(0, 0, 0, 0.25), 0 3px 3px rgba(0, 0, 0, 0.22);
   line-height: 1.7em;
   background-color: #fff;
@@ -173,7 +173,7 @@ header #logo figure img {
   min-height: 2.4em;
 }
 
-#main #output-wrapper #output-items .output-item.create-output-item {}
+#output-items .output-item.create-output-item {}
 
 #output-items .output-item.create-output-item input[type="text"] {
   -webkit-appearance: none;
@@ -287,7 +287,7 @@ header #logo figure img {
 
 /* TODO: dish-output-item should have title with ellipsis if it reaches end and is collapsed like in menu-item */
 
-#main #output-wrapper #output-items .output-item.dish-output-item {}
+#output-items .output-item.dish-output-item {}
 
 #output-items .output-item.dish-output-item .preview {
   display: flex;
@@ -297,6 +297,7 @@ header #logo figure img {
 
 #output-items .output-item.dish-output-item .preview .title {
   flex: 1 1 0;
+  min-width: 0;
 }
 
 #output-items .output-item.dish-output-item .preview .collapse-button-wrapper {
@@ -305,18 +306,28 @@ header #logo figure img {
   position: relative;
 }
 
-#main #output-wrapper #output-items .collapsed {
+#output-items .collapsed {
   max-height: 1.7em;
 }
 
-#main #output-wrapper #output-items .not-collapsed {
+#output-items .collapsed p {
+  overflow-wrap: break-word;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+#output-items .not-collapsed {
   max-height: 10000px;
+}
+
+#output-items .not-collapsed p {
+  word-break: break-all;
 }
 
 #output-items .output-item.dish-output-item .preview p {
   margin: 0.35em 0 0.35em 0.7em;
   overflow-wrap: break-word;
-  word-break: break-all;
   line-height: 1.7em;
 }
 
@@ -371,7 +382,7 @@ header #logo figure img {
   margin: 0.1em 0.7em 0.7em;
 }
 
-#main #output-wrapper #output-items .output-item.menu-output-item {
+#output-items .output-item.menu-output-item {
   height: 3.2em;
 }
 
