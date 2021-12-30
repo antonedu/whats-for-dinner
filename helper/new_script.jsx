@@ -56,6 +56,7 @@ class App extends React.Component {
     this.state = {
       listOfDishes: loadStoredDishes(),
       currentlyAddingDish: false,
+      cookiesActivated: hasActivatedCookies(),
       headerButtons: {
         first: {
           title: "Add dish",
@@ -87,16 +88,16 @@ class App extends React.Component {
     };
   };
 
-  consentToCookies(consented) {
+  consentToCookies() {
     // Updates local storage if consent changes
     let activated = JSON.parse(localStorage.getItem("activatedCookies"));
-    if (consented === true && hasActivatedCookies()) {
+    if (this.state.cookiesActivated) {
       this.updateLocalStorage();
-      setCookies(consented);
-    } else if (consented === false && !localStorage.setItem("activatedCookies", consented)) {
+    } else {
       localStorage.removeItem("dishes");
-      setCookies(consented);
     };
+    setCookies(!this.state.cookiesActivated);
+    this.setState({cookiesActivated: !this.state.cookiesActivated});
   };
 
   updateHeaderButtons(content) {
@@ -225,7 +226,7 @@ class App extends React.Component {
                 onSave={(name, weekdays, freq, id) => this.addDish(name, weekdays, null, freq, id)}
               />
             </div>
-            <button onClick={() => {this.addDish("test", [false, false, false, false, false, false, false], null, 7)}}>Click me!</button>
+            <button onClick={() => {let id = generateID(4); this.addDish(id, [false, false, false, false, false, false, false], null, 7, id);}}>Click me!</button>
           </div>
         </section>
       </div>
@@ -366,7 +367,7 @@ class DishesList extends React.Component {
             weekdays={currentDish.weekdays}
             key={currentDish.id}
             onClose={() => {this.handleClose();}}
-            onDelete={() => {this.props.onDelete(currentDish.id); this.handleClose()}}
+            onDelete={() => {this.props.onDelete(this.state.editingID); this.handleClose()}}
             onSave={(name, weekdays, freq) => {this.props.onSave(name, weekdays, freq, this.state.editingID); this.handleClose()}}
           />
         )
@@ -409,6 +410,41 @@ function MenuItem(props) {
       </div>
     </div>
   )
+}
+
+function MenuList(props) {
+  return (
+    <p></p>
+  )
+}
+
+class Settings extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    let cookiesButton;
+    let cookiesWarning = false;
+
+    if (this.props.cookiesActivated) {
+      cookiesButton = "revoke access"
+      cookiesWarning = " Note that this may cause your add dishes to disappear if you leave or refresh this webpage."
+    } else {
+      cookiesButton = "give access"
+    }
+
+    return (
+      <div>
+        <p>
+          There currently isn't alot of things to do here but you can still <button
+            onClick={() => this.props.onConsentToCookies()}
+          >
+            {cookiesButton}
+          </button> to cookies. {cookiesWarning}</p>
+      </div>
+    )
+  }
 }
 
 class DishCreateWindow extends React.Component {
