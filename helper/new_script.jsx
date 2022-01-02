@@ -733,6 +733,7 @@ function generateID(length) {
 
 // TODO: Ask about cookies.
 // TODO: Generate menu function
+// TODO: "catch-up" functions for menu.
 // TODO: Create functions for date/week handeling
 /* NOTE: Generate menu function should be entirely based on dishes and
 their data in menu Array. So that data from it can be shared between devices. */
