@@ -14,6 +14,7 @@ class Dish {
     this.dates = dates;
     this.freq = freq;
     this.id = id;
+    this.lastSeen = null;
   };
 
   get weekdaysStr() {
@@ -54,6 +55,15 @@ class Dish {
 
 // REACT COMPONENTS
 class App extends React.Component {
+  // React component for whats-for-dinner app.
+  // state.listOfDishes should be all added dishes, already added dishes are
+  // loaded from cookies if they are activated.
+  // state.currentlyAddingDish says wether a <DishCreateWindow /> should be
+  // displayed at the top of outputs (only if state.content is "Dishes").
+  // state.cookiesActivated says wether user has cookies activated.
+  // state.headerButtons are info passed to buttons of <Header /> component.
+  // see Header class for more indepth explanation.
+  // state.content describes what is currently being displayed as output.
   constructor(props) {
     super(props);
     this.state = {
@@ -104,6 +114,8 @@ class App extends React.Component {
   };
 
   updateHeaderButtons(content) {
+    // Updates state.headerButtons and state.content when user switches
+    // displayed content.
     const back = this.state.content == "Dishes" ? "Dishes" : "Menu";
     const headerButtons = {
       Dishes: {
@@ -166,7 +178,10 @@ class App extends React.Component {
   }
 
   async addDish(name, weekdays, dates, freq, id = null) {
-    // Creates a new Dish object with a unique ID (and saves it to cookies if enabled)
+    // Creates a new Dish object with a unique ID (and saves it to cookies if
+    // enabled)
+    // Also used when editing dishes and saving, then id is id of dish that
+    // should change.
     let notUnique = true;
     let newDishesObj = Object.assign({}, this.state.listOfDishes);
 
@@ -185,6 +200,7 @@ class App extends React.Component {
   };
 
   async removeDish(id) {
+    // Removes an added dish.
     let newDishesObj = Object.assign({}, this.state.listOfDishes);
     if (newDishesObj.hasOwnProperty(id)) {
       delete newDishesObj[id];
@@ -239,6 +255,12 @@ class App extends React.Component {
 };
 
 class Header extends React.Component {
+  // React component for header of <App />.
+  // props.first/second/third are info about the three buttons in header.
+  // ..icon is font awesome icon of button.
+  // ..title is title displayed on hover describing what happens when clicked.
+  // ..visable is wether button is visable or not.
+  // ..onClick is what happens when button is clicked.
   constructor(props) {
     super(props);
     this.state = {
@@ -263,6 +285,9 @@ class Header extends React.Component {
 }
 
 function SquareButton(props) {
+  // React component of square buttons which have a font awesome icon and an
+  // onClick function as props.
+  // props.visable says wether button should be displayed or not.
   let styling = props.color;
   if (props.visable) {
     styling += " threed-button";
@@ -280,12 +305,16 @@ function SquareButton(props) {
 }
 
 function OutputHeader(props) {
+  // React component for header of outputs.
   return (
     <h1 id="output-head">{props.text}</h1>
   )
 }
 
 function OutputDivider(props) {
+  // React component that divides items.
+
+  // props.text is text displayed to the left of the line of the divider.
   return (
     <div className="output-divider">
       <p>{props.text}</p>
@@ -295,12 +324,18 @@ function OutputDivider(props) {
 }
 
 class DishItem extends React.Component {
-  // dish-output-item react component
-  // TODO: see other button (setAttribute) when it's time
-  // NOTE: remove should be an option after edit has been initialized
-  state = {
-    collapsed: true,
-  }
+  // React component for items displayed in <DishesList />
+
+  // props.collapsed says wether item should be displayed as collapsed or
+  // not.
+  // props.name is the name of the dish associated with <DishItem />.
+  // props.dishID ID of dish associated with <DishItem />.
+  // props.freq frequency of dish associated with <DishItem />.
+  // props.weekdaysStr is a String of all days that the dish is activated.
+  // onCollapse tells <DishesList /> that dish currently to toggle collapsed on
+  // associated dish.
+  // onEdit tells <DishesList /> that dish being displayed as being edited
+  // should be this one.
 
   render() {
     return (
@@ -330,7 +365,12 @@ class DishItem extends React.Component {
 }
 
 class DishesList extends React.Component {
-  // Unordered list of all dishes used when loadDishes is called
+  // React component with an unordered list of all added dishes.
+
+  // state.uncollapsedID dishID of <DishItem /> not collapsed if any.
+  // state.editingID dishID of <DishItem /> currently being edited if there is
+  // one (<DishCreateWindow />).
+  // props.dishes should be added dishes.
   constructor(props) {
     super(props);
     this.state = {
@@ -339,6 +379,9 @@ class DishesList extends React.Component {
     }
   }
 
+  // handle function used when collapse button is pressed.
+  // opens and closes based on previous state.
+  // closes others that are open if there is any.
   handleCollapse(id) {
     if (this.state.uncollapsedID == id) {
       this.setState({uncollapsedID: null});
@@ -347,6 +390,8 @@ class DishesList extends React.Component {
     }
   }
 
+  // Handle functions passed on to buttons of <DishItem /> that is currently
+  // being edited (so in reality <DishCreateWindow />).
   handleEdit(id) {
     this.setState({editingID: id});
   }
@@ -396,6 +441,11 @@ class DishesList extends React.Component {
 }
 
 function MenuItem(props) {
+  // React component for items displayed in <MenuList />
+
+  // props.name is the name of the dish
+  // props.weekday is the weekday that the <MenuItem /> is on.
+  // props.day/month is day/month that the <MenuItem /> is on.
   return (
     <div className="output-item menu-output-item" title={props.name}>
       <div className="preview">
@@ -416,12 +466,24 @@ function MenuItem(props) {
 }
 
 function MenuList(props) {
+  // React component displayed in output when menu is viewed.
+  // TEMP: placeholder more info at bottom of document.
   return (
     <p></p>
   )
 }
 
 class Settings extends React.Component {
+  // React component displayed in output when settings are viewed/being edited.
+  // Heavily WIP:
+  /* TODO: What should be in settings?
+    - Theme (light/dark)
+    - Start of week (monday/sunday)
+    - Numbers of meals in a day (1, 2, 3...)
+    - Only use dishes with specified weekdays on their specified days (true/false)
+    - Always show whole weeks (true/false)
+    - Round down dish date on months with fewer days (true/false)
+   */
   constructor(props) {
     super(props);
   }
@@ -451,6 +513,10 @@ class Settings extends React.Component {
 }
 
 class DishCreateWindow extends React.Component {
+  // React component displayed when a dish is being added/edited
+
+  // props.name/freq/weekdays are used to display info already put in when
+  // editing a dish
   constructor(props) {
     super(props);
     this.state = {
@@ -460,6 +526,7 @@ class DishCreateWindow extends React.Component {
     }
   }
 
+  // functions for handeling input fields see components below.
   handleNameChange(name) {
     this.setState({name: name});
   }
@@ -508,16 +575,26 @@ class DishCreateWindow extends React.Component {
 }
 
 function DishNameInput(props) {
+  // React component for name input in <DishCreateWindow />
   return (
     <input type="text" placeholder="Dish name" value={props.value} onChange={() => props.onChange(event.target.value)} />
   )
 }
 
 class RangeInput extends React.Component {
-  // TODO: Needs save/delete actions
+  // React component for range slider in <DishCreateWindow />
+  // TODO: Should show value of range slider to left?/right?.
+
+  // props.min/max defines max and min of range to make it more reusable if
+  // needed.
+  // props.value sets value show on range.
+  // onChange function updates value of range saved in <DishCreateWindow />
+  // onInput makes sure left side of slider is updated when slider thumb is
+  // moved
   constructor(props) {
     super(props);
     this.state = {
+      // Used to update color to the left of the range thumb.
       fraction: (this.props.value - this.props.min)/(this.props.max - this.props.min),
     }
   }
@@ -542,12 +619,16 @@ class RangeInput extends React.Component {
 }
 
 class WeekdayCheckbox extends React.Component {
+  // React component for checkboxes in <DishCreateWindow /> component.
+  // Used by <DishCreateWindow /> to decide which weekdays should be activated
+  // in a Dish object.
+
+  // props.weekday is the weekday checkbox is associated with.
+  // props.checked is used to keep track of checkbox value.
+  // onChange functions updated weekdays array in <DishCreateWindow /> so that
+  // correct weekdays are saved to Dish object.
   constructor(props) {
     super(props);
-  }
-
-  onChange() {
-    this.setState({checked: event.target.checked})
   }
 
   render() {
@@ -566,7 +647,11 @@ class WeekdayCheckbox extends React.Component {
 }
 
 function Popup(props) {
+  // React Popup component.
+  // props.icon is font awesome icon displayed together with popup.
+  // props.actions are all actions that can be used on popup.
   let actions = Array();
+  // Loads buttons from given actions.
   for (action in props.actions) {
     actions.push(
       // TEMP: actions button syntax
@@ -589,11 +674,13 @@ class CookiesWindow extends React.Component {
 
 }
 
+// Makes sure <App /> component is loaded into root div.
 ReactDOM.render(<App />, document.getElementById("root"))
 
 // End of React components
 
 function setCookies(consented) {
+  // Sets wether cookies are activated or not based on [consented]
   if (typeof consented == "boolean") {
     localStorage.setItem("activatedCookies", consented.toString());
     return true;
@@ -603,6 +690,7 @@ function setCookies(consented) {
 }
 
 function hasActivatedCookies() {
+  // Returns wether cookies are activated or not.
   let activated = JSON.parse(localStorage.getItem("activatedCookies"));
   if (activated) {
     return true;
@@ -612,6 +700,7 @@ function hasActivatedCookies() {
 }
 
 function loadStoredDishes() {
+  // Loads dishes from localStorage and convert them to Dish objects.
   let storedDishes = null;
   let loadedDishes = Object();
   if (JSON.parse(localStorage.getItem('activatedCookies'))) {
@@ -632,6 +721,7 @@ function dishFromObject(obj) {
 }
 
 function generateID(length) {
+  // Generates a base62 string of length [length] to identify dishes.
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   let result = '';
   var charactersLength = characters.length;
@@ -646,15 +736,5 @@ function generateID(length) {
 // TODO: Create functions for date/week handeling
 /* NOTE: Generate menu function should be entirely based on dishes and
 their data in menu Array. So that data from it can be shared between devices. */
-
-/* NOTE: What should be in settings?
-  - Theme (light/dark)
-  - Start of week (monday/sunday)
-  - Numbers of meals in a day (1, 2, 3...)
-  - Only use dishes with specified weekdays on their specified days (true/false)
-  - Always show whole weeks (true/false)
-  - Round down dish date on months with fewer days (true/false)
- */
-
  // QUESTION: Rewrite to use hooks instead of classes?
  // QUESTION: Firefox support?
