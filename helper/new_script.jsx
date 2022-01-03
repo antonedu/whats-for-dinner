@@ -731,13 +731,13 @@ function generateID(length) {
   return result;
 }
 
-function regenerateMenu(dishes) {
+function regenerateMenu(dishes, date) {
   // Returns new dishes object with lastSeen date set to a random date between
   // today - 1 and today - today.length - 1.
   let shuffledDishes = shuffleArray(Object.keys(dishes));
-  let currentDate = new Date();
+  let currentDate = new Date(date);
   let dishesButWithNewLastSeen = Object.assign({}, dishes);
-  for (i = 0; i < shuffledDishes.length; i++) {
+  for (let i = 0; i < shuffledDishes.length; i++) {
     currentDate.setDate(currentDate.getDate() - 1);
     dishesButWithNewLastSeen[shuffledDishes[i]].lastSeen = new Date(currentDate);
   }
@@ -748,30 +748,32 @@ function catchUpMenu(dishes, lastUpdatedDate) {
   // Updates lastSeen date of enough dishes for dishes to have caught up with
   // the current date.
   let currentDate = new Date();
+  currentDate.setDate(currentDate.getDate() - Date.daysBetween(new Date(),lastUpdatedDate))
   let dishesButCaughtUp = Object.assign({}, dishes);
   for (let i = Date.daysBetween(new Date(), lastUpdatedDate); i > 0; i--) {
-    currentDate.setDate(currentDate.getDate() - i)
     let id = getNextInMenu(dishesButCaughtUp, currentDate);
-    dishesButCaughtUp[id] = currentDate;
+    dishesButCaughtUp[id].lastSeen = new Date(currentDate);
+    currentDate.setDate(currentDate.getDate() + 1)
   }
   return dishesButCaughtUp;
 }
 
 function getNextInMenu(dishes, date) {
-  currentBestID = null;
-  currentBestValue = null;
-  weekday = date.getISOWeekday();
-  numberWithNoSpecifiedDay = Object.keys(dishes).filter(dish => dishes[dish].allWeekdays()).length;
-  numberWithNoSpecifiedDay = Object.keys(dishes).filter(dish => dishes[dish].weekdays[weekday]).length;
+  let currentBestID = null;
+  let currentBestValue = null;
+  let weekday = date.getISODay();
+  const numberWithNoSpecifiedDay = Object.keys(dishes).filter(dish => dishes[dish].allWeekdays()).length;
+  const numberOfMatchingDays = Object.keys(dishes).filter(dish => dishes[dish].weekdays[weekday]).length;
   for (let dish in dishes) {
     let value;
     if (dishes[dish].allWeekdays()) {
-      value = 2/Math.log(no_day_specified_amount**2);
+      value = 2/Math.log(numberWithNoSpecifiedDay**2);
     } else if (dishes[dish].weekdays[weekday]) {
-      value = 3/Math.log(number_of_matching_days+j**2);
+      value = 3/Math.log(numberOfMatchingDays**2);
     } else {
       value = 0;
     }
+    value *= Date.daysBetween(date, dishes[dish].lastSeen) * dishes[dish].freq;
 
     if (currentBestValue < value) {
       currentBestID = dish;
@@ -790,6 +792,16 @@ function shuffleArray(arr) {
   }
   return shuffledArray;
 }
+
+function testing() {
+  let dishes = loadStoredDishes()
+  let d = new Date()
+  d.setDate(d.getDate() - 7)
+  regenerateMenu(dishes, d)
+  catchUpMenu(dishes, d)
+}
+
+testing()
 
 // TODO: make all functions working with dates ignore hours if not needed.
 // TODO: Ask about cookies.
