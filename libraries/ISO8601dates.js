@@ -44,5 +44,5 @@ Date.prototype.getISOWeek = function () {
 // With the use of Math.trunc instead of round as per Jin Wang's (2016-07-06)
 // comment.
 Date.daysBetween = function (day1, day2) {
-  return Math.trunc((d1 - d2)/86400000)
+  return Math.trunc((day1 - day2)/86400000)
 };

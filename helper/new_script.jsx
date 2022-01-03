@@ -8,13 +8,13 @@ var activatedCookies = false;
 
 class Dish {
   // Dish class
-  constructor(name, weekdays, dates, freq, id) {
+  constructor(name, weekdays, dates, freq, id, lastSeen = null) {
     this.name = name;
     this.weekdays = weekdays;
     this.dates = dates;
     this.freq = freq;
     this.id = id;
-    this.lastSeen = null;
+    this.lastSeen = lastSeen;
   };
 
   get weekdaysStr() {
@@ -652,7 +652,7 @@ function Popup(props) {
   // props.actions are all actions that can be used on popup.
   let actions = Array();
   // Loads buttons from given actions.
-  for (action in props.actions) {
+  for (let action in props.actions) {
     actions.push(
       // TEMP: actions button syntax
     )
@@ -717,7 +717,7 @@ function loadStoredDishes() {
 function dishFromObject(obj) {
   // Converts a dish-like object into a dish
   // Used when loading dishes from local storage
-  return new Dish(obj.name, obj.weekdays, obj.dates, obj.freq, obj.id);
+  return new Dish(obj.name, obj.weekdays, obj.dates, obj.freq, obj.id, obj.lastSeen);
 }
 
 function generateID(length) {
@@ -739,7 +739,7 @@ function regenerateMenu(dishes) {
   let dishesButWithNewLastSeen = Object.assign({}, dishes);
   for (i = 0; i < shuffledDishes.length; i++) {
     currentDate.setDate(currentDate.getDate() - 1);
-    dishesButWithNewLastSeen[shuffledDishes[i]].lastSeen = currentDate;
+    dishesButWithNewLastSeen[shuffledDishes[i]].lastSeen = new Date(currentDate);
   }
   return dishesButWithNewLastSeen;
 }
@@ -750,18 +750,43 @@ function catchUpMenu(dishes, lastUpdatedDate) {
   let currentDate = new Date();
   let dishesButCaughtUp = Object.assign({}, dishes);
   for (let i = Date.daysBetween(new Date(), lastUpdatedDate); i > 0; i--) {
-    let id = getNextInMenu(dishesButCaughtUp);
-    dishesButCaughtUp[id] = currentDate.setDate(currentDate.getDate() - i);
+    currentDate.setDate(currentDate.getDate() - i)
+    let id = getNextInMenu(dishesButCaughtUp, currentDate);
+    dishesButCaughtUp[id] = currentDate;
   }
   return dishesButCaughtUp;
 }
 
+function getNextInMenu(dishes, date) {
+  currentBestID = null;
+  currentBestValue = null;
+  weekday = date.getISOWeekday();
+  numberWithNoSpecifiedDay = Object.keys(dishes).filter(dish => dishes[dish].allWeekdays()).length;
+  numberWithNoSpecifiedDay = Object.keys(dishes).filter(dish => dishes[dish].weekdays[weekday]).length;
+  for (let dish in dishes) {
+    let value;
+    if (dishes[dish].allWeekdays()) {
+      value = 2/Math.log(no_day_specified_amount**2);
+    } else if (dishes[dish].weekdays[weekday]) {
+      value = 3/Math.log(number_of_matching_days+j**2);
+    } else {
+      value = 0;
+    }
+
+    if (currentBestValue < value) {
+      currentBestID = dish;
+      currentBestValue = value;
+    }
+  }
+  return currentBestID;
+}
+
 function shuffleArray(arr) {
   // Returns a shuffled array.
-  let shuffledArray = arr.slice()
+  let shuffledArray = arr.slice();
   for (let i = shuffledArray.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffleArray[i]];
+    [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
   }
   return shuffledArray;
 }
