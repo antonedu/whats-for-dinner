@@ -731,6 +731,42 @@ function generateID(length) {
   return result;
 }
 
+function regenerateMenu(dishes) {
+  // Returns new dishes object with lastSeen date set to a random date between
+  // today - 1 and today - today.length - 1.
+  let shuffledDishes = shuffleArray(Object.keys(dishes));
+  let currentDate = new Date();
+  let dishesButWithNewLastSeen = Object.assign({}, dishes);
+  for (i = 0; i < shuffledDishes.length; i++) {
+    currentDate.setDate(currentDate.getDate() - 1);
+    dishesButWithNewLastSeen[shuffledDishes[i]].lastSeen = currentDate;
+  }
+  return dishesButWithNewLastSeen;
+}
+
+function catchUpMenu(dishes, lastUpdatedDate) {
+  // Updates lastSeen date of enough dishes for dishes to have caught up with
+  // the current date.
+  let currentDate = new Date();
+  let dishesButCaughtUp = Object.assign({}, dishes);
+  for (let i = Math.trunc((new Date() - lastUpdateDate)/86400000); i > 0; i--) {
+    let id = getNextInMenu(dishesButCaughtUp);
+    dishesButCaughtUp[id] = currentDate.setDate(currentDate.getDate() - i);
+  }
+  return dishesButCaughtUp;
+}
+
+function shuffleArray(arr) {
+  // Returns a shuffled array.
+  let shuffledArray = arr.slice()
+  for (let i = shuffledArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffleArray[i]];
+  }
+  return shuffledArray;
+}
+
+// TODO: make all functions working with dates ignore hours if not needed.
 // TODO: Ask about cookies.
 // TODO: Generate menu function
 // TODO: "catch-up" functions for menu.
