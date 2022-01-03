@@ -749,7 +749,7 @@ function catchUpMenu(dishes, lastUpdatedDate) {
   // the current date.
   let currentDate = new Date();
   let dishesButCaughtUp = Object.assign({}, dishes);
-  for (let i = Math.trunc((new Date() - lastUpdateDate)/86400000); i > 0; i--) {
+  for (let i = Date.daysBetween(new Date(), lastUpdatedDate); i > 0; i--) {
     let id = getNextInMenu(dishesButCaughtUp);
     dishesButCaughtUp[id] = currentDate.setDate(currentDate.getDate() - i);
   }
