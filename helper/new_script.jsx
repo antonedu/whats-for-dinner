@@ -759,21 +759,25 @@ function catchUpMenu(dishes, lastUpdatedDate) {
 }
 
 function getNextInMenu(dishes, date) {
-  let currentBestID = null;
-  let currentBestValue = null;
+  // Gets which dish should be next in menu based on all dishes and a date.
+  let currentBestID = -1;
+  let currentBestValue = -1;
   let weekday = date.getISODay();
   const numberWithNoSpecifiedDay = Object.keys(dishes).filter(dish => dishes[dish].allWeekdays()).length;
-  const numberOfMatchingDays = Object.keys(dishes).filter(dish => dishes[dish].weekdays[weekday]).length;
+  const numberOfMatchingDay = Object.keys(dishes).filter(dish => dishes[dish].weekdays[weekday]).length;
+  const numberOfTotalDays = Object.keys(dishes).length;
+  const numberOfTotalSelectedDays = Object.keys(dishes).map(dish => dishes[dish].weekdays.reduce((before, x) => before + x)).reduce((before, a) => a + before);
+  const numberOfTotalDaysSinceLastSeen = Object.keys(dishes).map(dish => Date.daysBetween(date, dishes[dish].lastSeen)).reduce((before, a) => a + before);
   for (let dish in dishes) {
     let value;
     if (dishes[dish].allWeekdays()) {
-      value = 2/Math.log(numberWithNoSpecifiedDay**2);
+      value = 1/(numberWithNoSpecifiedDay**2);
     } else if (dishes[dish].weekdays[weekday]) {
-      value = 3/Math.log(numberOfMatchingDays**2);
+      value = 3/(numberOfMatchingDay**2);
     } else {
-      value = 0;
+      value = 0.1/(numberOfTotalDays**2);
     }
-    value *= Date.daysBetween(date, dishes[dish].lastSeen) * dishes[dish].freq;
+    value *= Date.daysBetween(date, dishes[dish].lastSeen) * dishes[dish].freq**1.2;
 
     if (currentBestValue < value) {
       currentBestID = dish;
@@ -796,9 +800,14 @@ function shuffleArray(arr) {
 function testing() {
   let dishes = loadStoredDishes()
   let d = new Date()
-  d.setDate(d.getDate() - 7)
+  d.setDate(d.getDate() - 40)
+  regenerateMenu(dishes, d)
+  regenerateMenu(dishes, d)
   regenerateMenu(dishes, d)
   catchUpMenu(dishes, d)
+  console.log(Object.keys(dishes).map(dish => Date.daysBetween(new Date(), dishes[dish].lastSeen)).reduce((before, a) => a + before))
+  console.log(Object.keys(dishes).map(dish => dishes[dish].weekdays.reduce((before, x) => before + x)).reduce((before, a) => a + before))
+  console.log(dishes)
 }
 
 testing()
@@ -806,7 +815,7 @@ testing()
 // TODO: make all functions working with dates ignore hours if not needed.
 // TODO: Ask about cookies.
 // TODO: Generate menu function
-// TODO: "catch-up" functions for menu.
+// TODO: "catch-up" functions for menu. (Doesn't do it correctly yet)
 // TODO: Create functions for date/week handeling
 /* NOTE: Generate menu function should be entirely based on dishes and
 their data in menu Array. So that data from it can be shared between devices. */
