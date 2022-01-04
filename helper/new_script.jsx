@@ -819,5 +819,7 @@ testing()
 // TODO: Create functions for date/week handeling
 /* NOTE: Generate menu function should be entirely based on dishes and
 their data in menu Array. So that data from it can be shared between devices. */
+// FIXME: Currently above won't be true if how menu is choosen is ever changed.
+// LocalStorage should probably store the menu as far as it has been generated
  // QUESTION: Rewrite to use hooks instead of classes?
  // QUESTION: Firefox support?
