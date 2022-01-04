@@ -731,31 +731,50 @@ function generateID(length) {
   return result;
 }
 
-function regenerateMenu(dishes, date) {
+function regenerateMenu(dishes, menu, date) {
   // Returns new dishes object with lastSeen date set to a random date between
   // today - 1 and today - today.length - 1.
   let shuffledDishes = shuffleArray(Object.keys(dishes));
   let currentDate = new Date(date);
-  let dishesButWithNewLastSeen = Object.assign({}, dishes);
+  let regeneratedMenu = Array();
+  // let dishesButWithNewLastSeen = Object.assign({}, dishes); Not a deepclone so not useful
   for (let i = 0; i < shuffledDishes.length; i++) {
     currentDate.setDate(currentDate.getDate() - 1);
-    dishesButWithNewLastSeen[shuffledDishes[i]].lastSeen = new Date(currentDate);
+    let copiedDate = new Date(currentDate);
+    let id = shuffledDishes[i];
+    dishes[id].lastSeen = copiedDate;
+    regeneratedMenu.push({id: id, date: copiedDate});
   }
-  return dishesButWithNewLastSeen;
+  return regeneratedMenu;
 }
 
-function catchUpMenu(dishes, lastUpdatedDate) {
+function getNextXInMenu(dishes, menu, x) {
+  // Generates next x items in menu and returns a menu with those added.
+  let newMenuArray = menu.slice();
+  let d = new Date(newMenuArray.at(-1).date);
+  for (let i = 0; i < x; i++) {
+    newMenuArray.push({id: id, date: d});
+  }
+  return newMenuArray;
+}
+
+function catchUpMenu(dishes, menu) {
   // Updates lastSeen date of enough dishes for dishes to have caught up with
   // the current date.
-  let currentDate = new Date();
-  currentDate.setDate(currentDate.getDate() - Date.daysBetween(new Date(),lastUpdatedDate))
-  let dishesButCaughtUp = Object.assign({}, dishes);
+  // TODO: Rewrite to also catch-up menu array by removing items at dates that have
+  // passed.
+  const lastUpdatedDate = menu.at(-1).date;
+  let currentDate = new Date(lastUpdatedDate);
+  // let dishesButCaughtUp = Object.assign({}, dishes); not a deepclone so not useful
+  let caughtUpMenu = menu.slice();
   for (let i = Date.daysBetween(new Date(), lastUpdatedDate); i > 0; i--) {
-    let id = getNextInMenu(dishesButCaughtUp, currentDate);
-    dishesButCaughtUp[id].lastSeen = new Date(currentDate);
-    currentDate.setDate(currentDate.getDate() + 1)
+    let id = getNextInMenu(dishes, currentDate);
+    let copiedDate = new Date(currentDate);
+    dishes[id].lastSeen = new Date(copiedDate);
+    caughtUpMenu.push({id: id, date: copiedDate});
+    currentDate.setDate(currentDate.getDate() + 1);
   }
-  return dishesButCaughtUp;
+  return caughtUpMenu;
 }
 
 function getNextInMenu(dishes, date) {
@@ -800,14 +819,15 @@ function shuffleArray(arr) {
 function testing() {
   let dishes = loadStoredDishes()
   let d = new Date()
+  let menu = Array()
   d.setDate(d.getDate() - 40)
-  regenerateMenu(dishes, d)
-  regenerateMenu(dishes, d)
-  regenerateMenu(dishes, d)
-  catchUpMenu(dishes, d)
+  menu = regenerateMenu(dishes, menu, d)
+  console.log(menu)
+  menu = catchUpMenu(dishes, menu)
   console.log(Object.keys(dishes).map(dish => Date.daysBetween(new Date(), dishes[dish].lastSeen)).reduce((before, a) => a + before))
   console.log(Object.keys(dishes).map(dish => dishes[dish].weekdays.reduce((before, x) => before + x)).reduce((before, a) => a + before))
   console.log(dishes)
+  console.log(menu)
 }
 
 testing()
