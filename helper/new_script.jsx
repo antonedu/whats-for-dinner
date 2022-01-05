@@ -56,7 +56,7 @@ class Dish {
 // REACT COMPONENTS
 class App extends React.Component {
   // React component for whats-for-dinner app.
-  // state.listOfDishes should be all added dishes, already added dishes are
+  // state.dishes should be all added dishes, already added dishes are
   // loaded from cookies if they are activated.
   // state.currentlyAddingDish says wether a <DishCreateWindow /> should be
   // displayed at the top of outputs (only if state.content is "Dishes").
@@ -66,8 +66,10 @@ class App extends React.Component {
   // state.content describes what is currently being displayed as output.
   constructor(props) {
     super(props);
+    let storedDishes = loadStoredDishes()
     this.state = {
-      listOfDishes: loadStoredDishes(),
+      dishes: storedDishes,
+      menu: loadStoredMenu(storedDishes),
       currentlyAddingDish: false,
       cookiesActivated: hasActivatedCookies(),
       headerButtons: {
@@ -80,7 +82,7 @@ class App extends React.Component {
         second: {
           title: "Switch to menu",
           icon: "utensils",
-          onClick: () => this.updateHeaderButtons("Menu"),
+          onClick: () => {this.updateHeaderButtons("Menu");},
           visable: true
         },
         third: {
@@ -94,18 +96,24 @@ class App extends React.Component {
     };
   };
 
-  updateLocalStorage() {
+  updateStoredDishes() {
     // Updates locale storage to include current version of dishes
-    if (JSON.parse(localStorage.getItem("activatedCookies")) === true) {
-      localStorage.setItem("dishes", JSON.stringify(this.state.listOfDishes));
+    if (hasActivatedCookies()) {
+      localStorage.setItem("dishes", JSON.stringify(this.state.dishes));
     };
   };
+
+  updateStoredMenu() {
+    if (hasActivatedCookies()) {
+      localStorage.setItem("menu", JSON.stringify(this.state.menu));
+    };
+  }
 
   consentToCookies() {
     // Updates local storage if consent changes
     let activated = JSON.parse(localStorage.getItem("activatedCookies"));
     if (this.state.cookiesActivated) {
-      this.updateLocalStorage();
+      this.updateStoredDishes();
     } else {
       localStorage.removeItem("dishes");
     };
@@ -138,7 +146,7 @@ class App extends React.Component {
       Menu: {
         first: {
           icon: "redo-alt",
-          onClick: () => console.log("re-generate"),
+          onClick: () => regenerateMenu(this.state.dishes),
           visable: true
         },
         second: {
@@ -182,47 +190,77 @@ class App extends React.Component {
     // enabled)
     // Also used when editing dishes and saving, then id is id of dish that
     // should change.
-    let notUnique = true;
-    let newDishesObj = Object.assign({}, this.state.listOfDishes);
+    let newDishesObj = Object.assign({}, this.state.dishes);
 
     if (id === null) {
-      do {
-        id = generateID(4);
-        if (!newDishesObj.hasOwnProperty(id)) {
-          notUnique = false;
-        };
-      } while (notUnique);
+      id = generateUniqueID(4, newDishesObj);
     }
 
     newDishesObj[id] = new Dish(name, weekdays.slice(0), dates, freq, id);
-    await this.setState({listOfDishes: newDishesObj});
-    this.updateLocalStorage();
+    await this.setState({dishes: newDishesObj});
+    this.updateStoredDishes();
   };
 
   async removeDish(id) {
     // Removes an added dish.
-    let newDishesObj = Object.assign({}, this.state.listOfDishes);
+    let newDishesObj = Object.assign({}, this.state.dishes);
     if (newDishesObj.hasOwnProperty(id)) {
       delete newDishesObj[id];
     }
-    await this.setState({listOfDishes: newDishesObj});
-    this.updateLocalStorage();
+    await this.setState({dishes: newDishesObj});
+    this.updateStoredDishes();
   }
 
   render() {
-    let creatingDish = false;
+    let renderedOutput;
 
-    if (this.state.currentlyAddingDish) {
-      creatingDish = (
-        <DishCreateWindow
-          editing={false}
-          name={""}
-          freq={5}
-          weekdays={Array(7).fill(false)}
-          onClose={() => this.setState({currentlyAddingDish: false})}
-          onDelete={() => null}
-          onSave={(name, weekdays, freq) => this.addDish(name, weekdays, null, freq)}
-        />
+    if (this.state.content == "Dishes") {
+      let creatingDish = false;
+
+      if (this.state.currentlyAddingDish) {
+        creatingDish = (
+          <DishCreateWindow
+            editing={false}
+            name={""}
+            freq={5}
+            weekdays={Array(7).fill(false)}
+            onClose={() => this.setState({currentlyAddingDish: false})}
+            onDelete={() => null}
+            onSave={(name, weekdays, freq) => this.addDish(name, weekdays, null, freq)}
+          />
+        )
+      }
+      renderedOutput = (
+        <div>
+          {creatingDish}
+          <DishesList
+            dishes={this.state.dishes}
+            onDelete={id => this.removeDish(id)}
+            onSave={(name, weekdays, freq, id) => this.addDish(name, weekdays, null, freq, id)}
+          />
+          <button onClick={() => {let id = generateID(4); this.addDish(id, [false, false, false, false, false, false, false], null, 7, id);}}>Click me!</button>
+        </div>
+      )
+    } else if (this.state.content == "Menu") {
+      renderedOutput = (
+        <div>
+          <MenuList
+            menu={this.state.menu}
+            dishes={this.state.dishes}
+            onShowMore={() => {
+              let extendedMenu = generateNextX(this.state.dishes, this.state.menu, 7);
+              this.setState({menu: extendedMenu});
+              updateStoredMenu(extendedMenu);
+            }
+          }
+          />
+        </div>
+      )
+    } else if (this.state.content == "Settings") {
+      renderedOutput = (
+        <div>
+          <Settings />
+        </div>
       )
     }
 
@@ -234,18 +272,8 @@ class App extends React.Component {
           <div id="output-wrapper">
             <OutputHeader text={this.state.content} />
             <div id="output-items">
-              {creatingDish}
-              <MenuItem name="def" weekday="mon" day="22" month="may" />
-              <MenuItem name="abc" weekday="tue" day="23" month="may" />
-              <OutputDivider text={"Week 44"} date={"24 may"} />
-              <MenuItem name="sABKfjebvjhl<bsdvjhb<hsbvehilvbilzdfbhoutnajbarjiebvila<bijshueripgvbiarb" weekday="wed" day="24" month="may" />
-              <DishesList
-                dishes={this.state.listOfDishes}
-                onDelete={id => this.removeDish(id)}
-                onSave={(name, weekdays, freq, id) => this.addDish(name, weekdays, null, freq, id)}
-              />
+              {renderedOutput}
             </div>
-            <button onClick={() => {let id = generateID(4); this.addDish(id, [false, false, false, false, false, false, false], null, 7, id);}}>Click me!</button>
           </div>
         </section>
       </div>
@@ -468,8 +496,45 @@ function MenuItem(props) {
 function MenuList(props) {
   // React component displayed in output when menu is viewed.
   // TEMP: placeholder more info at bottom of document.
+  // <MenuItem name="def" weekday="mon" day="22" month="may" />
+  // <MenuItem name="abc" weekday="tue" day="23" month="may" />
+  // <OutputDivider text={"Week 44"} date={"24 may"} />
+  // <MenuItem name="sABKfjebvjhl<bsdvjhb<hsbvehilvbilzdfbhoutnajbarjiebvila<bijshueripgvbiarb" weekday="wed" day="24" month="may" />
+  const weekdaysStrs = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
+  let usedIDs = Object();
+  let menu = Array();
+  if (new Date().getISODay() != 0) {
+    menu.push(<OutputDivider text={"Week " + new Date().getISOWeek()} key={"firstWeek"} />)
+  }
+  for (let i = 0; i < props.menu.length; i++) {
+    const currentItem = props.menu[i];
+    const d = new Date(props.menu[i].date);
+    const name = props.dishes[currentItem.id].name;
+    const weekday = weekdaysStrs[d.getISODay()];
+    const day = d.toLocaleDateString('en-US', {day: "numeric"});
+    const month = d.toLocaleDateString('en-US', {month: "long"}).slice(0, 3);
+    let id = generateUniqueID(6, usedIDs);
+    usedIDs[id] = null; // null can be any value (it's just a placeholder).
+    if (d.getISODay() == 0) {
+      let divID = generateUniqueID(6, usedIDs);
+      usedIDs[divID] = null; // null can be any value (it's just a placeholder).
+      menu.push(<OutputDivider text={"Week " + d.getISOWeek()} key={divID} />)
+    }
+    menu.push(
+      <MenuItem
+        name={name}
+        weekday={weekday}
+        day={day}
+        month={month}
+        key={id}
+      />
+    )
+  }
   return (
-    <p></p>
+    <div>
+      <ul>{menu}</ul>
+      <button onClick={() => props.onShowMore()}>Load more</button>
+    </div>
   )
 }
 
@@ -691,12 +756,7 @@ function setCookies(consented) {
 
 function hasActivatedCookies() {
   // Returns wether cookies are activated or not.
-  let activated = JSON.parse(localStorage.getItem("activatedCookies"));
-  if (activated) {
-    return true;
-  } else {
-    return false;
-  }
+  return JSON.parse(localStorage.getItem("activatedCookies"));
 }
 
 function loadStoredDishes() {
@@ -720,24 +780,13 @@ function dishFromObject(obj) {
   return new Dish(obj.name, obj.weekdays, obj.dates, obj.freq, obj.id, obj.lastSeen);
 }
 
-function generateID(length) {
-  // Generates a base62 string of length [length] to identify dishes.
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  let result = '';
-  var charactersLength = characters.length;
-  for ( var i = 0; i < length; i++ ) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
-}
-
 function regenerateMenu(dishes, date) {
   // Returns new dishes object with lastSeen date set to a random date between
   // today - 1 and today - today.length - 1.
   // FIXME: menu index 0 with this is latest date should be earliest
   let shuffledDishes = shuffleArray(Object.keys(dishes));
   let currentDate = new Date(date);
-  currentDate.setDate(currentDate.getDate() - shuffledDishes.length)
+  currentDate.setDate(currentDate.getDate() - shuffledDishes.length - 1)
   let regeneratedMenu = Array();
   // let dishesButWithNewLastSeen = Object.assign({}, dishes); Not a deepclone so not useful
   for (let i = 0; i < shuffledDishes.length; i++) {
@@ -756,7 +805,10 @@ function generateNextX(dishes, menu, x) {
   let newMenuArray = menu.slice();
   let d = new Date(newMenuArray.at(-1).date);
   for (let i = 0; i < x; i++) {
-    newMenuArray.push({id: id, date: d});
+    d.setDate(d.getDate() + 1);
+    let id = getNextInMenu(dishes, d);
+    let copiedDate = new Date(d);
+    newMenuArray.push({id: id, date: copiedDate});
   }
   return newMenuArray;
 }
@@ -764,13 +816,13 @@ function generateNextX(dishes, menu, x) {
 function catchUpMenu(dishes, menu) {
   // Updates lastSeen date of enough dishes for dishes to have caught up with
   // the current date. Removes dishes from menu if date has passed.
-  const today = new Date()
+  const today = new Date();
   const lastUpdatedDate = menu.at(-1).date;
-  const daysSinceLastUpdate = Date.daysBetween(today, new Date(menu[0].date));
+  const daysSinceLastUpdate = Date.daysBetween(today - 86400000, new Date(menu[0].date));
   let currentDate = new Date(lastUpdatedDate);
   let caughtUpMenu = menu.slice();
   // let dishesButCaughtUp = Object.assign({}, dishes); not a deepclone so not useful
-  for (let i = Date.daysBetween(today, lastUpdatedDate) - 1; i > 0; i--) {
+  for (let i = Date.daysBetween(today, lastUpdatedDate); i > 0; i--) {
     let id = getNextInMenu(dishes, currentDate);
     currentDate.setDate(currentDate.getDate() + 1);
     let copiedDate = new Date(currentDate);
@@ -809,6 +861,51 @@ function getNextInMenu(dishes, date) {
   return currentBestID;
 }
 
+function loadStoredMenu(dishes) {
+  let storedMenu = JSON.parse(localStorage.getItem("menu"));
+  console.log(storedMenu)
+  let d = new Date();
+  if (storedMenu == null) {
+    storedMenu = regenerateMenu(dishes, new Date());
+  }
+  if (storedMenu.length - Object.keys(dishes).length < 7) {
+    console.log(storedMenu)
+    storedMenu = generateNextX(dishes, storedMenu, 7 - storedMenu.length + Object.keys(dishes).length);
+  }
+  storedMenu = catchUpMenu(dishes, storedMenu);
+  updateStoredMenu(storedMenu);
+  return storedMenu;
+}
+
+function updateStoredMenu(menu) {
+  if (hasActivatedCookies()) {
+    localStorage.setItem("menu", JSON.stringify(menu));
+  };
+}
+
+function generateID(length) {
+  // Generates a base62 string of length [length] to identify dishes.
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+  var charactersLength = characters.length;
+  for ( var i = 0; i < length; i++ ) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}
+
+function generateUniqueID(length, obj) {
+  let id = null;
+  let notUnique = true;
+  do {
+    id = generateID(length);
+    if (!obj.hasOwnProperty(id)) {
+      notUnique = false;
+    };
+  } while (notUnique);
+  return id;
+}
+
 function shuffleArray(arr) {
   // Returns a shuffled array.
   let shuffledArray = arr.slice();
@@ -826,14 +923,15 @@ function testing() {
   d.setDate(d.getDate() + 3)
   menu = regenerateMenu(dishes, d)
   menu = catchUpMenu(dishes, menu)
+  menu = generateNextX(dishes, menu, 10)
 }
 
-testing()
+// testing()
 
 // TODO: make all functions working with dates ignore hours if not needed.
 // TODO: Ask about cookies.
-// TODO: Generate menu function.
 // TODO: Create functions for date/week handeling
+// TODO: Move functions that don't use this.setState out of classes
 // NOTE: Dates going through json will be string format but should be okay as
 // long as functions always copies dates (let x = new Date(date));
  // QUESTION: Rewrite to use hooks instead of classes?
