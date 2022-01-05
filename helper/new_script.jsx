@@ -1,4 +1,3 @@
-// TODO: Code clean up
 // TODO: compile with babel
 
 // Imports
@@ -24,7 +23,6 @@ class Dish {
     // Returns str with active weekdays
     let weekdaysStr = "";
     let weekdaysArray = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
-    // return "all"
     if (this.allWeekdays()) {
       if (this.weekdays[0] === true) {
         return "all";
@@ -106,12 +104,6 @@ class App extends React.Component {
     };
   };
 
-  updateStoredMenu() {
-    if (hasActivatedCookies()) {
-      localStorage.setItem("menu", JSON.stringify(this.state.menu));
-    };
-  }
-
   consentToCookies() {
     // Updates local storage if consent changes
     let activated = JSON.parse(localStorage.getItem("activatedCookies"));
@@ -176,7 +168,7 @@ class App extends React.Component {
         },
         third: {
           icon: "save",
-          onClick: () => console.log("saved"),
+          onClick: () => this.handleSaveSettings(),
           visable: true
         }
       }
@@ -215,6 +207,7 @@ class App extends React.Component {
   }
 
   async handleResetMenu() {
+    // Resets menu and generates first 7 days of a new one.
     let updatedDishes = Object.assign({}, this.state.dishes)
     let resetMenu = regenerateMenu(updatedDishes, new Date());
     resetMenu = generateNextX(updatedDishes, resetMenu, 7);
@@ -440,7 +433,7 @@ class DishesList extends React.Component {
     this.setState({editingID: id});
   }
 
-  handleClose() {
+  handleCloseEdit() {
     this.setState({editingID: null});
     this.setState({uncollapsedID: null});
   }
@@ -458,9 +451,9 @@ class DishesList extends React.Component {
             freq={currentDish.freq}
             weekdays={currentDish.weekdays}
             key={currentDish.id}
-            onClose={() => {this.handleClose();}}
-            onDelete={() => {this.props.onDelete(this.state.editingID); this.handleClose()}}
-            onSave={(name, weekdays, freq) => {this.props.onSave(name, weekdays, freq, this.state.editingID); this.handleClose()}}
+            onClose={() => {this.handleCloseEdit();}}
+            onDelete={() => {this.props.onDelete(this.state.editingID); this.handleCloseEdit()}}
+            onSave={(name, weekdays, freq) => {this.props.onSave(name, weekdays, freq, this.state.editingID); this.handleCloseEdit()}}
           />
         )
       } else {
@@ -511,11 +504,6 @@ function MenuItem(props) {
 
 function MenuList(props) {
   // React component displayed in output when menu is viewed.
-  // TEMP: placeholder more info at bottom of document.
-  // <MenuItem name="def" weekday="mon" day="22" month="may" />
-  // <MenuItem name="abc" weekday="tue" day="23" month="may" />
-  // <OutputDivider text={"Week 44"} date={"24 may"} />
-  // <MenuItem name="sABKfjebvjhl<bsdvjhb<hsbvehilvbilzdfbhoutnajbarjiebvila<bijshueripgvbiarb" weekday="wed" day="24" month="may" />
   const weekdaysStrs = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
   let usedIDs = Object();
   let menu = Array();
@@ -523,7 +511,6 @@ function MenuList(props) {
     menu.push(<OutputDivider text={"Week " + new Date(props.menu[0].date).getISOWeek()} key={"firstWeek"} />)
   }
   for (let i = 0; i < props.menu.length; i++) {
-    console.log(i)
     const currentItem = props.menu[i];
     const d = new Date(props.menu[i].date);
     const name = props.dishes[currentItem.id].name;
@@ -729,6 +716,7 @@ class WeekdayCheckbox extends React.Component {
 }
 
 function Popup(props) {
+  // TODO: Finish this component here and in css.
   // React Popup component.
   // props.icon is font awesome icon displayed together with popup.
   // props.actions are all actions that can be used on popup.
@@ -753,7 +741,7 @@ function Popup(props) {
 }
 
 class CookiesWindow extends React.Component {
-
+  // TODO: Use <Popup /> component to finish this.
 }
 
 // Makes sure <App /> component is loaded into root div.
@@ -805,7 +793,6 @@ function regenerateMenu(dishes, date) {
   let currentDate = new Date(date);
   currentDate.setDate(currentDate.getDate() - shuffledDishes.length)
   let regeneratedMenu = Array();
-  // let dishesButWithNewLastSeen = Object.assign({}, dishes); Not a deepclone so not useful
   for (let i = 0; i < shuffledDishes.length; i++) {
     let copiedDate = new Date(currentDate);
     let id = shuffledDishes[i];
@@ -879,12 +866,11 @@ function getNextInMenu(dishes, date) {
 }
 
 function loadStoredMenu(dishes) {
+  // Returns a fully updated menu from localStorage
   let storedMenu = JSON.parse(localStorage.getItem("menu"));
-  console.log(storedMenu)
   let d = new Date();
   if (storedMenu == null) {
     storedMenu = regenerateMenu(dishes, new Date());
-    console.log(storedMenu)
     storedMenu = generateNextX(dishes, storedMenu, 7);
   } else {
     let daysToGenerate = Date.daysBetween(d, new Date(storedMenu.at(-1).date)) + 7;
@@ -898,6 +884,7 @@ function loadStoredMenu(dishes) {
 }
 
 function updateStoredMenu(menu) {
+  // Updates menu in localStorage
   if (hasActivatedCookies()) {
     localStorage.setItem("menu", JSON.stringify(menu));
   };
@@ -941,6 +928,6 @@ function shuffleArray(arr) {
 // TODO: Move functions that don't use this.setState out of classes
 // NOTE: Dates going through json will be string format but should be okay as
 // long as functions always copies dates (let x = new Date(date));
- // QUESTION: Rewrite to use hooks instead of classes?
- // QUESTION: Firefox support?
- // QUESTION: Safari support?
+// QUESTION: Rewrite to use hooks instead of classes?
+// QUESTION: Firefox support?
+// QUESTION: Safari support?
