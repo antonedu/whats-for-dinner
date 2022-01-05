@@ -149,7 +149,7 @@ class App extends React.Component {
       Menu: {
         first: {
           icon: "redo-alt",
-          onClick: () => regenerateMenu(this.state.dishes),
+          onClick: () => this.handleResetMenu(),
           visable: true
         },
         second: {
@@ -212,6 +212,19 @@ class App extends React.Component {
     }
     await this.setState({dishes: newDishesObj});
     this.updateStoredDishes();
+  }
+
+  async handleResetMenu() {
+    let updatedDishes = Object.assign({}, this.state.dishes)
+    let resetMenu = regenerateMenu(updatedDishes, new Date());
+    resetMenu = generateNextX(updatedDishes, resetMenu, 7);
+    resetMenu = catchUpMenu(updatedDishes, resetMenu);
+    updateStoredMenu(resetMenu);
+    await this.setState({
+      dishes: updatedDishes,
+      menu: resetMenu,
+    })
+    this.updateStoredDishes()
   }
 
   render() {
@@ -506,10 +519,11 @@ function MenuList(props) {
   const weekdaysStrs = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
   let usedIDs = Object();
   let menu = Array();
-  if (new Date().getISODay() != 0) {
-    menu.push(<OutputDivider text={"Week " + new Date().getISOWeek()} key={"firstWeek"} />)
+  if (new Date().getISODay() != 0 && props.menu.length > 0) {
+    menu.push(<OutputDivider text={"Week " + new Date(props.menu[0].date).getISOWeek()} key={"firstWeek"} />)
   }
   for (let i = 0; i < props.menu.length; i++) {
+    console.log(i)
     const currentItem = props.menu[i];
     const d = new Date(props.menu[i].date);
     const name = props.dishes[currentItem.id].name;
@@ -789,7 +803,7 @@ function regenerateMenu(dishes, date) {
   // FIXME: menu index 0 with this is latest date should be earliest
   let shuffledDishes = shuffleArray(Object.keys(dishes));
   let currentDate = new Date(date);
-  currentDate.setDate(currentDate.getDate() - shuffledDishes.length - 1)
+  currentDate.setDate(currentDate.getDate() - shuffledDishes.length)
   let regeneratedMenu = Array();
   // let dishesButWithNewLastSeen = Object.assign({}, dishes); Not a deepclone so not useful
   for (let i = 0; i < shuffledDishes.length; i++) {
@@ -821,7 +835,7 @@ function catchUpMenu(dishes, menu) {
   // the current date. Removes dishes from menu if date has passed.
   const today = new Date();
   const lastUpdatedDate = menu.at(-1).date;
-  const daysSinceLastUpdate = Date.daysBetween(today - 86400000, new Date(menu[0].date));
+  const daysSinceLastUpdate = Date.daysBetween(today, new Date(menu[0].date));
   let currentDate = new Date(lastUpdatedDate);
   let caughtUpMenu = menu.slice();
   // let dishesButCaughtUp = Object.assign({}, dishes); not a deepclone so not useful
@@ -837,7 +851,7 @@ function catchUpMenu(dishes, menu) {
 
 function getNextInMenu(dishes, date) {
   // Gets which dish should be next in menu based on all dishes and a date.
-  let currentBestID = -1;
+  let currentBestID = null;
   let currentBestValue = -1;
   let weekday = date.getISODay();
   const numberWithNoSpecifiedDay = Object.keys(dishes).filter(dish => dishes[dish].allWeekdays()).length;
@@ -870,10 +884,13 @@ function loadStoredMenu(dishes) {
   let d = new Date();
   if (storedMenu == null) {
     storedMenu = regenerateMenu(dishes, new Date());
-  }
-  if (storedMenu.length - Object.keys(dishes).length < 7) {
     console.log(storedMenu)
-    storedMenu = generateNextX(dishes, storedMenu, 7 - storedMenu.length + Object.keys(dishes).length);
+    storedMenu = generateNextX(dishes, storedMenu, 7);
+  } else {
+    let daysToGenerate = Date.daysBetween(d, new Date(storedMenu.at(-1).date)) + 7;
+    if (daysToGenerate > 0) {
+      storedMenu = generateNextX(dishes, storedMenu, )
+    }
   }
   storedMenu = catchUpMenu(dishes, storedMenu);
   updateStoredMenu(storedMenu);
