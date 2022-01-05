@@ -1,3 +1,6 @@
+// TODO: Code clean up
+// TODO: compile with babel
+
 // Imports
 import "../libraries/ISO8601dates.js";
 
@@ -916,21 +919,8 @@ function shuffleArray(arr) {
   return shuffledArray;
 }
 
-function testing() {
-  let dishes = loadStoredDishes()
-  let d = new Date()
-  let menu = Array()
-  d.setDate(d.getDate() + 3)
-  menu = regenerateMenu(dishes, d)
-  menu = catchUpMenu(dishes, menu)
-  menu = generateNextX(dishes, menu, 10)
-}
-
-// testing()
-
 // TODO: make all functions working with dates ignore hours if not needed.
 // TODO: Ask about cookies.
-// TODO: Create functions for date/week handeling
 // TODO: Move functions that don't use this.setState out of classes
 // NOTE: Dates going through json will be string format but should be okay as
 // long as functions always copies dates (let x = new Date(date));
