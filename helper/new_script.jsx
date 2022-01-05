@@ -731,25 +731,28 @@ function generateID(length) {
   return result;
 }
 
-function regenerateMenu(dishes, menu, date) {
+function regenerateMenu(dishes, date) {
   // Returns new dishes object with lastSeen date set to a random date between
   // today - 1 and today - today.length - 1.
+  // FIXME: menu index 0 with this is latest date should be earliest
   let shuffledDishes = shuffleArray(Object.keys(dishes));
   let currentDate = new Date(date);
+  currentDate.setDate(currentDate.getDate() - shuffledDishes.length)
   let regeneratedMenu = Array();
   // let dishesButWithNewLastSeen = Object.assign({}, dishes); Not a deepclone so not useful
   for (let i = 0; i < shuffledDishes.length; i++) {
-    currentDate.setDate(currentDate.getDate() - 1);
     let copiedDate = new Date(currentDate);
     let id = shuffledDishes[i];
     dishes[id].lastSeen = copiedDate;
     regeneratedMenu.push({id: id, date: copiedDate});
+    currentDate.setDate(currentDate.getDate() + 1);
   }
   return regeneratedMenu;
 }
 
-function getNextXInMenu(dishes, menu, x) {
-  // Generates next x items in menu and returns a menu with those added.
+function generateNextX(dishes, menu, x) {
+  // Generates next x items in menu and returns a menu with those added. Also
+  // changes lastSeen of dishes which when used.
   let newMenuArray = menu.slice();
   let d = new Date(newMenuArray.at(-1).date);
   for (let i = 0; i < x; i++) {
@@ -760,21 +763,21 @@ function getNextXInMenu(dishes, menu, x) {
 
 function catchUpMenu(dishes, menu) {
   // Updates lastSeen date of enough dishes for dishes to have caught up with
-  // the current date.
-  // TODO: Rewrite to also catch-up menu array by removing items at dates that have
-  // passed.
+  // the current date. Removes dishes from menu if date has passed.
+  const today = new Date()
   const lastUpdatedDate = menu.at(-1).date;
+  const daysSinceLastUpdate = Date.daysBetween(today, new Date(menu[0].date));
   let currentDate = new Date(lastUpdatedDate);
-  // let dishesButCaughtUp = Object.assign({}, dishes); not a deepclone so not useful
   let caughtUpMenu = menu.slice();
-  for (let i = Date.daysBetween(new Date(), lastUpdatedDate); i > 0; i--) {
+  // let dishesButCaughtUp = Object.assign({}, dishes); not a deepclone so not useful
+  for (let i = Date.daysBetween(today, lastUpdatedDate) - 1; i > 0; i--) {
     let id = getNextInMenu(dishes, currentDate);
+    currentDate.setDate(currentDate.getDate() + 1);
     let copiedDate = new Date(currentDate);
     dishes[id].lastSeen = new Date(copiedDate);
     caughtUpMenu.push({id: id, date: copiedDate});
-    currentDate.setDate(currentDate.getDate() + 1);
   }
-  return caughtUpMenu;
+  return caughtUpMenu.slice(daysSinceLastUpdate);
 }
 
 function getNextInMenu(dishes, date) {
@@ -820,26 +823,19 @@ function testing() {
   let dishes = loadStoredDishes()
   let d = new Date()
   let menu = Array()
-  d.setDate(d.getDate() - 40)
-  menu = regenerateMenu(dishes, menu, d)
-  console.log(menu)
+  d.setDate(d.getDate() + 3)
+  menu = regenerateMenu(dishes, d)
   menu = catchUpMenu(dishes, menu)
-  console.log(Object.keys(dishes).map(dish => Date.daysBetween(new Date(), dishes[dish].lastSeen)).reduce((before, a) => a + before))
-  console.log(Object.keys(dishes).map(dish => dishes[dish].weekdays.reduce((before, x) => before + x)).reduce((before, a) => a + before))
-  console.log(dishes)
-  console.log(menu)
 }
 
 testing()
 
 // TODO: make all functions working with dates ignore hours if not needed.
 // TODO: Ask about cookies.
-// TODO: Generate menu function
-// TODO: "catch-up" functions for menu. (Doesn't do it correctly yet)
+// TODO: Generate menu function.
 // TODO: Create functions for date/week handeling
-/* NOTE: Generate menu function should be entirely based on dishes and
-their data in menu Array. So that data from it can be shared between devices. */
-// FIXME: Currently above won't be true if how menu is choosen is ever changed.
-// LocalStorage should probably store the menu as far as it has been generated
+// NOTE: Dates going through json will be string format but should be okay as
+// long as functions always copies dates (let x = new Date(date));
  // QUESTION: Rewrite to use hooks instead of classes?
  // QUESTION: Firefox support?
+ // QUESTION: Safari support?
