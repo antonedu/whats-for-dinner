@@ -1,0 +1,27 @@
+{
+  "name": "whats-for-dinner",
+  "version": "2.0.0",
+  "description": "A tool to help you decide what to eat. You can add dishes where you set frequency and what weekdays the dish can be selected on. These can then be generated into a menu.",
+  "main": "home/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx babel src --out-dir lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antonegas/whats-for-dinner.git"
+  },
+  "keywords": [],
+  "author": "antonegas",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/antonegas/whats-for-dinner/issues"
+  },
+  "homepage": "https://github.com/antonegas/whats-for-dinner#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.16.7",
+    "@babel/core": "^7.16.7",
+    "@babel/preset-env": "^7.16.7",
+    "@babel/preset-react": "^7.16.7"
+  }
+}
