@@ -266,7 +266,7 @@ class App extends React.Component {
     } else if (this.state.content == "Settings") {
       renderedOutput = (
         <div>
-          <Settings />
+          <Settings onConsentToCookies={() => this.consentToCookies()} cookiesActivated={this.state.cookiesActivated} />
         </div>
       )
     }
@@ -502,6 +502,10 @@ function MenuItem(props) {
 
 function MenuList(props) {
   // React component displayed in output when menu is viewed.
+  // if (props.menu == [] || props.menu == null) {
+  //   return (<div></div>)
+  // }
+
   const weekdaysStrs = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
   let usedIDs = Object();
   let menu = Array();
@@ -865,23 +869,24 @@ function getNextInMenu(dishes, date) {
 
 function loadStoredMenu(dishes) {
   // Returns a fully updated menu from localStorage
-  let storedMenu = JSON.parse(localStorage.getItem("menu"));
-  let d = new Date();
-  if (storedMenu == null) {
-    if (JSON.parse(localStorage.getItem("dishes")) == null) {
-      return []
-    }
-    storedMenu = regenerateMenu(dishes, new Date());
-    storedMenu = generateNextX(dishes, storedMenu, 7);
-  } else {
-    let daysToGenerate = Date.daysBetween(d, new Date(storedMenu.at(-1).date)) + 7;
-    if (daysToGenerate > 0) {
-      storedMenu = generateNextX(dishes, storedMenu, )
-    }
-  }
-  storedMenu = catchUpMenu(dishes, storedMenu);
-  updateStoredMenu(storedMenu);
-  return storedMenu;
+  return [];
+  // let storedMenu = JSON.parse(localStorage.getItem("menu"));
+  // let d = new Date();
+  // if (storedMenu == null) {
+  //   if (JSON.parse(localStorage.getItem("dishes")) == null) {
+  //     return []
+  //   }
+  //   storedMenu = regenerateMenu(dishes, new Date());
+  //   storedMenu = generateNextX(dishes, storedMenu, 7);
+  // } else {
+  //   let daysToGenerate = Date.daysBetween(d, new Date(storedMenu.at(-1).date)) + 7;
+  //   if (daysToGenerate > 0) {
+  //     storedMenu = generateNextX(dishes, storedMenu, )
+  //   }
+  // }
+  // storedMenu = catchUpMenu(dishes, storedMenu);
+  // updateStoredMenu(storedMenu);
+  // return storedMenu;
 }
 
 function updateStoredMenu(menu) {
