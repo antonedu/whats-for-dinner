@@ -266,7 +266,10 @@ class App extends React.Component {
     } else if (this.state.content == "Settings") {
       renderedOutput = (
         <div>
-          <Settings onConsentToCookies={() => this.consentToCookies()} cookiesActivated={this.state.cookiesActivated} />
+          <Settings
+            onConsentToCookies={() => this.consentToCookies()}
+            cookiesActivated={this.state.cookiesActivated}
+          />
         </div>
       )
     }
