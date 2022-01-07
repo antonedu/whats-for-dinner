@@ -1,7 +1,5 @@
-// TODO: compile with babel
-
 // Imports
-import "../libraries/ISO8601dates.js";
+import "../lib/ISO8601dates.js";
 
 // Constants
 
