@@ -868,7 +868,7 @@ function loadStoredMenu(dishes) {
   let storedMenu = JSON.parse(localStorage.getItem("menu"));
   let d = new Date();
   if (storedMenu == null) {
-    if (JSON.parse(localeStorage.getItem("dishes")) == null) {
+    if (JSON.parse(localStorage.getItem("dishes")) == null) {
       return []
     }
     storedMenu = regenerateMenu(dishes, new Date());
