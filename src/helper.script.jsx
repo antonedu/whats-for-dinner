@@ -42,7 +42,7 @@ class Dish {
 
   allWeekdays() {
     // If all days are true/all days are false return true else false
-    if (this.weekdays.every((day, index, arr) => {
+    if (this.weekdays.every((day, _index, arr) => {
       return day == arr[0];
     })) {
       return true;
@@ -289,34 +289,25 @@ class App extends React.Component {
   }
 };
 
-class Header extends React.Component {
+function Header(props) {
   // React component for header of <App />.
   // props.first/second/third are info about the three buttons in header.
   // ..icon is font awesome icon of button.
   // ..title is title displayed on hover describing what happens when clicked.
   // ..visable is wether button is visable or not.
   // ..onClick is what happens when button is clicked.
-  constructor(props) {
-    super(props);
-    this.state = {
-      activeButtons: ["add", "change", "settings"],
-    };
-  };
-
-  render() {
-    return (
-      <header>
-        <a href="../index.html" id="logo">
-          <figure>
-            <img src="../assets/logo.png" alt="logo" />
-          </figure>
-        </a>
-        <SquareButton color="green" icon={this.props.first.icon} title={this.props.first.title} onClick={() => this.props.first.onClick()} visable={this.props.first.visable} />
-        <SquareButton color="green" icon={this.props.second.icon} title={this.props.second.title} onClick={() => this.props.second.onClick()} visable={this.props.second.visable} />
-        <SquareButton color="green" icon={this.props.third.icon} title={this.props.third.title} onClick={() => this.props.third.onClick()} visable={this.props.third.visable} />
-      </header>
-    );
-  };
+  return (
+    <header>
+      <a href="../index.html" id="logo">
+        <figure>
+          <img src="../assets/logo.png" alt="logo" />
+        </figure>
+      </a>
+      <SquareButton color="green" icon={props.first.icon} title={props.first.title} onClick={() => props.first.onClick()} visable={props.first.visable} />
+      <SquareButton color="green" icon={props.second.icon} title={props.second.title} onClick={() => props.second.onClick()} visable={props.second.visable} />
+      <SquareButton color="green" icon={props.third.icon} title={props.third.title} onClick={() => props.third.onClick()} visable={props.third.visable} />
+    </header>
+  );
 }
 
 function SquareButton(props) {
@@ -358,7 +349,7 @@ function OutputDivider(props) {
   )
 }
 
-class DishItem extends React.Component {
+function DishItem() {
   // React component for items displayed in <DishesList />
 
   // props.collapsed says wether item should be displayed as collapsed or
@@ -372,31 +363,29 @@ class DishItem extends React.Component {
   // onEdit tells <DishesList /> that dish being displayed as being edited
   // should be this one.
 
-  render() {
-    return (
-      <div className={'output-item dish-output-item ' + (this.props.collapsed ? 'collapsed' : 'not-collapsed')}>
-        <div className="preview">
-          <div className="title">
-            <p>{this.props.name}</p>
-          </div>
-          <div className="collapse-button-wrapper">
-            <button className="collapse" onClick={() => this.props.onCollapse(this.props.dishID)}>
-              <i className={'fas fa-chevron-' + (this.props.collapsed ? 'down' : 'up')}></i>
-            </button>
-          </div>
+  return (
+    <div className={'output-item dish-output-item ' + (this.props.collapsed ? 'collapsed' : 'not-collapsed')}>
+      <div className="preview">
+        <div className="title">
+          <p>{this.props.name}</p>
         </div>
-        <div className="output-footer">
-          <div className="output-info">
-            <p>{'Frequency: ' + (this.props.freq)}</p>
-            <p>{'Weekdays: ' + (this.props.weekdaysStr)}</p>
-          </div>
-          <div className="output-button-wrapper">
-            <button className="yellow threed-button" onClick={() => this.props.onEdit(this.props.dishID)}>Edit</button>
-          </div>
+        <div className="collapse-button-wrapper">
+          <button className="collapse" onClick={() => this.props.onCollapse(this.props.dishID)}>
+            <i className={'fas fa-chevron-' + (this.props.collapsed ? 'down' : 'up')}></i>
+          </button>
         </div>
       </div>
-    )
-  }
+      <div className="output-footer">
+        <div className="output-info">
+          <p>{'Frequency: ' + (this.props.freq)}</p>
+          <p>{'Weekdays: ' + (this.props.weekdaysStr)}</p>
+        </div>
+         <div className="output-button-wrapper">
+          <button className="yellow threed-button" onClick={() => this.props.onEdit(this.props.dishID)}>Edit</button>
+        </div>
+      </div>
+    </div>
+  )
 }
 
 class DishesList extends React.Component {
@@ -685,7 +674,7 @@ class RangeInput extends React.Component {
   }
 }
 
-class WeekdayCheckbox extends React.Component {
+function WeekdayCheckbox(props) {
   // React component for checkboxes in <DishCreateWindow /> component.
   // Used by <DishCreateWindow /> to decide which weekdays should be activated
   // in a Dish object.
@@ -694,23 +683,17 @@ class WeekdayCheckbox extends React.Component {
   // props.checked is used to keep track of checkbox value.
   // onChange functions updated weekdays array in <DishCreateWindow /> so that
   // correct weekdays are saved to Dish object.
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <div className="checkbox-container">
-        <input
-          type="checkbox"
-          title={this.props.weekday}
-          checked={this.props.checked}
-          data-letter={this.props.weekday[0].toUpperCase()}
-          onChange={() => this.props.onChange()}
-        />
-      </div>
-    )
-  }
+  return (
+    <div className="checkbox-container">
+      <input
+        type="checkbox"
+        title={props.weekday}
+        checked={props.checked}
+        data-letter={props.weekday[0].toUpperCase()}
+        onChange={() => props.onChange()}
+      />
+    </div>
+  )
 }
 
 function Popup(props) {
@@ -720,7 +703,7 @@ function Popup(props) {
   // props.actions are all actions that can be used on popup.
   let actions = Array();
   // Loads buttons from given actions.
-  for (let action in props.actions) {
+  for (let _action in props.actions) {
     actions.push(
       // TEMP: actions button syntax
     )
