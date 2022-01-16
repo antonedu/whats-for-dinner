@@ -42,7 +42,7 @@ class Dish {
 
   allWeekdays() {
     // If all days are true/all days are false return true else false
-    if (this.weekdays.every((day, _index, arr) => {
+    if (this.weekdays.every((day, index, arr) => {
       return day == arr[0];
     })) {
       return true;
@@ -703,7 +703,7 @@ function Popup(props) {
   // props.actions are all actions that can be used on popup.
   let actions = Array();
   // Loads buttons from given actions.
-  for (let _action in props.actions) {
+  for (let action in props.actions) {
     actions.push(
       // TEMP: actions button syntax
     )
