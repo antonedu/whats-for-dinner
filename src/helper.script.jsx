@@ -879,6 +879,9 @@ function getNextInMenu(dishes, date) {
 function loadStoredMenu(dishes) {
   // Returns a fully updated menu from localStorage
   let storedMenu = JSON.parse(localStorage.getItem("menu"));
+  if (storedMenu == null) {
+    return [];
+  }
   storedMenu = catchUpMenu(dishes, storedMenu);
   if (storedMenu.length < 7) {
     storedMenu = generateNextX(dishes, storedMenu, 7 - storedMenu.length)
