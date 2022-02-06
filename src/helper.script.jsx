@@ -245,7 +245,6 @@ class App extends React.Component {
             onDelete={id => this.removeDish(id)}
             onSave={(name, weekdays, freq, id) => this.addDish(name, weekdays, null, freq, id)}
           />
-          <button onClick={() => {let id = generateID(4); this.addDish(id, [false, false, false, false, false, false, false], null, 7, id);}}>Click me!</button>
         </div>
       )
     } else if (this.state.content == "Menu") {
@@ -811,12 +810,16 @@ function regenerateMenu(dishes, date) {
 function generateNextX(dishes, menu, x) {
   // Generates next x items in menu and returns a menu with those added. Also
   // changes lastSeen of dishes which when used.
+  if (menu.length == 0) {
+    menu = regenerateMenu(dishes, new Date());
+  }
   let newMenuArray = menu.slice();
   let d = new Date(newMenuArray.at(-1).date);
   for (let i = 0; i < x; i++) {
     d.setDate(d.getDate() + 1);
     let id = getNextInMenu(dishes, d);
     let copiedDate = new Date(d);
+    dishes[id].lastSeen = new Date(copiedDate);
     newMenuArray.push({id: id, date: copiedDate});
   }
   return newMenuArray;
@@ -825,6 +828,9 @@ function generateNextX(dishes, menu, x) {
 function catchUpMenu(dishes, menu) {
   // Updates lastSeen date of enough dishes for dishes to have caught up with
   // the current date. Removes dishes from menu if date has passed.
+  if (menu.length == 0) {
+    menu = regenerateMenu(dishes, new Date())
+  }
   const today = new Date();
   const lastUpdatedDate = menu.at(-1).date;
   const daysSinceLastUpdate = Date.daysBetween(today, new Date(menu[0].date));
@@ -872,24 +878,13 @@ function getNextInMenu(dishes, date) {
 
 function loadStoredMenu(dishes) {
   // Returns a fully updated menu from localStorage
-  return [];
-  // let storedMenu = JSON.parse(localStorage.getItem("menu"));
-  // let d = new Date();
-  // if (storedMenu == null) {
-  //   if (JSON.parse(localStorage.getItem("dishes")) == null) {
-  //     return []
-  //   }
-  //   storedMenu = regenerateMenu(dishes, new Date());
-  //   storedMenu = generateNextX(dishes, storedMenu, 7);
-  // } else {
-  //   let daysToGenerate = Date.daysBetween(d, new Date(storedMenu.at(-1).date)) + 7;
-  //   if (daysToGenerate > 0) {
-  //     storedMenu = generateNextX(dishes, storedMenu, )
-  //   }
-  // }
-  // storedMenu = catchUpMenu(dishes, storedMenu);
-  // updateStoredMenu(storedMenu);
-  // return storedMenu;
+  let storedMenu = JSON.parse(localStorage.getItem("menu"));
+  storedMenu = catchUpMenu(dishes, storedMenu);
+  if (storedMenu.length < 7) {
+    storedMenu = generateNextX(dishes, storedMenu, 7 - storedMenu.length)
+  }
+  updateStoredMenu(storedMenu);
+  return storedMenu;
 }
 
 function updateStoredMenu(menu) {
