@@ -222,7 +222,7 @@ header .filler {
   height: 20px;
   cursor: ew-resize;
   border-radius: 10px;
-  background: #20a39e;
+  background: var(--bg-color);
 }
 
 #output-items .output-item.create-output-item .weekday-selectors {

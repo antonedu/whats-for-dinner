@@ -681,9 +681,10 @@ class RangeInput extends React.Component {
     return (
       <input
         type="range"
+        className="green"
         min={this.props.min}
         value={this.props.value}
-        style={{background: "linear-gradient(to right, #20a39e calc(" + this.state.fraction + "*(100% - 10px) + 5px), #156D69 calc(" + this.state.fraction + "*(100% - 10px) + 5px))"}}
+        style={{background: "linear-gradient(to right, var(--bg-color) calc(" + this.state.fraction + "*(100% - 10px) + 5px), var(--s-color) calc(" + this.state.fraction + "*(100% - 10px) + 5px))"}}
         max={this.props.max}
         onChange={() => this.props.onChange(event.target.value)}
         onInput={() => this.onInput()}
