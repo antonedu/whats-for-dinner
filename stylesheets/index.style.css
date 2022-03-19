@@ -18,7 +18,7 @@
 */
 
 body {
-  background-color: #d9d9c2;
+  background-color: var(--bg);
   margin: 0;
   padding: 0;
 }
@@ -51,7 +51,7 @@ header figure img {
 }
 
 header section {
-  color: #272933;
+  color: var(--text-color);
 }
 
 header section .text-container {
@@ -76,11 +76,11 @@ header section p {
 
 header section a {
   font-family: 'Roboto', sans-serif;
-  color: #3423a6;
+  color: var(--link);
 }
 
 header section a:visited {
-  color: #2e1760;
+  color: var(--link-visited);
 }
 
 footer {

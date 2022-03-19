@@ -708,7 +708,7 @@ class WeekdayCheckbox extends React.Component {
 
   render() {
     return (
-      <div className="checkbox-container">
+      <div className="checkbox-container green">
         <input
           type="checkbox"
           title={this.props.weekday}

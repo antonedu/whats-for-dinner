@@ -1,0 +1,41 @@
+.green {
+    /* --color: #fff; */
+    --bg-color: #20a39e;
+    --s-color: #156D69;
+  }
+  
+  .red {
+    /* --color: #fff; */
+    --bg-color: #ef5b5b;
+    --s-color: #BA4848;
+  }
+  
+  .yellow {
+    /* --color: #fff; */
+    --bg-color: #D1B330;
+    --s-color: #A89225;
+  }
+
+  @media (prefers-color-scheme: light) {
+      :root {
+          --button-color: #fff;
+          --text-color: #272933;
+          --shadow-text-color: #757575;
+          --bg: #d9d9c2;
+          --card: #fff;
+          --link: #3423a6;
+          --link-visited: #2e1760;
+      }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+        --button-color: #d9d9c2;
+        --text-color: #d9d9c2;
+        --shadow-text-color: #A5A5A5;
+        --bg: #111110;
+        --card: #262623;
+        --link: #584CFF;
+        --link-visited: #4838FF;
+    }
+}
