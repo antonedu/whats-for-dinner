@@ -166,15 +166,8 @@ class App extends React.Component {
     // enabled)
     // Also used when editing dishes and saving, then id is id of dish that
     // should change.
-    let newDishesObj = Object.assign({}, this.state.dishes);
-
-    if (id === null) {
-      id = generateUniqueID(4, newDishesObj);
-    }
-
-    newDishesObj[id] = new Dish(name, weekdays.slice(0), dates, freq, id);
+    let newDishesObj = editDishes(this.state.dishes, name, weekdays, dates, freq, id)
     this.setState({dishes: newDishesObj});
-    updateStoredDishes(newDishesObj);
   };
 
   removeDish(id) {
@@ -183,23 +176,13 @@ class App extends React.Component {
     if (newDishesObj.hasOwnProperty(id)) {
       delete newDishesObj[id];
     }
-    this.setState({dishes: newDishesObj});
     updateStoredDishes(newDishesObj);
+    this.setState({dishes: newDishesObj});
   }
 
   handleResetMenu() {
     // Resets menu and generates first 7 days of a new one.
-    let updatedDishes = Object.assign({}, this.state.dishes)
-    let resetMenu = regenerateMenu(updatedDishes, new Date());
-    resetMenu = generateNextX(updatedDishes, resetMenu, 7);
-    resetMenu = catchUpMenu(updatedDishes, resetMenu);
-    updateStoredMenu(resetMenu);
-    this.setState({
-      dishes: updatedDishes,
-      menu: resetMenu,
-    })
-    updateStoredDishes(updatedDishes)
-    updateStoredMenu(resetMenu);
+    this.setState(resetMenu(this.state.dishes));
   }
 
   render() {
@@ -761,6 +744,17 @@ function hasActivatedCookies() {
   return JSON.parse(localStorage.getItem("activatedCookies"));
 }
 
+function editDishes(dishes, name, weekdays, dates, freq, id) {
+  let newDishesObj = Object.assign({}, dishes);
+  if (id === null) {
+    id = generateUniqueID(4, newDishesObj);
+  }
+
+  newDishesObj[id] = new Dish(name, weekdays.slice(0), dates, freq, id);
+  updateStoredDishes(newDishesObj);
+  return newDishesObj;
+}
+
 function loadStoredDishes() {
   // Loads dishes from localStorage and convert them to Dish objects.
   let storedDishes = null;
@@ -867,6 +861,19 @@ function getNextInMenu(dishes, date) {
     }
   }
   return currentBestID;
+}
+
+function resetMenu(dishes) {
+  let updatedDishes = Object.assign({}, dishes);
+  let resetMenu = regenerateMenu(updatedDishes, new Date());
+  resetMenu = generateNextX(updatedDishes, resetMenu, 7);
+  resetMenu = catchUpMenu(updatedDishes, resetMenu);
+  updateStoredDishes(updatedDishes)
+  updateStoredMenu(resetMenu);
+  return {
+    dishes: updatedDishes,
+    menu: resetMenu,
+  }
 }
 
 function loadStoredMenu(dishes) {
