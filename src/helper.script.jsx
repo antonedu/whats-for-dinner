@@ -176,8 +176,10 @@ class App extends React.Component {
     if (newDishesObj.hasOwnProperty(id)) {
       delete newDishesObj[id];
     }
+    let newMenu = regenerateMenu(newDishesObj, new Date())
     updateStoredDishes(newDishesObj);
-    this.setState({dishes: newDishesObj});
+    updateStoredMenu(newMenu);
+    this.setState({dishes: newDishesObj, menu: newMenu});
   }
 
   handleResetMenu() {
