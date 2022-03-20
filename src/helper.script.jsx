@@ -172,14 +172,7 @@ class App extends React.Component {
 
   removeDish(id) {
     // Removes an added dish.
-    let newDishesObj = Object.assign({}, this.state.dishes);
-    if (newDishesObj.hasOwnProperty(id)) {
-      delete newDishesObj[id];
-    }
-    let newMenu = regenerateMenu(newDishesObj, new Date())
-    updateStoredDishes(newDishesObj);
-    updateStoredMenu(newMenu);
-    this.setState({dishes: newDishesObj, menu: newMenu});
+    this.setState(removeFromDishes(id, this.state.dishes, this.state.menu));
   }
 
   handleResetMenu() {
@@ -755,6 +748,18 @@ function editDishes(dishes, name, weekdays, dates, freq, id) {
   newDishesObj[id] = new Dish(name, weekdays.slice(0), dates, freq, id);
   updateStoredDishes(newDishesObj);
   return newDishesObj;
+}
+
+function removeFromDishes(id, dishes, menu) {
+  let newDishesObj = Object.assign({}, dishes);
+  let newMenu = menu;
+    if (newDishesObj.hasOwnProperty(id)) {
+      delete newDishesObj[id];
+      newMenu = regenerateMenu(newDishesObj, new Date());
+    }
+    updateStoredDishes(newDishesObj);
+    updateStoredMenu(newMenu);
+    return {dishes: newDishesObj, menu: newMenu};
 }
 
 function loadStoredDishes() {
