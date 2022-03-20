@@ -104,14 +104,15 @@ class App extends React.Component {
 
   consentToCookies() {
     // Updates local storage if consent changes
-    let activated = JSON.parse(localStorage.getItem("activatedCookies"));
-    if (this.state.cookiesActivated) {
+    let activated = !this.state.cookiesActivated;
+    if (activated) {
       this.updateStoredDishes();
     } else {
       localStorage.removeItem("dishes");
+      localStorage.removeItem("menu");
     };
-    setCookies(!this.state.cookiesActivated);
-    this.setState({cookiesActivated: !this.state.cookiesActivated});
+    setCookies(activated);
+    this.setState({cookiesActivated: activated});
   };
 
   updateHeaderButtons(content) {
