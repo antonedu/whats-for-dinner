@@ -1,11 +1,6 @@
 // Imports
 import "../lib/ISO8601dates.js";
 
-// Constants
-
-// Variables
-var activatedCookies = false;
-
 class Dish {
   // Dish class
   constructor(name, weekdays, dates, freq, id, lastSeen = null) {
@@ -95,23 +90,10 @@ class App extends React.Component {
     };
   };
 
-  updateStoredDishes() {
-    // Updates locale storage to include current version of dishes
-    if (hasActivatedCookies()) {
-      localStorage.setItem("dishes", JSON.stringify(this.state.dishes));
-    };
-  };
-
   consentToCookies() {
     // Updates local storage if consent changes
     let activated = !this.state.cookiesActivated;
-    if (activated) {
-      this.updateStoredDishes();
-    } else {
-      localStorage.removeItem("dishes");
-      localStorage.removeItem("menu");
-    };
-    setCookies(activated);
+    setCookies(activated, this.state.dishes, this.state.menu);
     this.setState({cookiesActivated: activated});
   };
 
@@ -179,7 +161,7 @@ class App extends React.Component {
     })
   }
 
-  async addDish(name, weekdays, dates, freq, id = null) {
+  addDish(name, weekdays, dates, freq, id = null) {
     // Creates a new Dish object with a unique ID (and saves it to cookies if
     // enabled)
     // Also used when editing dishes and saving, then id is id of dish that
@@ -191,32 +173,33 @@ class App extends React.Component {
     }
 
     newDishesObj[id] = new Dish(name, weekdays.slice(0), dates, freq, id);
-    await this.setState({dishes: newDishesObj});
-    this.updateStoredDishes();
+    this.setState({dishes: newDishesObj});
+    updateStoredDishes(newDishesObj);
   };
 
-  async removeDish(id) {
+  removeDish(id) {
     // Removes an added dish.
     let newDishesObj = Object.assign({}, this.state.dishes);
     if (newDishesObj.hasOwnProperty(id)) {
       delete newDishesObj[id];
     }
-    await this.setState({dishes: newDishesObj});
-    this.updateStoredDishes();
+    this.setState({dishes: newDishesObj});
+    updateStoredDishes(newDishesObj);
   }
 
-  async handleResetMenu() {
+  handleResetMenu() {
     // Resets menu and generates first 7 days of a new one.
     let updatedDishes = Object.assign({}, this.state.dishes)
     let resetMenu = regenerateMenu(updatedDishes, new Date());
     resetMenu = generateNextX(updatedDishes, resetMenu, 7);
     resetMenu = catchUpMenu(updatedDishes, resetMenu);
     updateStoredMenu(resetMenu);
-    await this.setState({
+    this.setState({
       dishes: updatedDishes,
       menu: resetMenu,
     })
-    this.updateStoredDishes()
+    updateStoredDishes(updatedDishes)
+    updateStoredMenu(resetMenu);
   }
 
   render() {
@@ -756,9 +739,16 @@ ReactDOM.render(<App />, document.getElementById("root"))
 
 // End of React components
 
-function setCookies(consented) {
+function setCookies(consented, dishes, menu) {
   // Sets wether cookies are activated or not based on [consented]
   if (typeof consented == "boolean") {
+    if (consented) {
+      updateStoredDishes(dishes);
+      updateStoredMenu(menu);
+    } else {
+      localStorage.removeItem("dishes");
+      localStorage.removeItem("menu");
+    };
     localStorage.setItem("activatedCookies", consented.toString());
     return true;
   } else {
@@ -891,6 +881,13 @@ function loadStoredMenu(dishes) {
   }
   updateStoredMenu(storedMenu);
   return storedMenu;
+}
+
+function updateStoredDishes(dishes) {
+  // Updates locale storage to include current version of dishes
+  if (hasActivatedCookies()) {
+    localStorage.setItem("dishes", JSON.stringify(dishes));
+  };
 }
 
 function updateStoredMenu(menu) {
