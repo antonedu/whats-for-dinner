@@ -881,7 +881,7 @@ function resetMenu(dishes) {
 function loadStoredMenu(dishes) {
   // Returns a fully updated menu from localStorage
   let storedMenu = JSON.parse(localStorage.getItem("menu"));
-  if (storedMenu == null) {
+  if (storedMenu == null || Object.keys(dishes).length == 0) {
     return [];
   }
   storedMenu = catchUpMenu(dishes, storedMenu);
