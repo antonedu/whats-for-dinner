@@ -1,5 +1,6 @@
-import OutputDivider from "./OutputDivider";
-import MenuItem from "./MenuItem";
+import OutputDivider from "./OutputDivider.js";
+import MenuItem from "./MenuItem.js";
+import { generateUniqueID } from "../dishesFunctions.js";
 
 export default function MenuList(props) {
     // React component displayed in output when menu is viewed.

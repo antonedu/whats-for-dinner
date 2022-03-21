@@ -1,7 +1,10 @@
-import Settings from "./components/Settings.js";
-import OutputHeader from "./components/OutputHeader.js";
-import Header from "./components/Header.js";
-import MenuList from "./components/MenuList.js";
+import Settings from './Settings.js';
+import OutputHeader from "./OutputHeader.js";
+import Header from "./Header.js";
+import MenuList from "./MenuList.js";
+import DishesList from './DishesList.js'
+import DishCreateWindow from './DishCreateWindow.js';
+import {setCookies, editDishes, removeFromDishes, loadStoredDishes, resetMenu, loadStoredMenu, hasActivatedCookies} from '../dishesFunctions.js'
 
 export default class App extends React.Component {
     // React component for whats-for-dinner app.

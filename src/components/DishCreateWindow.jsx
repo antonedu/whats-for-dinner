@@ -1,7 +1,7 @@
-import DishNameInput from "./DishNameOutput";
-import RangeInput from "./RangeInput";
-import WeekdayCheckbox from "./WeekdayCheckbox";
-import SquareButton from "./SquareButton";
+import DishNameInput from "./DishNameOutput.js";
+import RangeInput from "./RangeInput.js";
+import WeekdayCheckbox from "./WeekdayCheckbox.js";
+import SquareButton from "./SquareButton.js";
 
 export default class DishCreateWindow extends React.Component {
     // React component displayed when a dish is being added/edited

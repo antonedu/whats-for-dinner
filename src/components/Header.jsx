@@ -1,4 +1,4 @@
-import SquareButton from "./SquareButton";
+import SquareButton from "./SquareButton.js";
 
 export default class Header extends React.Component {
     // React component for header of <App />.
