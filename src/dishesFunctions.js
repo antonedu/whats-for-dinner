@@ -1,4 +1,5 @@
 import "./ISO8601dates.js";
+import { generateUniqueID, shuffleArray } from "./utilityFunctions.js"
 
 class Dish {
     // Dish class
@@ -14,7 +15,7 @@ class Dish {
     get weekdaysStr() {
         // Returns str with active weekdays
         let weekdaysStr = "";
-        let weekdaysArray = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
+        const WEEKDAYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
         if (this.allWeekdays()) {
             if (this.weekdays[0] === true) {
                 return "all";
@@ -25,9 +26,9 @@ class Dish {
         for (let i = 0; i < 7; i++) {
             if (this.weekdays[i] == true) {
                 if (weekdaysStr.length == 0) {
-                    weekdaysStr += weekdaysArray[i];
+                    weekdaysStr += WEEKDAYS[i];
                 } else {
-                    weekdaysStr += ", " + weekdaysArray[i];
+                    weekdaysStr += ", " + WEEKDAYS[i];
                 };
             };
         };
@@ -130,7 +131,7 @@ function regenerateMenu(dishes, date) {
     return regeneratedMenu;
 }
 
-function generateNextX(dishes, menu, x) {
+export function generateNextX(dishes, menu, x) {
     // Generates next x items in menu and returns a menu with those added. Also
     // changes lastSeen of dishes which when used.
     if (menu.length == 0) {
@@ -240,44 +241,8 @@ function updateStoredMenu(menu) {
     };
 }
 
-function generateID(length) {
-    // Generates a base62 string of length [length] to identify dishes.
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-    var charactersLength = characters.length;
-    for (var i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
-}
-
-export function generateUniqueID(length, obj) {
-    let id = null;
-    let notUnique = true;
-    do {
-        id = generateID(length);
-        if (!obj.hasOwnProperty(id)) {
-            notUnique = false;
-        };
-    } while (notUnique);
-    return id;
-}
-
-function shuffleArray(arr) {
-    // Returns a shuffled array.
-    let shuffledArray = arr.slice();
-    for (let i = shuffledArray.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
-    }
-    return shuffledArray;
-}
-
   // TODO: make all functions working with dates ignore hours if not needed.
   // TODO: Ask about cookies.
-  // TODO: Move functions that don't use this.setState out of classes
   // NOTE: Dates going through json will be string format but should be okay as
   // long as functions always copies dates (let x = new Date(date));
   // QUESTION: Rewrite to use hooks instead of classes?
-  // QUESTION: Firefox support?
-  // QUESTION: Safari support?

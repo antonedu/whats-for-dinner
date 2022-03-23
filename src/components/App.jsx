@@ -4,7 +4,8 @@ import Header from "./Header.js";
 import MenuList from "./MenuList.js";
 import DishesList from './DishesList.js'
 import DishCreateWindow from './DishCreateWindow.js';
-import {setCookies, editDishes, removeFromDishes, loadStoredDishes, resetMenu, loadStoredMenu, hasActivatedCookies} from '../dishesFunctions.js'
+import { setCookies, editDishes, removeFromDishes, loadStoredDishes, resetMenu, 
+  loadStoredMenu, hasActivatedCookies, generateNextX } from '../dishesFunctions.js'
 
 export default class App extends React.Component {
     // React component for whats-for-dinner app.
