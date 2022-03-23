@@ -55,10 +55,10 @@ export default class DishCreateWindow extends React.Component {
             </div>
           </div>
           <div className="actions">
-            <SquareButton color="yellow" icon="times" title="Cancel" onClick={() => this.props.onClose()} visable={true} />
+            <SquareButton color="yellow" icon="times" title="Cancel" onClick={() => this.props.onClose()} visible={true} />
             <div className="divider"></div>
-            <SquareButton color="red" icon="trash-alt" title="Remove" onClick={() => this.props.onDelete()} visable={this.props.editing} />
-            <SquareButton color="green" icon="save" title="Save" onClick={() => this.props.onSave(this.state.name, this.state.weekdays, this.state.freq)} visable={true} />
+            <SquareButton color="red" icon="trash-alt" title="Remove" onClick={() => this.props.onDelete()} visible={this.props.editing} />
+            <SquareButton color="green" icon="save" title="Save" onClick={() => this.props.onSave(this.state.name, this.state.weekdays, this.state.freq)} visible={true} />
           </div>
         </div>
       )

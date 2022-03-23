@@ -30,19 +30,19 @@ export default class App extends React.Component {
             title: "Add dish",
             icon: "plus",
             onClick: () => this.setState({currentlyAddingDish: true}),
-            visable: true
+            visible: true
           },
           second: {
             title: "Switch to menu",
             icon: "utensils",
             onClick: () => {this.updateHeaderButtons("Menu");},
-            visable: true
+            visible: true
           },
           third: {
             title: "Settings",
             icon: "cog",
             onClick: () => this.updateHeaderButtons("Settings"),
-            visable: true
+            visible: true
           }
         },
         content: "Dishes"
@@ -65,51 +65,51 @@ export default class App extends React.Component {
           first: {
             icon: "plus",
             onClick: () => this.setState({currentlyAddingDish: true}),
-            visable: true
+            visible: true
           },
           second: {
             icon: "utensils",
             onClick: () => this.updateHeaderButtons("Menu"),
-            visable: true
+            visible: true
           },
           third: {
             icon: "cog",
             onClick: () => this.updateHeaderButtons("Settings"),
-            visable: true
+            visible: true
           }
         },
         Menu: {
           first: {
             icon: "redo-alt",
             onClick: () => this.handleResetMenu(),
-            visable: true
+            visible: true
           },
           second: {
             icon: "drumstick-bite",
             onClick: () => this.updateHeaderButtons("Dishes"),
-            visable: true
+            visible: true
           },
           third: {
             icon: "cog",
             onClick: () => this.updateHeaderButtons("Settings"),
-            visable: true
+            visible: true
           }
         },
         Settings: {
           first: {
             icon: "drumstick-bite",
             onClick: () => this.updateHeaderButtons("Dishes"),
-            visable: false
+            visible: false
           },
           second: {
             icon: "chevron-left",
             onClick: () => this.updateHeaderButtons(back),
-            visable: true
+            visible: true
           },
           third: {
             icon: "save",
             onClick: () => this.handleSaveSettings(),
-            visable: true
+            visible: true
           }
         }
       }
