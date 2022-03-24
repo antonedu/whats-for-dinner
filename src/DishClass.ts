@@ -1,3 +1,6 @@
+export type Weekdays = [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean];
+export type Freq = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+
 export default class Dish {
     // Dish class
     constructor(name, weekdays, dates, freq, id, lastSeen = null) {

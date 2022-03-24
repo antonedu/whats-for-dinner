@@ -2,9 +2,7 @@ import DishNameInput from "./DishNameInput.js";
 import RangeInput from "./RangeInput.js";
 import WeekdayCheckbox from "./WeekdayCheckbox.js";
 import SquareButton from "./SquareButton.js";
-
-type Weekdays = [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean];
-type Freq = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+import { Weekdays, Freq } from "../DishClass.js";
 
 type IProps = {
   name: string,

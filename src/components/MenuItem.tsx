@@ -1,4 +1,11 @@
-export default function MenuItem(props) {
+type IProps = {
+  name: string,
+  weekday: string,
+  day: number,
+  month: string | number
+}
+
+export default function MenuItem(props: IProps) {
     // React component for items displayed in <MenuList />
   
     // props.name is the name of the dish
