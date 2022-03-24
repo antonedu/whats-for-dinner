@@ -1,4 +1,4 @@
-import DishNameInput from "./DishNameOutput.js";
+import DishNameInput from "./DishNameInput.js";
 import RangeInput from "./RangeInput.js";
 import WeekdayCheckbox from "./WeekdayCheckbox.js";
 import SquareButton from "./SquareButton.js";
@@ -6,27 +6,28 @@ import SquareButton from "./SquareButton.js";
 type Weekdays = [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean];
 type Freq = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 
-type TProps = {
+type IProps = {
   name: string,
   freq: Freq,
   weekdays: Weekdays,
+  editing: boolean,
   onClose: () => void,
   onDelete: () => void,
   onSave: (name: string, weekdays: Weekdays, freq: Freq) => void
 }
 
-type TState = {
+type IState = {
   name: string,
   freq: Freq,
   weekdays: Weekdays,
 }
 
-export default class DishCreateWindow extends React.Component<TProps, TState> {
+export default class DishCreateWindow extends React.Component<IProps, IState> {
     // React component displayed when a dish is being added/edited
   
     // props.name/freq/weekdays are used to display info already put in when
     // editing a dish
-    constructor(props: TProps) {
+    constructor(props: IProps) {
       super(props);
       this.state = {
         name: this.props.name,
@@ -58,7 +59,7 @@ export default class DishCreateWindow extends React.Component<TProps, TState> {
           </div>
           <div>
             <p className="description">How frequently do you want this dish to appear?</p>
-            <RangeInput min={1} max={10} value={this.state.freq} onChange={freq => this.handleFreqChange(freq)} />
+            <RangeInput min={1} max={10} value={this.state.freq} onChange={(freq: number) => this.handleFreqChange(freq)} />
           </div>
           <div>
             <p className="description">On what weekdays do you want this dish to appear?</p>

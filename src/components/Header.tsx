@@ -7,13 +7,13 @@ type ButtonInfo = {
   onClick: () => void
 }
 
-type TProps = {
+type IProps = {
   first: ButtonInfo,
   second: ButtonInfo,
   third: ButtonInfo,
 }
 
-export default function Header(props: TProps) {
+export default function Header(props: IProps) {
   // React component for header of <App />.
   // props.first/second/third are info about the three buttons in header.
   // ..icon is font awesome icon of button.

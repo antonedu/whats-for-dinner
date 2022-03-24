@@ -1,6 +1,6 @@
 export type Color = "green" | "red" | "yellow";
 
-type TProps = {
+type IProps = {
   color: Color,
   visible: boolean,
   title: string,
@@ -8,7 +8,7 @@ type TProps = {
   onClick: () => void
 }
 
-export default function SquareButton(props: TProps) {
+export default function SquareButton(props: IProps) {
     // React component of square buttons which have a font awesome icon and an
     // onClick function as props.
     // props.visable says wether button should be displayed or not.
