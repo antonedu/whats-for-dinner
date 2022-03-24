@@ -6,7 +6,7 @@ import SquareButton from "./SquareButton.js";
 type Weekdays = [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean];
 type Freq = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 
-type IProps = {
+type TProps = {
   name: string,
   freq: Freq,
   weekdays: Weekdays,
@@ -15,18 +15,18 @@ type IProps = {
   onSave: (name: string, weekdays: Weekdays, freq: Freq) => void
 }
 
-type IState = {
+type TState = {
   name: string,
   freq: Freq,
   weekdays: Weekdays,
 }
 
-export default class DishCreateWindow extends React.Component<IProps, IState> {
+export default class DishCreateWindow extends React.Component<TProps, TState> {
     // React component displayed when a dish is being added/edited
   
     // props.name/freq/weekdays are used to display info already put in when
     // editing a dish
-    constructor(props: IProps) {
+    constructor(props: TProps) {
       super(props);
       this.state = {
         name: this.props.name,
