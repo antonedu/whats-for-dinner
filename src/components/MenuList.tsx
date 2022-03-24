@@ -1,9 +1,16 @@
 import OutputDivider from "./OutputDivider.js";
 import MenuItem from "./MenuItem.js";
 import { generateUniqueID } from "../utilityFunctions.js";
-import "../ISO8601dates.js"
+import ISODate from "../ISO8601dates.js";
+import Dish from "../DishClass.js"
 
-export default function MenuList(props) {
+type IProps = {
+  menu: any[],
+  dishes: Dish[],
+  onShowMore: () => void
+}
+
+export default function MenuList(props: IProps) {
     // React component displayed in output when menu is viewed.
     // if (props.menu == [] || props.menu == null) {
     //   return (<div></div>)
@@ -12,12 +19,12 @@ export default function MenuList(props) {
     const weekdaysStrs = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
     let usedIDs = Object();
     let menu = Array();
-    if (new Date().getISODay() != 0 && props.menu.length > 0) {
-      menu.push(<OutputDivider text={"Week " + new Date(props.menu[0].date).getISOWeek()} key={"firstWeek"} />)
+    if (new ISODate().getISODay() != 0 && props.menu.length > 0) {
+      menu.push(<OutputDivider text={"Week " + new ISODate(props.menu[0].date).getISOWeek()} key={"firstWeek"} />)
     }
     for (let i = 0; i < props.menu.length; i++) {
       const currentItem = props.menu[i];
-      const d = new Date(props.menu[i].date);
+      const d = new ISODate(props.menu[i].date);
       const name = props.dishes[currentItem.id].name;
       const weekday = weekdaysStrs[d.getISODay()];
       const day = d.toLocaleDateString('en-US', {day: "numeric"});

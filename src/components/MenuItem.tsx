@@ -1,7 +1,7 @@
 type IProps = {
   name: string,
   weekday: string,
-  day: number,
+  day: string | number,
   month: string | number
 }
 

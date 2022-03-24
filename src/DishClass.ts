@@ -1,9 +1,17 @@
+import ISODate from "./ISO8601dates";
+
 export type Weekdays = [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean];
 export type Freq = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 
 export default class Dish {
+    name: string;
+    weekdays: Weekdays;
+    dates: any[] | null;
+    freq: Freq;
+    id: string;
+    lastSeen: ISODate;
     // Dish class
-    constructor(name, weekdays, dates, freq, id, lastSeen = null) {
+    constructor(name: string, weekdays: Weekdays, dates: any[] | null, freq: Freq, id: string, lastSeen: ISODate = null) {
         this.name = name;
         this.weekdays = weekdays;
         this.dates = dates;
