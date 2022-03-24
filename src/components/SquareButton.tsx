@@ -1,4 +1,4 @@
-import { Color } from "../colorType";
+export type Color = "green" | "red" | "yellow";
 
 type SquareButtonProps = {
   color: Color,

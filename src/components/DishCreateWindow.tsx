@@ -3,12 +3,30 @@ import RangeInput from "./RangeInput.js";
 import WeekdayCheckbox from "./WeekdayCheckbox.js";
 import SquareButton from "./SquareButton.js";
 
-export default class DishCreateWindow extends React.Component {
+type Weekdays = [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean];
+type Freq = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+
+type IProps = {
+  name: string,
+  freq: Freq,
+  weekdays: Weekdays,
+  onClose: () => void,
+  onDelete: () => void,
+  onSave: (name: string, weekdays: Weekdays, freq: Freq) => void
+}
+
+type IState = {
+  name: string,
+  freq: Freq,
+  weekdays: Weekdays,
+}
+
+export default class DishCreateWindow extends React.Component<IProps, IState> {
     // React component displayed when a dish is being added/edited
   
     // props.name/freq/weekdays are used to display info already put in when
     // editing a dish
-    constructor(props) {
+    constructor(props: IProps) {
       super(props);
       this.state = {
         name: this.props.name,
@@ -18,7 +36,7 @@ export default class DishCreateWindow extends React.Component {
     }
   
     // functions for handeling input fields see components below.
-    handleNameChange(name) {
+    handleNameChange(name: string) {
       this.setState({name: name});
     }
   
