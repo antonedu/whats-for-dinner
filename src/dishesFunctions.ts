@@ -1,3 +1,11 @@
+// TODO: make all functions working with dates ignore hours if not needed.
+// TODO: Ask about cookies.
+// QUESTION: Rewrite to use hooks instead of classes?
+// TODO: Make it so that lastSeenDates on stored dishes only gets updated when they are "catching up".
+// Everything that is loaded after that should use copy of stored dishes.
+// To add to above, when dishes are added it could be done by setting them as lastSeen the with the previous
+// longest last seen date.
+
 import ISODate from "./ISO8601dates.js";
 import { generateUniqueID, shuffleArray } from "./utilityFunctions.js"
 import Dish from "./DishClass.js"
@@ -65,7 +73,7 @@ export function loadStoredDishes() {
 function dishFromObject(obj) {
     // Converts a dish-like object into a dish
     // Used when loading dishes from local storage
-    return new Dish(obj.name, obj.weekdays, obj.dates, obj.freq, obj.id, obj.lastSeen);
+    return new Dish(obj.name, obj.weekdays, obj.dates, obj.freq, obj.id, new ISODate(obj.lastSeen));
 }
 
 function regenerateMenu(dishes, date) {
@@ -195,9 +203,3 @@ function updateStoredMenu(menu) {
         localStorage.setItem("menu", JSON.stringify(menu));
     };
 }
-
-  // TODO: make all functions working with dates ignore hours if not needed.
-  // TODO: Ask about cookies.
-  // NOTE: Dates going through json will be string format but should be okay as
-  // long as functions always copies dates (let x = new Date(date));
-  // QUESTION: Rewrite to use hooks instead of classes?
