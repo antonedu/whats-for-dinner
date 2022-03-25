@@ -163,6 +163,12 @@ function getNextInMenu(dishes, date) {
     return currentBestID;
 }
 
+export function extendMenu(dishes, menu, numberOfDays: number) {
+    let extendedMenu = generateNextX(dishes, menu, numberOfDays);
+    updateStoredMenu(extendedMenu);
+    return extendedMenu;
+}
+
 export function resetMenu(dishes) {
     let updatedDishes = Object.assign({}, dishes);
     let resetMenu = regenerateMenu(updatedDishes, new ISODate());
@@ -190,7 +196,7 @@ export function loadStoredMenu(dishes) {
     return storedMenu;
 }
 
-function updateStoredDishes(dishes) {
+export function updateStoredDishes(dishes) {
     // Updates locale storage to include current version of dishes
     if (hasActivatedCookies()) {
         localStorage.setItem("dishes", JSON.stringify(dishes));

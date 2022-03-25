@@ -5,7 +5,7 @@ import MenuList from "./MenuList.js";
 import DishesList from './DishesList.js'
 import DishCreateWindow from './DishCreateWindow.js';
 import { setCookies, editDishes, removeFromDishes, loadStoredDishes, resetMenu, 
-  loadStoredMenu, hasActivatedCookies, generateNextX } from '../dishesFunctions.js'
+  loadStoredMenu, hasActivatedCookies, generateNextX, extendMenu } from '../dishesFunctions.js'
 
 export default class App extends React.Component {
     // React component for whats-for-dinner app.
@@ -175,9 +175,7 @@ export default class App extends React.Component {
               menu={this.state.menu}
               dishes={this.state.dishes}
               onShowMore={() => {
-                let extendedMenu = generateNextX(this.state.dishes, this.state.menu, 7);
-                this.setState({menu: extendedMenu});
-                updateStoredMenu(extendedMenu);
+                this.setState({menu: extendMenu(this.state.dishes, this.state.menu, 7)});
               }
             }
             />
