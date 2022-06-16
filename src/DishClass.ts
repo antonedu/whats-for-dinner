@@ -11,6 +11,7 @@ export default class Dish {
     id: string;
     lastSeen?: ISODate;
     // Dish class
+    // TODO: Add ability to create with dates as date strings
     constructor({ name, weekdays, dates, freq, id, lastSeen }: { name: string; weekdays: Weekdays; dates?: any[]; freq: Freq; id: string; lastSeen?: ISODate; }) {
         this.name = name;
         this.weekdays = weekdays;
