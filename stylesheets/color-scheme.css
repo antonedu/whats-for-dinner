@@ -1,17 +1,14 @@
 .green {
-    /* --color: #fff; */
     --bg-color: #20a39e;
     --s-color: #156D69;
   }
   
   .red {
-    /* --color: #fff; */
     --bg-color: #ef5b5b;
     --s-color: #BA4848;
   }
   
   .yellow {
-    /* --color: #fff; */
     --bg-color: #D1B330;
     --s-color: #A89225;
   }
@@ -30,8 +27,8 @@
 
   @media (prefers-color-scheme: dark) {
     :root {
-        --button-color: #d9d9c2;
-        --text-color: #d9d9c2;
+        --button-color: #fff;
+        --text-color: #fff;
         --shadow-text-color: #A5A5A5;
         --bg: #111110;
         --card: #262623;

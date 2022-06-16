@@ -6,12 +6,12 @@ export type Freq = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 export default class Dish {
     name: string;
     weekdays: Weekdays;
-    dates: any[] | null;
+    dates?: ISODate[];
     freq: Freq;
     id: string;
-    lastSeen: ISODate;
+    lastSeen?: ISODate;
     // Dish class
-    constructor(name: string, weekdays: Weekdays, dates: any[] | null, freq: Freq, id: string, lastSeen: ISODate = null) {
+    constructor({ name, weekdays, dates, freq, id, lastSeen }: { name: string; weekdays: Weekdays; dates?: any[]; freq: Freq; id: string; lastSeen?: ISODate; }) {
         this.name = name;
         this.weekdays = weekdays;
         this.dates = dates;

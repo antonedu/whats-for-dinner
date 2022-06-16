@@ -1,6 +1,6 @@
 import ISODate from "./ISO8601dates.js";
 import { generateUniqueID, shuffleArray } from "./utilityFunctions.js"
-import Dish from "./DishClass.js"
+import Dish, { Freq, Weekdays } from "./DishClass.js"
 
 // FIXME: Change copying to use structuredClone instead of current implementation with slice and Object.assign
 // TODO: make all functions working with dates ignore hours if not needed.
@@ -11,7 +11,21 @@ import Dish from "./DishClass.js"
 // To add to above, when dishes are added it could be done by setting them as lastSeen the with the previous
 // longest last seen date.
 
-export function setCookies(consented, dishes, menu) {
+export type MenuItem = {
+    id: string,
+    date: ISODate
+}
+
+export type DishAsObject = { 
+    name: string, 
+    weekdays: Weekdays, 
+    dates: string[], 
+    freq: Freq, 
+    id: string, 
+    lastSeen: string 
+}
+
+export function setCookies(consented: boolean, dishes: Dish[], menu: MenuItem[]) {
     // Sets wether cookies are activated or not based on [consented]
     if (typeof consented == "boolean") {
         if (consented) {
@@ -30,21 +44,21 @@ export function setCookies(consented, dishes, menu) {
 
 export function hasActivatedCookies() {
     // Returns wether cookies are activated or not.
-    return JSON.parse(localStorage.getItem("activatedCookies"));
+    return JSON.parse(localStorage.getItem("activatedCookies") as string);
 }
 
-export function editDishes(dishes, name, weekdays, dates, freq, id) {
+export function editDishes({ dishes, name, weekdays, dates, freq, id }: { dishes: Dish[]; name: string; weekdays: Weekdays; dates?: ISODate[]; freq: Freq; id: string; }) {
     let newDishesObj = Object.assign({}, dishes);
     if (id === null) {
         id = generateUniqueID(4, newDishesObj);
     }
 
-    newDishesObj[id] = new Dish(name, weekdays.slice(0), dates, freq, id);
+    newDishesObj[id] = new Dish({ name, weekdays: weekdays.slice(0) as Weekdays, dates, freq, id });
     updateStoredDishes(newDishesObj);
     return newDishesObj;
 }
 
-export function removeFromDishes(id, dishes, menu) {
+export function removeFromDishes(id: string, dishes: Dish[], menu: MenuItem[]) {
     let newDishesObj = Object.assign({}, dishes);
     let newMenu = menu;
     if (newDishesObj.hasOwnProperty(id)) {
@@ -58,10 +72,10 @@ export function removeFromDishes(id, dishes, menu) {
 
 export function loadStoredDishes() {
     // Loads dishes from localStorage and convert them to Dish objects.
-    let storedDishes = null;
+    let storedDishes: DishAsObject[] | null = null;
     let loadedDishes = Object();
-    if (JSON.parse(localStorage.getItem('activatedCookies'))) {
-        storedDishes = JSON.parse(localStorage.getItem('dishes'));
+    if (JSON.parse(localStorage.getItem('activatedCookies') as string)) {
+        storedDishes = JSON.parse(localStorage.getItem('dishes') as string);
     };
     if (storedDishes) {
         for (let key in storedDishes) {
@@ -71,13 +85,13 @@ export function loadStoredDishes() {
     return loadedDishes;
 }
 
-function dishFromObject(obj) {
+function dishFromObject(obj: DishAsObject) {
     // Converts a dish-like object into a dish
     // Used when loading dishes from local storage
-    return new Dish(obj.name, obj.weekdays, obj.dates, obj.freq, obj.id, new ISODate(obj.lastSeen));
+    return new Dish({ name: obj.name, weekdays: obj.weekdays, dates: obj.dates, freq: obj.freq, id: obj.id, lastSeen: new ISODate(obj.lastSeen) });
 }
 
-function regenerateMenu(dishes, date) {
+function regenerateMenu(dishes: Dish[], date: ISODate) {
     // Returns new dishes object with lastSeen date set to a random date between
     // today - 1 and today - today.length - 1.
     // FIXME: menu index 0 with this is latest date should be earliest
@@ -95,7 +109,7 @@ function regenerateMenu(dishes, date) {
     return regeneratedMenu;
 }
 
-export function generateNextX(dishes, menu, x) {
+export function generateNextX(dishes: Dish[], menu: MenuItem[], x: number) {
     // Generates next x items in menu and returns a menu with those added. Also
     // changes lastSeen of dishes which when used.
     if (menu.length == 0) {
@@ -113,7 +127,7 @@ export function generateNextX(dishes, menu, x) {
     return newMenuArray;
 }
 
-function catchUpMenu(dishes, menu) {
+function catchUpMenu(dishes: Dish[], menu: MenuItem[]) {
     // Updates lastSeen date of enough dishes for dishes to have caught up with
     // the current date. Removes dishes from menu if date has passed.
     if (menu.length == 0) {
@@ -135,7 +149,7 @@ function catchUpMenu(dishes, menu) {
     return caughtUpMenu.slice(daysSinceLastUpdate);
 }
 
-function getNextInMenu(dishes, date) {
+function getNextInMenu(dishes: Dish[], date: ISODate) {
     // Gets which dish should be next in menu based on all dishes and a date.
     let currentBestID = null;
     let currentBestValue = -1;
@@ -164,13 +178,13 @@ function getNextInMenu(dishes, date) {
     return currentBestID;
 }
 
-export function extendMenu(dishes, menu, numberOfDays: number) {
+export function extendMenu(dishes: Dish[], menu: MenuItem[], numberOfDays: number) {
     let extendedMenu = generateNextX(dishes, menu, numberOfDays);
     updateStoredMenu(extendedMenu);
     return extendedMenu;
 }
 
-export function resetMenu(dishes) {
+export function resetMenu(dishes: Dish[]) {
     let updatedDishes = Object.assign({}, dishes);
     let resetMenu = regenerateMenu(updatedDishes, new ISODate());
     resetMenu = generateNextX(updatedDishes, resetMenu, 7);
@@ -183,7 +197,7 @@ export function resetMenu(dishes) {
     }
 }
 
-export function loadStoredMenu(dishes) {
+export function loadStoredMenu(dishes: Dish[]) {
     // Returns a fully updated menu from localStorage
     let storedMenu = JSON.parse(localStorage.getItem("menu"));
     if (storedMenu == null || Object.keys(dishes).length == 0) {
@@ -197,14 +211,14 @@ export function loadStoredMenu(dishes) {
     return storedMenu;
 }
 
-export function updateStoredDishes(dishes) {
+export function updateStoredDishes(dishes: Dish[]) {
     // Updates locale storage to include current version of dishes
     if (hasActivatedCookies()) {
         localStorage.setItem("dishes", JSON.stringify(dishes));
     };
 }
 
-function updateStoredMenu(menu) {
+function updateStoredMenu(menu: MenuItem[]) {
     // Updates menu in localStorage
     if (hasActivatedCookies()) {
         localStorage.setItem("menu", JSON.stringify(menu));
