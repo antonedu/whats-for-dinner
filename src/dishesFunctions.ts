@@ -1,3 +1,8 @@
+import ISODate from "./ISO8601dates.js";
+import { generateUniqueID, shuffleArray } from "./utilityFunctions.js"
+import Dish from "./DishClass.js"
+
+// FIXME: Change copying to use structuredClone instead of current implementation with slice and Object.assign
 // TODO: make all functions working with dates ignore hours if not needed.
 // TODO: Ask about cookies.
 // QUESTION: Rewrite to use hooks instead of classes?
@@ -5,10 +10,6 @@
 // Everything that is loaded after that should use copy of stored dishes.
 // To add to above, when dishes are added it could be done by setting them as lastSeen the with the previous
 // longest last seen date.
-
-import ISODate from "./ISO8601dates.js";
-import { generateUniqueID, shuffleArray } from "./utilityFunctions.js"
-import Dish from "./DishClass.js"
 
 export function setCookies(consented, dishes, menu) {
     // Sets wether cookies are activated or not based on [consented]
