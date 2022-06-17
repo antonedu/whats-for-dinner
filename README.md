@@ -5,9 +5,9 @@ The [website](https://antonegas.github.io/whats-for-dinner/) associated with the
 
 ## Planned Features
 - [ ] Specify dates of dishes.
-- [ ] Share dishes across devices/browsers.
-- [ ] Edit dishes added dishes.
-- [ ] Dark mode.
+- [ ] More settings.
+- [x] Edit dishes added dishes.
+- [x] Dark mode.
 - [x] Set weekdays dish can appear.
 - [x] Set frequency of dishes.
 - [x] Generate menu from added dishes.
