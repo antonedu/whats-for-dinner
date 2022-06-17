@@ -1,4 +1,4 @@
-export function generateID(length) {
+export function generateID(length: number) {
     // Generates a base62 string of length [length] to identify dishes.
     const CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let result = '';
@@ -9,7 +9,7 @@ export function generateID(length) {
     return result;
 }
 
-export function generateUniqueID(length, obj) {
+export function generateUniqueID(length: number, obj: any[]) {
     let id = null;
     let notUnique = true;
     do {
@@ -21,7 +21,7 @@ export function generateUniqueID(length, obj) {
     return id;
 }
 
-export function shuffleArray(arr) {
+export function shuffleArray(arr: any[]) {
     // Returns a shuffled array.
     let shuffledArray = arr.slice();
     for (let i = shuffledArray.length - 1; i > 0; i--) {

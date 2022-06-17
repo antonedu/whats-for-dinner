@@ -1,4 +1,5 @@
 import ISODate from "./ISO8601dates";
+import { generateID } from "./utilityFunctions";
 
 export type Weekdays = [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean];
 export type Freq = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
@@ -12,16 +13,17 @@ export default class Dish {
     lastSeen?: ISODate;
     // Dish class
     // TODO: Add ability to create with dates as date strings
-    constructor({ name, weekdays, dates, freq, id, lastSeen }: { name: string; weekdays: Weekdays; dates?: any[]; freq: Freq; id: string; lastSeen?: ISODate; }) {
+    // TODO: remove id from constructor
+    constructor({ name, weekdays, dates, freq, idLength }: { name: string; weekdays: Weekdays; dates?: any[]; freq: Freq; idLength: number }) {
         this.name = name;
         this.weekdays = weekdays;
         this.dates = dates;
         this.freq = freq;
-        this.id = id;
-        this.lastSeen = lastSeen;
+        this.id = generateID(idLength);
+        this.lastSeen = new ISODate();
     };
 
-    get weekdaysStr() {
+    weekdaysStr() {
         // Returns str with active weekdays
         let weekdaysStr = "";
         const WEEKDAYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
