@@ -12,22 +12,20 @@ export default class Dish {
     id: string;
     lastSeen?: ISODate;
     // Dish class
-    // TODO: Add ability to create with dates as date strings
-    // TODO: remove id from constructor
-    constructor({ name, weekdays, dates, freq, idLength }: { name: string; weekdays: Weekdays; dates?: any[]; freq: Freq; idLength: number }) {
+    constructor({ name, weekdays, freq, idLength }: { name: string; weekdays: Weekdays; freq: Freq; idLength: number }) {
         this.name = name;
         this.weekdays = weekdays;
-        this.dates = dates;
         this.freq = freq;
         this.id = generateID(idLength);
         this.lastSeen = new ISODate();
     };
 
-    weekdaysStr() {
+    get weekdaysStr() {
         // Returns str with active weekdays
         let weekdaysStr = "";
         const WEEKDAYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
         if (this.allWeekdays()) {
+            // Either all weekdays are selected (all) or none (any).
             if (this.weekdays[0] === true) {
                 return "all";
             } else {
