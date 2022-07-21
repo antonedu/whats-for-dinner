@@ -1,20 +1,46 @@
 import Dish from "./DishClass";
 import { generateUniqueID } from "./utilityFunctions";
 
+type dishWithId = {
+    dish: Dish,
+    id: string
+}
+
 export default class DishList {
     // TODO: move id to this class
-    dishes: Dish[] = new Array();
+    dishes: dishWithId[] = new Array();
 
-    addDish(dish: Dish) {
+    addDish(dish: Dish): boolean {
         // TODO: Add check if that id is already in the array.
-        this.dishes.push(dish);
+        const idLength = 4; // 14776336 dishes limit
+        let dishAndId: dishWithId;
+        try {
+            dishAndId = {
+                dish: dish,
+                id: generateUniqueID(idLength, this.getIds())
+            }
+        } catch {
+            return false;
+        }
+        this.dishes.push(dishAndId);
+        return true;
     }
 
-    removeDish(id: string) {
+    removeDish(id: string): boolean {
         // TODO: find dish with id and remove it
+        let indexToRemove = this.getIds().indexOf(id);
+        if (indexToRemove < 0) {
+            return false;
+        }
+        this.dishes.splice(indexToRemove, 1);
+        return true;
     }
 
-    getDishes(): Dish[] {
-        return this.dishes.slice();
+    getDish(id: string) {
+        return this.dishes.find(dish => dish.id == id)["dish"]
+    }
+
+    getIds(): string[] {
+        return this.dishes.map(dish => dish.id);
     }
 }

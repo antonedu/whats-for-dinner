@@ -1,5 +1,5 @@
 export function generateID(length: number) {
-    // Generates a base62 string of length [length] to identify dishes.
+    // Generates a base62 string of length to identify different objects.
     const CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let result = '';
     var charactersLength = CHARACTERS.length;
@@ -10,6 +10,9 @@ export function generateID(length: number) {
 }
 
 export function generateUniqueID(length: number, existingIds: string[]) {
+    if (62**length <= existingIds.length) {
+        throw `An id length of ${length} can not generate more than ${62**length} unique ids.`;
+    }
     let id = null;
     let notUnique = true;
     do {
