@@ -1,4 +1,5 @@
 import Dish from "./DishClass";
+import { generateUniqueID } from "./utilityFunctions";
 
 export default class DishList {
     // TODO: move id to this class

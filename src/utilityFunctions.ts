@@ -9,12 +9,12 @@ export function generateID(length: number) {
     return result;
 }
 
-export function generateUniqueID(length: number, obj: any[]) {
+export function generateUniqueID(length: number, existingIds: string[]) {
     let id = null;
     let notUnique = true;
     do {
         id = generateID(length);
-        if (!obj.hasOwnProperty(id)) {
+        if (!existingIds.includes(id)) {
             notUnique = false;
         };
     } while (notUnique);
