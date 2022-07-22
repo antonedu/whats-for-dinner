@@ -27,7 +27,6 @@ export default class DishList {
     }
 
     removeDish(id: string): boolean {
-        // TODO: find dish with id and remove it
         let indexToRemove = this.getIds().indexOf(id);
         if (indexToRemove < 0) {
             return false;
