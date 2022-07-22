@@ -1,19 +1,19 @@
 import Dish from "./DishClass";
 import { generateUniqueID } from "./utilityFunctions";
 
-type dishWithId = {
+type DishWithId = {
     dish: Dish,
     id: string
 }
 
 export default class DishList {
     // TODO: move id to this class
-    dishes: dishWithId[] = new Array();
+    dishes: DishWithId[] = new Array();
 
     addDish(dish: Dish): boolean {
         // TODO: Add check if that id is already in the array.
         const idLength = 4; // 14776336 dishes limit
-        let dishAndId: dishWithId;
+        let dishAndId: DishWithId;
         try {
             dishAndId = {
                 dish: dish,
