@@ -47,7 +47,17 @@ export default class Dish {
         };
     }
 
-    shouldOccurOn(weekday: number): boolean {
+    shouldOccurOnWeekday(weekday: number): boolean {
         return this.weekdays[weekday];
+    }
+
+    occursOnXWeekdays(): 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 {
+        let count: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 = 0;
+        this.weekdays.forEach(element => {
+            if (element == true) {
+                count++;
+            }
+        });
+        return count;
     }
 };
