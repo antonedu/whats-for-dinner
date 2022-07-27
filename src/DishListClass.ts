@@ -7,11 +7,9 @@ type DishWithId = {
 }
 
 export default class DishList {
-    // TODO: move id to this class
     dishes: DishWithId[] = new Array();
 
     addDish(dish: Dish): boolean {
-        // TODO: Add check if that id is already in the array.
         const idLength = 4; // 14776336 dishes limit
         let dishAndId: DishWithId;
         try {
