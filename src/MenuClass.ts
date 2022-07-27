@@ -1,14 +1,17 @@
 import Dish from "./DishClass";
 import DishList from "./DishListClass";
+import ISODate from "./ISO8601dates";
 import { shuffleArray } from "./utilityFunctions";
 
 type IMenu = [string[], string[], string[], string[], string[], string[], string[]]
 
 export default class Menu {
     menu: IMenu; 
+    dishes: DishList;
 
-    constructor({ dishes, menu }: { dishes?: DishList, menu?: IMenu }) {
-        if (dishes != undefined) {
+    constructor({ dishes, menu }: { dishes: DishList, menu?: IMenu }) {
+        if (menu == undefined) {
+            this.dishes = dishes;
             this.menu = this.generateMenu(dishes);
         } else if (menu != undefined) {
             this.menu = menu;
@@ -45,4 +48,14 @@ export default class Menu {
 
         return menu;
     } 
+
+    getDishOn(date: ISODate): Dish {
+        const NUMBER_OF_DAYS_IN_A_WEEK = 7;
+        const WEEKDAY = date.getISODay();
+        const dayMenu = this.menu[WEEKDAY];
+        const NUMBER_OF_DISHES_ON_DAY = dayMenu.length;
+        let indexToUse = Math.floor(ISODate.daysBetween(new ISODate(), date) / NUMBER_OF_DAYS_IN_A_WEEK) % NUMBER_OF_DISHES_ON_DAY;
+        const DISH_ID = dayMenu[indexToUse]
+        return this.dishes.getDish(DISH_ID);
+    }
 }
